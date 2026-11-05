@@ -108,7 +108,8 @@ a { color: inherit }
 
 /* hello */
 .paper { background-color: var(--bg); background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 132px 132px; background-position: -1px -1px }
-.hello { position: relative; z-index: 2; padding-block: 120px 96px }
+/* the About grid is anchored to its bottom edge, so its last line meets the Services grid with no seam */
+.hello { position: relative; z-index: 2; padding-block: 120px 96px; background-position: -1px 100% }
 .hello .grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; max-width: 1240px; margin: 0 auto }
 .frame { position: relative; aspect-ratio: 4/5; max-width: 100%; border: 1px solid var(--grid) }
 .frame canvas { position: absolute; inset: 12%; width: 76%; height: 76%; image-rendering: pixelated }
@@ -124,17 +125,24 @@ a { color: inherit }
 .facts ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: 17px }
 .facts .big { font-family: var(--f-display); font-weight: 800; font-size: 64px; line-height: .9; letter-spacing: -.04em; margin-bottom: 8px }
 .apps { display: grid; grid-template-columns: repeat(4, 46px); gap: 10px }
-.app { width: 46px; height: 46px; display: grid; place-items: center; font-family: var(--f-pixel); font-size: 13px; border: 2px solid currentColor }
+/* software tiles: the pixel initials give way to the tool's own logo, drawn in pixels, on hover or focus */
+.app { position: relative; width: 46px; height: 46px; display: grid; place-items: center; font-family: var(--f-pixel); font-size: 13px; border: 2px solid currentColor; cursor: default; outline-offset: 3px }
+.app .lbl { transition: opacity .12s steps(2) }
+.app svg { position: absolute; inset: 5px; width: calc(100% - 10px); height: calc(100% - 10px); shape-rendering: crispEdges; opacity: 0; transform: scale(.5); transition: opacity .2s steps(3), transform .2s steps(3) }
+.app:hover .lbl, .app:focus-visible .lbl { opacity: 0 }
+.app:hover svg, .app:focus-visible svg { opacity: 1; transform: none }
+.app .tip { position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); white-space: nowrap; font-family: var(--f-pixel); font-size: 10px; padding: 3px 6px; background: var(--fg); color: var(--bg); opacity: 0; pointer-events: none; transition: opacity .15s }
+.app:hover .tip, .app:focus-visible .tip { opacity: 1 }
 .facts a { overflow-wrap: anywhere }
 @media (max-width: 900px) { .hello .grid { grid-template-columns: 1fr } .frame { max-width: 360px } .facts { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
 
 /* services: warped lens over a warped grid */
-.wheel { position: relative; height: 320vh; background: var(--fog) }
-/* straight grid lines that flow upward as you scroll (background-position is driven from Services.tsx) */
-.wheel .stick { position: sticky; top: 0; height: 100vh; overflow: hidden;
-  background-image: linear-gradient(color-mix(in srgb, var(--fg) 13%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--fg) 13%, transparent) 1px, transparent 1px);
-  background-size: 120px 120px }
-.wheel .lens { position: absolute; left: 0; right: 0; top: 50%; width: 100%; height: clamp(130px, 21vh, 200px); transform: translateY(-50%); fill: var(--graphite) }
+.wheel { position: relative; height: 320vh; background: var(--bg) }
+/* the same grid as the About section (same colour, size and x position); Services.tsx moves it with the page */
+.wheel .stick { position: sticky; top: 0; height: 100vh; overflow: hidden; background-color: var(--bg);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 132px 132px; background-position: -1px 0 }
+.wheel .lens { position: absolute; left: 0; right: 0; top: 50%; width: 100%; height: clamp(112px, 16vh, 156px); transform: translateY(-50%); fill: var(--graphite) }
 .wheel .items { list-style: none; margin: 0; padding: 0 }
 .wheel .item { position: absolute; left: 0; right: 0; top: 50%; text-align: center; font-family: var(--f-display); font-weight: 600; font-size: clamp(30px, 4.6vw, 72px); line-height: 1; letter-spacing: -.035em; will-change: transform, opacity; color: var(--fg); white-space: nowrap; transform-origin: 50% 50% }
 .wheel .item.on { color: var(--on-graphite) }

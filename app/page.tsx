@@ -1,6 +1,7 @@
 import Avatar from '@/components/Avatar';
 import Intro from '@/components/Intro';
 import Nav from '@/components/Nav';
+import PixelLogo from '@/components/PixelLogo';
 import Services from '@/components/Services';
 import WorkIndex from '@/components/WorkIndex';
 import { FAQ, SITE, TESTIMONIALS } from '@/content/site';
@@ -33,7 +34,11 @@ export default function Home() {
           <div className="facts">
             <div><h3 className="bubble">Experience</h3><div className="big">{SITE.years} yrs</div><p>{SITE.experience}</p></div>
             <div><h3 className="bubble">Skills</h3><ul>{SITE.skills.map((s) => <li key={s}>{s}</li>)}</ul></div>
-            <div><h3 className="bubble">Software</h3><div className="apps">{SITE.software.map(([a, t]) => <span key={a} className="app" title={t} aria-label={t}>{a}</span>)}</div></div>
+            <div><h3 className="bubble">Software</h3><ul className="apps" style={{ listStyle: 'none', margin: 0, padding: 0 }}>{SITE.software.map(([a, t]) => (
+              <li key={a} className="app" tabIndex={0} aria-label={t}>
+                <span className="lbl" aria-hidden="true">{a}</span><PixelLogo id={a} /><span className="tip" aria-hidden="true">{t}</span>
+              </li>
+            ))}</ul></div>
             <div><h3 className="bubble">Contact</h3><p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
               {SITE.socials.length > 0 && <p style={{ marginTop: 8 }}>{SITE.socials.map((s) => <a key={s.href} href={s.href} style={{ marginRight: 12 }}>{s.label}</a>)}</p>}</div>
           </div>

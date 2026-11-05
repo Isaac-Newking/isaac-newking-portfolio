@@ -21,17 +21,17 @@ export default function Services() {
       if (r.top < vh && r.bottom > 0) {
         const n = SITE.services.length;
         const a = clamp(-r.top / (r.height - vh), 0, 1) * (n - 1);
-        const gap = clamp(vh * 0.1, 52, 90);
-        // grid flows upward with the scroll, one continuous sheet
-        stick.current.style.backgroundPosition = `0 ${(r.top * 0.6) % 120}px`;
+        const gap = clamp(vh * 0.105, 56, 96);
+        // the grid is pinned to the page, so it flows up with the scroll and lines up with the section above
+        stick.current.style.backgroundPosition = `-1px ${((r.top % 132) + 132) % 132}px`;
         items.current.forEach((el, i) => {
           if (!el) return;
           const d = i - a; // < 0: above the band, > 0: below it
           const ad = Math.abs(d);
-          const scale = d < 0 ? 1 - Math.min(ad, 2.5) * 0.26 : 1 - Math.min(ad, 3) * 0.17;
-          const opacity = d < 0 ? 1 - ad * 0.75 : 1 - ad * 0.3;
-          // spacing follows the shrinking size, so smaller lines sit closer together
-          const y = Math.sign(d) * (Math.min(ad, 1) * gap * 1.4 + Math.max(0, ad - 1) * gap * 0.78);
+          // the same on both sides: two lines above and two below, each smaller and fainter, gone past the second
+          const scale = 1 - Math.min(ad, 2.5) * 0.17;
+          const opacity = ad <= 2 ? 1 - ad * 0.36 : Math.max(0, 0.28 - (ad - 2) * 0.56);
+          const y = Math.sign(d) * (Math.min(ad, 1) * gap * 1.25 + Math.max(0, ad - 1) * gap * 0.92);
           el.style.transform = `translateY(calc(-50% + ${y}px)) scale(${clamp(scale, 0.3, 1)})`;
           el.style.opacity = String(clamp(opacity, 0, 1));
           el.classList.toggle('on', ad < 0.5);

@@ -252,6 +252,38 @@ export default function WorldView({ index }: { index: number }) {
       t.addEventListener('scroll', on, { passive: true });
       cleanups.push(() => t.removeEventListener('scroll', on));
     });
+    // Phones and tablets: each strip slides sideways on its own as you scroll the page past it,
+    // from its first piece as it enters to its last as it leaves. Touching or using its arrows hands it back to you.
+    const touchLike = matchMedia('(max-width: 760px), (pointer: coarse)').matches && !reducedMotion();
+    if (touchLike) {
+      const manual = new WeakSet<HTMLElement>();
+      strips.forEach((s) => {
+        const t = s.querySelector('.track') as HTMLElement;
+        t.style.scrollSnapType = 'none';
+        const takeOver = () => { manual.add(s); t.style.scrollSnapType = ''; };
+        t.addEventListener('touchstart', takeOver, { passive: true });
+        s.querySelectorAll('.strip-arrows button').forEach((b) => b.addEventListener('click', takeOver));
+        cleanups.push(() => t.removeEventListener('touchstart', takeOver));
+      });
+      let raf = 0;
+      const slide = () => {
+        raf = 0;
+        const vh = innerHeight;
+        strips.forEach((s) => {
+          if (manual.has(s)) return;
+          const t = s.querySelector('.track') as HTMLElement;
+          const r = s.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > vh) return;
+          const p = Math.min(1, Math.max(0, (vh * 0.9 - r.top) / (r.height + vh * 0.75)));
+          t.scrollLeft = p * (t.scrollWidth - t.clientWidth);
+        });
+      };
+      const onScroll = () => { if (!raf) raf = requestAnimationFrame(slide); };
+      addEventListener('scroll', onScroll, { passive: true });
+      slide();
+      cleanups.push(() => { removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); });
+    }
+
     const mid = new IntersectionObserver((es) => es.forEach((e) => {
       if (!e.isIntersecting) return;
       const s = e.target as HTMLElement;

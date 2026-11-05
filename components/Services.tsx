@@ -21,7 +21,7 @@ export default function Services() {
       if (r.top < vh && r.bottom > 0) {
         const n = SITE.services.length;
         const a = clamp(-r.top / (r.height - vh), 0, 1) * (n - 1);
-        const gap = clamp(vh * 0.105, 56, 96);
+        const gap = innerWidth < 760 ? clamp(innerWidth * 0.15, 48, 64) : clamp(vh * 0.105, 56, 96);
         // the grid is pinned to the page, so it flows up with the scroll and lines up with the section above
         stick.current.style.backgroundPosition = `-1px ${((r.top % 132) + 132) % 132}px`;
         items.current.forEach((el, i) => {

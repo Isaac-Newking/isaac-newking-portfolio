@@ -124,7 +124,8 @@ a { color: inherit }
 .facts p { margin: 0; font-size: 15px }
 .facts ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: 17px }
 .facts .big { font-family: var(--f-display); font-weight: 800; font-size: 64px; line-height: .9; letter-spacing: -.04em; margin-bottom: 8px }
-.apps { display: grid; grid-template-columns: repeat(4, 46px); gap: 10px }
+/* tiles wrap to whatever width the column has, so they never spill into the next column */
+.apps { display: grid; grid-template-columns: repeat(auto-fill, 46px); gap: 10px; max-width: 214px }
 /* software tiles: the pixel initials give way to the tool's own logo, drawn in pixels, on hover or focus */
 .app { position: relative; width: 46px; height: 46px; display: grid; place-items: center; font-family: var(--f-pixel); font-size: 13px; border: 2px solid currentColor; cursor: default; outline-offset: 3px }
 .app .lbl { transition: opacity .12s steps(2) }
@@ -135,6 +136,8 @@ a { color: inherit }
 .app:hover .tip, .app:focus-visible .tip { opacity: 1 }
 .facts a { overflow-wrap: anywhere }
 @media (max-width: 900px) { .hello .grid { grid-template-columns: 1fr } .frame { max-width: 360px } .facts { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+/* phones: Experience and Skills share a row; Software and Contact each get the full width */
+@media (max-width: 600px) { .facts > :nth-child(n + 3) { grid-column: 1 / -1 } .apps { max-width: none } }
 
 /* services: warped lens over a warped grid */
 .wheel { position: relative; height: 320vh; background: var(--bg) }
@@ -143,6 +146,8 @@ a { color: inherit }
   background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
   background-size: 132px 132px; background-position: -1px 0 }
 .wheel .lens { position: absolute; left: 0; right: 0; top: 50%; width: 100%; height: clamp(112px, 16vh, 156px); transform: translateY(-50%); fill: var(--graphite) }
+/* phones: the band hugs the text, with its edges just above and below the active line */
+@media (max-width: 760px) { .wheel .lens { height: 100px } }
 .wheel .items { list-style: none; margin: 0; padding: 0 }
 .wheel .item { position: absolute; left: 0; right: 0; top: 50%; text-align: center; font-family: var(--f-display); font-weight: 600; font-size: clamp(30px, 4.6vw, 72px); line-height: 1; letter-spacing: -.035em; will-change: transform, opacity; color: var(--fg); white-space: nowrap; transform-origin: 50% 50% }
 .wheel .item.on { color: var(--on-graphite) }

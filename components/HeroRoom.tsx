@@ -71,10 +71,15 @@ export default function HeroRoom() {
         const p = clamp(-hr.top / (hr.height - innerHeight), 0, 1), e = p * p * (3 - 2 * p);
         r.style.transform = `translateZ(${e * 3400}px) rotateY(${smx * 4}deg) rotateX(${-smy * 3}deg)`;
         t.style.transform = `translate(calc(-50% + ${smx * -18}px), calc(-50% + ${smy * -12}px)) scale(${1 + p * 2.2})`;
-        // pixel break-up between 2% and 26% of the scroll, fade-out between 14% and 30%
-        const s = masks.length ? Math.round(clamp((p - 0.02) / 0.24, 0, 1) * masks.length) : 0;
-        if (s !== step) { step = s; t.style.maskImage = s === 0 ? '' : `url(${masks[s - 1]})`; }
-        t.style.opacity = String(clamp(1 - (p - 0.14) / 0.16, 0, 1));
+        // The title breaks apart across most of the zoom (4% → 44%) and only fades at the end (34% → 50%),
+        // so scrolling back up rebuilds it pixel by pixel in step with the walls coming back.
+        const s = masks.length ? Math.round(clamp((p - 0.04) / 0.4, 0, 1) * masks.length) : 0;
+        if (s !== step) {
+          step = s;
+          const m = s === 0 ? 'none' : `url(${masks[s - 1]})`;
+          t.style.maskImage = m; t.style.setProperty('-webkit-mask-image', m);
+        }
+        t.style.opacity = String(clamp(1 - (p - 0.34) / 0.16, 0, 1));
       }
       raf = requestAnimationFrame(frame);
     };

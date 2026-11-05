@@ -80,6 +80,7 @@ export default function HeroRoom() {
           t.style.maskImage = m; t.style.setProperty('-webkit-mask-image', m);
         }
         t.style.opacity = String(clamp(1 - (p - 0.34) / 0.16, 0, 1));
+        r.classList.toggle('lit', -hr.top > 4);
       }
       raf = requestAnimationFrame(frame);
     };

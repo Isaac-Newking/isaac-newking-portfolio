@@ -560,6 +560,28 @@
    "mock": "plain"
   },
   {
+   "src": "/img/work/branding/eh-post7.jpg",
+   "name": "Social, Choose by Mood",
+   "w": 1200,
+   "h": 1500,
+   "group": "Esorae Home",
+   "bg": "#F1F1EE",
+   "fg": "#141414",
+   "ac": null,
+   "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/eh-post8.jpg",
+   "name": "Social, The People's Choice",
+   "w": 1200,
+   "h": 1500,
+   "group": "Esorae Home",
+   "bg": "#f2ebe1",
+   "fg": "#291f12",
+   "ac": "#99703d",
+   "mock": "plain"
+  },
+  {
    "src": "/img/work/branding/ef-logos.jpg",
    "name": "Logo, light and dark",
    "w": 1920,
@@ -617,8 +639,8 @@
   {
    "src": "/img/work/branding/eu-poster1.jpg",
    "name": "Poster, We Don't Just Construct Buildings",
-   "w": 612,
-   "h": 800,
+   "w": 1200,
+   "h": 1500,
    "group": "eurban",
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",

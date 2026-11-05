@@ -474,8 +474,8 @@
   {
    "src": "/img/work/branding/eh-rollup.jpg",
    "name": "Roll-up banner",
-   "w": 1028,
-   "h": 1076,
+   "w": 1556,
+   "h": 2000,
    "group": "Esorae Home",
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
@@ -540,8 +540,8 @@
   {
    "src": "/img/work/branding/eh-post5.jpg",
    "name": "Social, Democracy Day",
-   "w": 466,
-   "h": 586,
+   "w": 1200,
+   "h": 1500,
    "group": "Esorae Home",
    "bg": "#16110b",
    "fg": "#f2ece4",
@@ -678,6 +678,39 @@
    "bg": "#0b1116",
    "fg": "#e4ecf2",
    "ac": "#4e9cd1",
+   "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/o5-merch.jpg",
+   "name": "Merch: tee, cap, bottle",
+   "w": 2000,
+   "h": 2000,
+   "group": "O5 Dynamix",
+   "bg": "#111111",
+   "fg": "#F2F2F2",
+   "ac": "#FF4D00",
+   "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/o5-palette.jpg",
+   "name": "Colour and type",
+   "w": 2000,
+   "h": 2000,
+   "group": "O5 Dynamix",
+   "bg": "#111111",
+   "fg": "#F2F2F2",
+   "ac": "#FF4D00",
+   "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/o5-welcome.jpg",
+   "name": "Social, Welcome to O5 Dynamix",
+   "w": 2000,
+   "h": 2000,
+   "group": "O5 Dynamix",
+   "bg": "#111111",
+   "fg": "#F2F2F2",
+   "ac": "#FF4D00",
    "mock": "plain"
   }
  ]

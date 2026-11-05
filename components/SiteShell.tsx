@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useRef } from 'react';
 import { reducedMotion } from '@/lib/pixel';
 
-type Go = (href: string, color: string, x?: number, y?: number) => void;
+type Go = (href: string, color: string, x?: number, y?: number, pixelEl?: HTMLElement | null) => void;
 type Glide = (href: string, from: HTMLElement, bg: string, fg: string) => void;
 type Shell = { go: Go; glide: Glide; lenis: () => Lenis | null };
 
@@ -39,10 +39,25 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     return () => { cancelAnimationFrame(id); document.removeEventListener('click', onClick); lenis.destroy(); lenisRef.current = null; };
   }, []);
 
-  // Pixel wipe: squares flood out from the click point in the next page's colour
-  const go = useCallback<Go>((href, color, ox = innerWidth / 2, oy = innerHeight / 2) => {
+  // Real pixelation of the page you're leaving: an SVG filter samples one pixel per block and
+  // grows each sample into a square; stepping the block size up breaks the page into pixels.
+  const pxComp = useRef<SVGFECompositeElement>(null);
+  const pxDilate = useRef<SVGFEMorphologyElement>(null);
+  const pixelateOut = useCallback((el: HTMLElement) => {
+    const sizes = [2, 4, 6, 9, 13, 18, 24, 32, 42];
+    sizes.forEach((b, i) => setTimeout(() => {
+      pxComp.current?.setAttribute('width', String(b)); pxComp.current?.setAttribute('height', String(b));
+      pxDilate.current?.setAttribute('radius', String(b / 2));
+      el.style.filter = 'url(#px-f)';
+    }, i * 42));
+  }, []);
+
+  // Pixel wipe: squares flood out from the click point in the next page's colour.
+  // With `pixelEl`, that element first pixelates, so the page itself breaks apart before the colour takes over.
+  const go = useCallback<Go>((href, color, ox = innerWidth / 2, oy = innerHeight / 2, pixelEl) => {
     const wipe = wipeRef.current;
     if (!wipe || reducedMotion()) { router.push(href); return; }
+    if (pixelEl) pixelateOut(pixelEl);
     const size = innerWidth < 700 ? 48 : 72;
     const cols = Math.ceil(innerWidth / size), rows = Math.ceil(innerHeight / size);
     wipe.style.gridTemplateColumns = `repeat(${cols},1fr)`;
@@ -52,10 +67,11 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     const cells = Array.from(wipe.children) as HTMLElement[];
     const dist = cells.map((_, n) => Math.hypot((n % cols) * size - ox, ((n / cols) | 0) * size - oy) + Math.random() * size * 2.2);
     const max = Math.max(...dist);
-    cells.forEach((el, n) => setTimeout(() => el.classList.add('on'), (dist[n] / max) * 380));
+    const lead = pixelEl ? 170 : 0; // let the pixelation read before the colour arrives
+    cells.forEach((el, n) => setTimeout(() => el.classList.add('on'), lead + (dist[n] / max) * 380));
     router.prefetch(href);
-    setTimeout(() => { pending.current = { href, cells }; router.push(href, { scroll: false }); }, 470);
-  }, [router]);
+    setTimeout(() => { pending.current = { href, cells }; router.push(href, { scroll: false }); }, lead + 470);
+  }, [router, pixelateOut]);
 
   // Next-project glide: the clicked title lifts into the new page's heading position while the
   // next project's colour fills the screen; the new page then appears underneath without a jump.
@@ -103,6 +119,15 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
     <ShellCtx.Provider value={{ go, glide, lenis: () => lenisRef.current }}>
       {children}
       <div className="wipe" ref={wipeRef} aria-hidden="true" />
+      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true" focusable="false">
+        <filter id="px-f" x="0" y="0" width="100%" height="100%">
+          <feFlood x="0" y="0" width="1" height="1" result="dot" />
+          <feComposite ref={pxComp} in="dot" width="2" height="2" result="cell" />
+          <feTile in="cell" result="grid" />
+          <feComposite in="SourceGraphic" in2="grid" operator="in" result="sampled" />
+          <feMorphology ref={pxDilate} in="sampled" operator="dilate" radius="1" />
+        </filter>
+      </svg>
     </ShellCtx.Provider>
   );
 }

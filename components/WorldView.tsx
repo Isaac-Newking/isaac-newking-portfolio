@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MOTION, SITE } from '@/content/site';
 import { WORLDS, isLight, piecePalette, type Palette, type Piece, type World } from '@/content/worlds';
 import { depixel, reducedMotion } from '@/lib/pixel';
@@ -13,8 +13,80 @@ function setPalette(p: Palette) {
   document.body.style.colorScheme = isLight(p.bg) ? 'light' : 'dark';
 }
 
+type Viewing = { src: string; w: number; h: number; name: string; video?: boolean; poster?: string; from: DOMRect };
+type Open = (v: Viewing) => void;
+
+// Full-screen preview: the piece grows out of its tile and sharpens from pixels; click outside,
+// press Esc or ✕ and it shrinks back into place.
+function Lightbox({ item, onClose }: { item: Viewing; onClose: () => void }) {
+  const fig = useRef<HTMLElement>(null);
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const [on, setOn] = useState(false);
+  const closing = useRef(false);
+  const { lenis } = useShell();
+
+  const box = (() => {
+    const s = Math.min((innerWidth * 0.92) / item.w, (innerHeight * 0.82) / item.h);
+    const w = Math.round(item.w * s), h = Math.round(item.h * s);
+    return { w, h, x: Math.round((innerWidth - w) / 2), y: Math.round((innerHeight - h) / 2 - 12) };
+  })();
+  const fromTransform = () => {
+    const r = item.from, s = Math.min(r.width / box.w, r.height / box.h);
+    const dx = r.left + r.width / 2 - (box.x + (box.w * s) / 2), dy = r.top + r.height / 2 - (box.y + (box.h * s) / 2);
+    return `translate(${dx}px, ${dy}px) scale(${s})`;
+  };
+
+  const close = useCallback(() => {
+    if (closing.current) return; closing.current = true;
+    setOn(false);
+    if (fig.current) fig.current.style.transform = fromTransform();
+    setTimeout(onClose, reducedMotion() ? 0 : 420);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onClose]);
+
+  useEffect(() => {
+    lenis()?.stop();
+    const f = fig.current!;
+    f.style.transform = fromTransform();
+    requestAnimationFrame(() => requestAnimationFrame(() => { setOn(true); f.style.transform = 'none'; }));
+    if (!item.video && canvas.current) {
+      const c = canvas.current; c.width = box.w; c.height = box.h;
+      const im = new Image(); im.onload = () => depixel(c, im, { step: 38 }).then(() => c.classList.add('done')); im.src = item.src;
+    }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { e.stopImmediatePropagation(); close(); } };
+    addEventListener('keydown', onKey, true);
+    return () => { removeEventListener('keydown', onKey, true); lenis()?.start(); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div className={`lb${on ? ' on' : ''}`} onClick={close} role="dialog" aria-modal="true" aria-label={item.name}>
+      <figure ref={fig} className="lb-fig" style={{ left: box.x, top: box.y, width: box.w, height: box.h }} onClick={(e) => e.stopPropagation()}>
+        {item.video
+          ? <video src={item.src} poster={item.poster} autoPlay muted loop playsInline />
+          : <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={item.src} alt={item.name} width={item.w} height={item.h} />
+              <canvas ref={canvas} aria-hidden="true" />
+            </>}
+      </figure>
+      <div className="lb-bar" onClick={(e) => e.stopPropagation()}>
+        <span>{item.name}</span>
+        <button type="button" onClick={close} autoFocus>✕ Close</button>
+      </div>
+    </div>
+  );
+}
+
+const openFrom = (open: Open, v: Omit<Viewing, 'from'>) => (e: React.MouseEvent | React.KeyboardEvent) => {
+  if ('key' in e && e.key !== 'Enter' && e.key !== ' ') return;
+  e.preventDefault();
+  const shot = (e.currentTarget as HTMLElement).querySelector('.shot') as HTMLElement;
+  open({ ...v, from: shot.getBoundingClientRect() });
+};
+
 // One image at the strip's shared height. The frame decides the width from the image's shape.
-function Tile({ p, k, world }: { p: Piece; k: number; world: World }) {
+function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: Open }) {
   const tall = (p.mock === 'browser' || p.mock === 'laptop') && p.h / p.w > 1.4;
   const ratio = tall ? 1.6 : p.w / p.h;
   const img = (fit: 'cover' | 'top') => (
@@ -43,13 +115,20 @@ function Tile({ p, k, world }: { p: Piece; k: number; world: World }) {
     width = `calc(var(--sh) * ${ratio})`;
     body = <div className="shot" style={{ height: 'var(--sh)' }}>{img('cover')}</div>;
   }
-  return <figure className="tile" data-k={k} style={{ width }}>{body}<figcaption>{p.name}</figcaption></figure>;
+  const view = openFrom(open, { src: p.src, w: p.w, h: p.h, name: p.group ? `${p.group}: ${p.name}` : p.name });
+  return (
+    <figure className="tile" data-k={k} style={{ width }} role="button" tabIndex={0} aria-label={`View ${p.name} full screen`} onClick={view} onKeyDown={view}>
+      {body}<figcaption>{p.name}</figcaption>
+    </figure>
+  );
 }
 
-function MotionTile() {
+function MotionTile({ open }: { open: Open }) {
   if (MOTION.length === 0) return null;
   return <>{MOTION.map((m) => (
-    <figure className="tile" key={m.src} data-motion style={{ width: `calc(var(--sh) * ${m.w / m.h})` }}>
+    <figure className="tile" key={m.src} data-motion style={{ width: `calc(var(--sh) * ${m.w / m.h})` }} role="button" tabIndex={0}
+      aria-label={`Play ${m.title} full screen`} onClick={openFrom(open, { src: m.src, w: m.w, h: m.h, name: m.title, video: true, poster: m.poster })}
+      onKeyDown={openFrom(open, { src: m.src, w: m.w, h: m.h, name: m.title, video: true, poster: m.poster })}>
       <div className="shot" style={{ height: 'var(--sh)' }}>
         <video src={m.src} poster={m.poster} width={m.w} height={m.h} muted loop playsInline preload="none" data-autoplay aria-label={m.title} />
       </div>
@@ -59,7 +138,7 @@ function MotionTile() {
 }
 
 // A row of same-height images with a counter and arrows, like the Adrián reference.
-function Strip({ pieces, start, world, motion }: { pieces: Piece[]; start: number; world: World; motion?: boolean }) {
+function Strip({ pieces, start, world, motion, open }: { pieces: Piece[]; start: number; world: World; motion?: boolean; open: Open }) {
   const track = useRef<HTMLDivElement>(null);
   const count = (motion ? MOTION.length : 0) + pieces.length;
   // Arrows loop: → past the last piece returns to the first, ← before the first jumps to the last.
@@ -82,8 +161,8 @@ function Strip({ pieces, start, world, motion }: { pieces: Piece[]; start: numbe
         </span>
       </div>
       <div className="track" ref={track} tabIndex={0} aria-label={`${world.name} pieces`}>
-        {motion && <MotionTile />}
-        {pieces.map((p, i) => <Tile key={p.src} p={p} k={start + i} world={world} />)}
+        {motion && <MotionTile open={open} />}
+        {pieces.map((p, i) => <Tile key={p.src} p={p} k={start + i} world={world} open={open} />)}
       </div>
     </div>
   );
@@ -92,10 +171,50 @@ function Strip({ pieces, start, world, motion }: { pieces: Piece[]; start: numbe
 export default function WorldView({ index }: { index: number }) {
   const w = WORLDS[index];
   const next = WORLDS[(index + 1) % WORLDS.length];
-  const { go, glide } = useShell();
+  const prev = WORLDS[(index - 1 + WORLDS.length) % WORLDS.length];
+  const { go } = useShell();
   const root = useRef<HTMLDivElement>(null);
   const now = useRef<HTMLSpanElement>(null);
-  const nextTitle = useRef<HTMLHeadingElement>(null);
+  const meter = useRef<HTMLSpanElement>(null);
+  const prevBar = useRef<HTMLDivElement>(null);
+  const [viewing, setViewing] = useState<Viewing | null>(null);
+  const viewingRef = useRef(false);
+  viewingRef.current = viewing !== null;
+  const open = useCallback<Open>((v) => setViewing(v), []);
+  const leaving = useRef(false);
+  const toWorld = useCallback((t: World) => {
+    if (leaving.current) return; leaving.current = true;
+    go(`/work/${t.slug}`, t.pal.accent, innerWidth / 2, innerHeight / 2, root.current);
+  }, [go]);
+
+  // Keep scrolling past the bottom to go to the next project, or past the top to go back to the previous one.
+  // A pixel meter fills as you push; the page then pixelates into the next one.
+  useEffect(() => {
+    const NEED = 650, CELLS = 16;
+    let down = 0, up = 0, idle = 0 as unknown as ReturnType<typeof setTimeout>, touchY = 0;
+    const atBottom = () => innerHeight + scrollY >= document.documentElement.scrollHeight - 3;
+    const atTop = () => scrollY <= 1;
+    const paint = () => {
+      const lit = Math.min(CELLS, Math.floor((down / NEED) * CELLS));
+      meter.current?.querySelectorAll('i').forEach((c, i) => c.classList.toggle('on', i < lit));
+      if (prevBar.current) { prevBar.current.style.setProperty('--p', String(Math.min(1, up / NEED))); prevBar.current.classList.toggle('show', up > 40); }
+    };
+    const push = (dy: number) => {
+      if (viewingRef.current || leaving.current) return;
+      if (dy > 0 && atBottom()) { down += dy; up = 0; } else if (dy < 0 && atTop()) { up -= dy; down = 0; } else { down = Math.max(0, down - Math.abs(dy) * 2); up = Math.max(0, up - Math.abs(dy) * 2); }
+      paint();
+      if (down >= NEED) toWorld(next); else if (up >= NEED) toWorld(prev);
+      clearTimeout(idle);
+      idle = setTimeout(() => { const ease = () => { down *= 0.8; up *= 0.8; if (down < 1) down = 0; if (up < 1) up = 0; paint(); if (down || up) requestAnimationFrame(ease); }; ease(); }, 600);
+    };
+    const onWheel = (e: WheelEvent) => push(e.deltaY);
+    const onTouchStart = (e: TouchEvent) => { touchY = e.touches[0].clientY; };
+    const onTouchMove = (e: TouchEvent) => { const y = e.touches[0].clientY; push((touchY - y) * 1.6); touchY = y; };
+    addEventListener('wheel', onWheel, { passive: true });
+    addEventListener('touchstart', onTouchStart, { passive: true });
+    addEventListener('touchmove', onTouchMove, { passive: true });
+    return () => { removeEventListener('wheel', onWheel); removeEventListener('touchstart', onTouchStart); removeEventListener('touchmove', onTouchMove); clearTimeout(idle); };
+  }, [next, prev, toWorld]);
 
   useEffect(() => {
     document.body.classList.add('in-world'); setPalette(w.pal);
@@ -145,7 +264,7 @@ export default function WorldView({ index }: { index: number }) {
     const vids = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target as HTMLVideoElement; if (e.isIntersecting) { v.play().catch(() => {}); } else v.pause(); }), { threshold: 0.25 });
     el.querySelectorAll('video[data-autoplay]').forEach((x) => vids.observe(x));
 
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') go('/#work', w.pal.bg); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && !viewingRef.current) go('/#work', w.pal.bg); };
     addEventListener('keydown', onKey);
     return () => {
       io.disconnect(); mid.disconnect(); vids.disconnect(); cleanups.forEach((f) => f()); removeEventListener('keydown', onKey);
@@ -162,6 +281,7 @@ export default function WorldView({ index }: { index: number }) {
 
   return (
     <div ref={root}>
+      <div className="pj-prev" ref={prevBar} aria-hidden="true"><span>Previous project: {prev.name}</span><b /></div>
       <div className="wbar">
         <Link className="back" href="/#work" onClick={(e) => { e.preventDefault(); go('/#work', w.pal.bg); }}>← All work</Link>
         <span className="now" ref={now} />
@@ -199,24 +319,27 @@ export default function WorldView({ index }: { index: number }) {
                 <div className="pj-label">{s.lead && <span className="lead">[Lead project]</span>}<h2>{s.label}</h2></div>
                 {s.blurb && <p>{s.blurb}</p>}
               </div>
-              <Strip pieces={s.pieces} start={start} world={w} motion={s.motion} />
+              <Strip pieces={s.pieces} start={start} world={w} motion={s.motion} open={open} />
             </section>
           );
         })}
       </main>
 
-      {/* The next project waits in its own colour; clicking lifts its title into the next page */}
+      {/* A quiet bar: keep scrolling (or click) and the page pixelates into the next project */}
       <section className="pj-next" style={{ backgroundColor: next.pal.bg, color: next.pal.fg }}>
         <div className="wrap">
-          <span className="pj-next-k">Next project</span>
           <Link href={`/work/${next.slug}`} className="pj-next-link"
-            onClick={(e) => { if (e.metaKey || e.ctrlKey) return; e.preventDefault(); glide(`/work/${next.slug}`, nextTitle.current!, next.pal.bg, next.pal.fg); }}>
-            <h2 className="pj-title" ref={nextTitle}>{next.name}<sup>[{next.kind}]</sup></h2>
-            <span className="pj-next-arrow" aria-hidden="true">→</span>
+            onClick={(e) => { if (e.metaKey || e.ctrlKey) return; e.preventDefault(); toWorld(next); }}>
+            <span className="pj-next-k">Next project</span>
+            <span className="pj-next-name">{next.name}</span>
+            <span className="pj-next-meter" ref={meter} aria-hidden="true">{Array.from({ length: 16 }, (_, i) => <i key={i} />)}</span>
+            <span className="pj-next-hint">Keep scrolling or click</span>
           </Link>
           <div className="pj-foot"><a href={`mailto:${SITE.email}`}>{SITE.email}</a><span>© 2026 {SITE.name}</span></div>
         </div>
       </section>
+
+      {viewing && <Lightbox item={viewing} onClose={() => setViewing(null)} />}
     </div>
   );
 }

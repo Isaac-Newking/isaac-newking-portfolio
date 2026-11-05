@@ -283,22 +283,42 @@ a { color: inherit }
 .m-x .ln + .ln { opacity: .3; width: 20%; margin-top: 8px }
 .m-x .fl { position: absolute; right: 18px; top: 12px; border: 1.5px solid currentColor; padding: 4px 14px; font-size: 13px; font-weight: 600 }
 
-.pj-next { padding-block: 64px calc(28px + env(safe-area-inset-bottom, 0px)); min-height: 72vh; display: flex; align-items: flex-end;
+/* next project: a quiet bar with a pixel meter that fills as you keep scrolling past the end */
+.pj-next { padding-block: 44px calc(24px + env(safe-area-inset-bottom, 0px));
   background-image: linear-gradient(color-mix(in srgb, currentColor 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, currentColor 8%, transparent) 1px, transparent 1px);
   background-size: 120px 120px; background-position: -1px -1px }
 .pj-next .wrap { width: 100%; padding-left: 0; padding-right: 0 }
-.pj-next-k { display: block; font-family: var(--f-pixel); font-size: 12px; opacity: .7; margin-bottom: 14px }
-.pj-next-link { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; text-decoration: none; padding-bottom: 28px; border-bottom: 1.5px solid currentColor }
-.pj-next-arrow { flex: none; width: 56px; height: 56px; display: grid; place-items: center; border: 1.5px solid currentColor; border-radius: 50%; font-size: 22px; transition: transform .3s cubic-bezier(.2,.7,.2,1) }
-.pj-next-link:hover .pj-next-arrow { transform: translateX(8px) }
-.pj-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 18px; font-size: 13px; opacity: .8 }
+.pj-next-link { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 12px 24px; text-decoration: none; padding-bottom: 22px; border-bottom: 1px solid currentColor }
+.pj-next-k { font-family: var(--f-pixel); font-size: 11px; opacity: .7 }
+.pj-next-name { font-family: var(--f-display); font-weight: 600; font-size: clamp(20px, 2.2vw, 30px); letter-spacing: -.02em; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.pj-next-meter { display: grid; grid-template-columns: repeat(16, 8px); gap: 3px }
+.pj-next-meter i { height: 8px; border: 1px solid currentColor; opacity: .5; transition: background-color .12s, opacity .12s }
+.pj-next-meter i.on { background: currentColor; opacity: 1 }
+.pj-next-hint { font-family: var(--f-pixel); font-size: 11px; opacity: .6 }
+.pj-next-link:hover .pj-next-name { text-decoration: underline; text-underline-offset: 6px }
+@media (max-width: 760px) { .pj-next-link { grid-template-columns: minmax(0, 1fr) auto } .pj-next-k { grid-column: 1 / -1 } .pj-next-hint { display: none } }
+.pj-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 16px; font-size: 13px; opacity: .8 }
 .pj-foot a { text-decoration: none }
+/* previous project: appears under the top bar while you push past the top */
+.pj-prev { --p: 0; position: fixed; z-index: 6; left: 50%; top: calc(64px + env(safe-area-inset-top, 0px)); transform: translate(-50%, -8px); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s;
+  display: grid; gap: 6px; justify-items: center; padding: 8px 14px; background: var(--w-bg); border: 1px solid var(--w-line); font-family: var(--f-pixel); font-size: 11px }
+.pj-prev.show { opacity: 1; transform: translate(-50%, 0) }
+.pj-prev b { display: block; width: 128px; height: 6px; border: 1px solid currentColor; background: linear-gradient(90deg, currentColor calc(var(--p) * 100%), transparent 0) }
 
-/* next-project glide */
-.glide { position: fixed; inset: 0; z-index: 95; pointer-events: none; background: var(--glide-bg); opacity: 0; transition: opacity .45s ease }
-.glide.on { opacity: 1 }
-.glide.out { opacity: 0; transition: opacity .38s ease }
-.glide-title { position: fixed; margin: 0; transition: transform .72s cubic-bezier(.7,0,.2,1) }
+/* full-screen preview */
+.tile { cursor: zoom-in }
+.tile:focus-visible { outline: 2px solid var(--w-accent); outline-offset: 4px }
+.lb { position: fixed; inset: 0; z-index: 85; cursor: zoom-out; background-color: rgba(4,4,4,0); transition: background-color .35s ease;
+  background-image: linear-gradient(rgba(255,255,255,0) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0) 1px, transparent 1px); background-size: 40px 40px }
+.lb.on { background-color: rgba(4,4,4,.9); background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px) }
+.lb-fig { position: fixed; margin: 0; transform-origin: 0 0; transition: transform .48s cubic-bezier(.2,.75,.2,1); cursor: default; box-shadow: 0 30px 80px rgba(0,0,0,.45) }
+.lb-fig img, .lb-fig video { width: 100%; height: 100%; display: block; object-fit: contain; background: #000 }
+.lb-fig canvas { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated }
+.lb-fig canvas.done { display: none }
+.lb-bar { position: fixed; left: var(--gutter); right: var(--gutter-r); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); display: flex; justify-content: space-between; align-items: center; gap: 16px; color: #fff; font-family: var(--f-pixel); font-size: 12px; opacity: 0; transition: opacity .3s .15s; cursor: default }
+.lb.on .lb-bar { opacity: 1 }
+.lb-bar span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0 }
+.lb-bar button { flex: none; border: 1.5px solid #fff; padding: 7px 12px; font-family: var(--f-pixel); font-size: 11px; color: #fff }
 
 /* pixel wipe */
 .wipe { position: fixed; inset: 0; z-index: 90; display: grid; pointer-events: none }
@@ -310,5 +330,5 @@ a { color: inherit }
   .nav { transition: none }
   .row .nm { transition: none }
   body.in-world, .wbar { transition: none }
-  .glide, .glide-title { transition: none }
+  .lb, .lb-fig, .lb-bar { transition: none }
 }

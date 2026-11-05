@@ -111,10 +111,10 @@ a { color: inherit }
 /* the About grid is anchored to its bottom edge, so its last line meets the Services grid with no seam */
 .hello { position: relative; z-index: 2; padding-block: 120px 96px; background-position: -1px 100% }
 .hello .grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; max-width: 1240px; margin: 0 auto }
-.frame { position: relative; aspect-ratio: 4/5; max-width: 100%; border: 1px solid var(--grid) }
+.frame { position: relative; aspect-ratio: 4/5; max-width: 100%; border: 1.5px solid #2F6BFF }
 .frame canvas { position: absolute; inset: 12%; width: 76%; height: 76%; image-rendering: pixelated }
 .frame .h { position: absolute; width: 9px; height: 9px; background: var(--bg); border: 1.5px solid #2F6BFF }
-.frame .edge { position: absolute; top: 0; bottom: 0; right: -1px; width: 1.5px; background: #2F6BFF }
+.frame .edge { display: none }
 .hello h2 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(56px, 8vw, 124px); line-height: .92; letter-spacing: -.045em }
 .hello h2 small { display: block; font-size: .62em; letter-spacing: -.04em; margin-top: .06em }
 .hello h2 em { font-style: normal; color: var(--signal) }

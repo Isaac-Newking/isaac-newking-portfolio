@@ -11,6 +11,10 @@ const isDarkNow = () => {
 
 export default function Nav() {
   const [dark, setDark] = useState<boolean | null>(null);
+  // Over the hero the menu floats; past it, it becomes a solid bar so it never sits on top of text,
+  // and it slides away while scrolling down and returns as soon as you scroll up.
+  const [solid, setSolid] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     setDark(isDarkNow());
@@ -18,6 +22,22 @@ export default function Nav() {
     const sync = () => setDark(isDarkNow());
     mq.addEventListener('change', sync);
     return () => mq.removeEventListener('change', sync);
+  }, []);
+
+  useEffect(() => {
+    let lastY = scrollY, raf = 0;
+    const update = () => {
+      raf = 0;
+      const y = scrollY;
+      const hero = document.querySelector('.hero') as HTMLElement | null;
+      const past = hero ? hero.getBoundingClientRect().bottom <= 64 : y > 64;
+      setSolid(past);
+      if (Math.abs(y - lastY) > 6) { setHidden(past && y > lastY); lastY = y; }
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    addEventListener('scroll', onScroll, { passive: true });
+    update();
+    return () => { removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
   }, []);
 
   const toggle = () => {
@@ -29,7 +49,7 @@ export default function Nav() {
   };
 
   return (
-    <nav className="nav" aria-label="Main">
+    <nav className={`nav${solid ? ' solid' : ''}${hidden ? ' hide' : ''}`} aria-label="Main" onFocus={() => setHidden(false)}>
       <Link className="mark" href="/">{SITE.name}</Link>
       <ul>
         <li><a href="#work">Work</a></li>

@@ -55,7 +55,7 @@ export default function Home() {
           </section>
         )}
 
-        <section className="sec wrap" id="faq">
+        <section className="sec paper wrap" id="faq">
           <div className="in">
             <h2>FAQ</h2>
             <div className="faq">
@@ -73,9 +73,15 @@ export default function Home() {
               <div className="slot"><span>Book a call</span><b>{SITE.bookingUrl ? <a href={SITE.bookingUrl}>Pick a time</a> : 'Coming soon'}</b></div>
               <div className="slot"><span>Based</span><b>Working remotely</b></div>
             </div>
-            <div className="wordmark" aria-hidden="true">NEWKING</div>
-            <div className="foot"><span>© 2026 {SITE.name}</span><span>{SITE.title}</span></div>
           </div>
+          {/* the wall grid ends in a perspective floor; the wordmark runs along it */}
+          <div className="ct-stage" aria-hidden="true">
+            <div className="wordmark"><div className="wm-track">
+              {Array.from({ length: 6 }, (_, i) => <span key={i}>NEWKING<i /></span>)}
+            </div></div>
+            <div className="ct-floor"><div className="plane" /></div>
+          </div>
+          <div className="ct-foot-row"><div className="foot"><span>© 2026 {SITE.name}</span><span>{SITE.title}</span></div></div>
         </section>
       </main>
     </>

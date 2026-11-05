@@ -103,7 +103,7 @@ a { color: inherit }
 .band { position: absolute; left: 0; right: 0; top: 72%; overflow: hidden; padding: 12px 0; background: #141414 }
 .band .track { position: relative; display: flex; width: max-content; animation: marquee 36s linear infinite; font-family: var(--f-display); font-weight: 500; font-size: clamp(13px, 1.2vw, 17px); letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; align-items: center; color: rgba(255,255,255,.9) }
 .band .role { display: inline-flex; align-items: center; gap: 26px; padding-right: 26px }
-.band .role i { display: inline-block; width: 3px; height: 3px; background: var(--signal); box-shadow: 3px 0 0 var(--signal), -3px 0 0 var(--signal), 0 3px 0 var(--signal), 0 -3px 0 var(--signal) }
+.band .role i { display: inline-block; width: 6px; height: 6px; background: var(--signal) }
 @keyframes marquee { to { transform: translateX(-50%) } }
 
 /* hello */
@@ -207,7 +207,7 @@ a { color: inherit }
 @media (max-width: 760px) { .floor-name { top: 180px } }
 .wm-track { display: flex; width: max-content; animation: wm 90s linear infinite }
 .wm-track span { display: inline-flex; align-items: center; padding-right: .22em }
-.wm-track i { display: inline-block; width: .09em; height: .09em; margin-left: .22em; background: var(--signal); box-shadow: .09em 0 0 var(--signal), 0 .09em 0 var(--signal) }
+.wm-track i { display: inline-block; width: .16em; height: .16em; margin-left: .22em; background: var(--signal) }
 @keyframes wm { to { transform: translateX(-50%) } }
 .contact .in { max-width: 1240px; margin: 0 auto }
 .contact h2 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(48px, 8vw, 128px); line-height: .88; letter-spacing: -.05em; max-width: 12ch }

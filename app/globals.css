@@ -28,7 +28,10 @@
 * { box-sizing: border-box }
 html, body { margin: 0 }
 body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden }
-body.in-world { background: var(--w-bg, #000); color: var(--w-fg, #fff); transition: background-color .8s ease, color .8s ease }
+/* project pages sit on a grid drawn in each world's own text colour, so it follows the colour shifts */
+body.in-world { background-color: var(--w-bg, #000); color: var(--w-fg, #fff); transition: background-color .8s ease, color .8s ease;
+  background-image: linear-gradient(color-mix(in srgb, var(--w-fg, #fff) 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--w-fg, #fff) 8%, transparent) 1px, transparent 1px);
+  background-size: 120px 120px; background-position: -1px -1px }
 img { max-width: 100%; display: block }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0 }
 a { color: inherit }
@@ -49,18 +52,17 @@ a { color: inherit }
 /* past the hero: a solid bar in the page colours, no blending through the text below */
 .nav.solid { mix-blend-mode: normal; pointer-events: auto; color: var(--fg); background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid var(--grid) }
 .nav.hide { transform: translateY(-100%) }
-.nav.solid .toggle:not(.is-dark) .sun, .nav.solid .toggle.is-dark .moon { fill: var(--bg) }
 .nav .mark { font-family: var(--f-display); font-weight: 800; font-size: 15px; letter-spacing: .02em; text-transform: uppercase; text-decoration: none }
 .nav ul { position: absolute; left: 50%; transform: translateX(-50%); display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 14px }
 .nav a { text-decoration: none }
 .nav a:hover { text-decoration: underline; text-underline-offset: 4px }
-/* light/dark switch: pixel sun and moon, a square knob slides over the active one */
-.toggle { position: relative; width: 64px; height: 32px; display: grid; grid-template-columns: 1fr 1fr; align-items: center; justify-items: center; border: 1.5px solid currentColor; padding: 0 }
-.toggle .ic { width: 12px; height: 12px; fill: currentColor; position: relative; z-index: 1; transition: fill .25s }
-.toggle .knob { position: absolute; top: 3px; left: 3px; width: 24px; height: 23px; background: currentColor; transition: transform .3s cubic-bezier(.2,.7,.2,1) }
-.toggle.is-dark .knob { transform: translateX(31px) }
-.toggle:not(.is-dark) .sun, .toggle.is-dark .moon { fill: #000 }
-.toggle.is-unset .knob { opacity: 0 }
+/* light/dark: one pixel key showing the mode you'll switch to; its drop shadow presses in on click */
+.mode { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border: 1.5px solid currentColor; box-shadow: 3px 3px 0 0 currentColor;
+  font-family: var(--f-pixel); font-size: 11px; letter-spacing: .04em; transition: transform .08s ease, box-shadow .08s ease }
+.mode .ic { width: 12px; height: 12px; fill: currentColor; flex: none }
+.mode:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 0 currentColor }
+.mode:active { transform: translate(3px, 3px); box-shadow: 0 0 0 0 currentColor }
+.mode.is-unset { visibility: hidden }
 @media (max-width: 760px) { .nav ul { display: none } }
 
 /* loader */
@@ -281,7 +283,9 @@ a { color: inherit }
 .m-x .ln + .ln { opacity: .3; width: 20%; margin-top: 8px }
 .m-x .fl { position: absolute; right: 18px; top: 12px; border: 1.5px solid currentColor; padding: 4px 14px; font-size: 13px; font-weight: 600 }
 
-.pj-next { padding-block: 64px calc(28px + env(safe-area-inset-bottom, 0px)); min-height: 72vh; display: flex; align-items: flex-end }
+.pj-next { padding-block: 64px calc(28px + env(safe-area-inset-bottom, 0px)); min-height: 72vh; display: flex; align-items: flex-end;
+  background-image: linear-gradient(color-mix(in srgb, currentColor 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, currentColor 8%, transparent) 1px, transparent 1px);
+  background-size: 120px 120px; background-position: -1px -1px }
 .pj-next .wrap { width: 100%; padding-left: 0; padding-right: 0 }
 .pj-next-k { display: block; font-family: var(--f-pixel); font-size: 12px; opacity: .7; margin-bottom: 14px }
 .pj-next-link { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; text-decoration: none; padding-bottom: 28px; border-bottom: 1.5px solid currentColor }

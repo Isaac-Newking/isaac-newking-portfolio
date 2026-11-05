@@ -206,7 +206,7 @@ export default function WorldView({ index }: { index: number }) {
       </main>
 
       {/* The next project waits in its own colour; clicking lifts its title into the next page */}
-      <section className="pj-next" style={{ background: next.pal.bg, color: next.pal.fg }}>
+      <section className="pj-next" style={{ backgroundColor: next.pal.bg, color: next.pal.fg }}>
         <div className="wrap">
           <span className="pj-next-k">Next project</span>
           <Link href={`/work/${next.slug}`} className="pj-next-link"

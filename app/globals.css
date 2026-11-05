@@ -202,8 +202,10 @@ a { color: inherit }
 /* footer sits on the floor's near edge (pulled up over it), readable and not part of the hidden stage */
 .ct-foot-row { position: relative; z-index: 2; margin-top: -52px; padding-bottom: env(safe-area-inset-bottom, 0px) }
 .ct-foot-row .foot { margin: 0 auto; max-width: 1240px; min-height: 52px; align-items: center }
-.wordmark { position: relative; z-index: 1; overflow: hidden; font-family: var(--f-display); font-weight: 800; font-size: clamp(70px, 21vw, 340px); line-height: .78; letter-spacing: -.06em; white-space: nowrap; margin-bottom: -.06em }
-.wm-track { display: flex; width: max-content; animation: wm 40s linear infinite }
+/* the name lies flat on the floor, filling exactly one 60px row of the floor grid, and scrolls along it */
+.floor-name { position: absolute; left: 0; right: 0; top: 300px; height: 60px; overflow: hidden; font-family: var(--f-display); font-weight: 800; font-size: 46px; line-height: 60px; letter-spacing: -.04em; white-space: nowrap; color: rgba(255,255,255,.5) }
+@media (max-width: 760px) { .floor-name { top: 180px } }
+.wm-track { display: flex; width: max-content; animation: wm 90s linear infinite }
 .wm-track span { display: inline-flex; align-items: center; padding-right: .22em }
 .wm-track i { display: inline-block; width: .09em; height: .09em; margin-left: .22em; background: var(--signal); box-shadow: .09em 0 0 var(--signal), 0 .09em 0 var(--signal) }
 @keyframes wm { to { transform: translateX(-50%) } }

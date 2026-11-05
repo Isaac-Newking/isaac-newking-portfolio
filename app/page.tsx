@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Avatar from '@/components/Avatar';
 import Intro from '@/components/Intro';
 import Nav from '@/components/Nav';
@@ -40,7 +41,7 @@ export default function Home() {
               </li>
             ))}</ul></div>
             <div><h3 className="bubble">Contact</h3><p><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
-              {SITE.socials.length > 0 && <p style={{ marginTop: 8 }}>{SITE.socials.map((s) => <a key={s.href} href={s.href} style={{ marginRight: 12 }}>{s.label}</a>)}</p>}</div>
+              {SITE.socials.length > 0 && <p style={{ marginTop: 8 }}>{SITE.socials.map((s) => <a key={s.href} href={s.href} target="_blank" rel="noopener noreferrer" style={{ marginRight: 12 }}>{s.label}</a>)}</p>}</div>
           </div>
         </section>
 
@@ -74,17 +75,20 @@ export default function Home() {
             <h2>Got a brand to build? Let&apos;s talk.</h2>
             <a className="mail" href={`mailto:${SITE.email}`}>{SITE.email}</a>
             <div className="slots">
-              <div className="slot"><span>Socials</span><b>{SITE.socials.length ? SITE.socials.map((s) => s.label).join(', ') : 'Coming soon'}</b></div>
+              <div className="slot"><span>Socials</span><b>{SITE.socials.length
+                ? SITE.socials.map((s, i) => <Fragment key={s.href}>{i > 0 && ', '}<a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a></Fragment>)
+                : 'Coming soon'}</b></div>
               <div className="slot"><span>Book a call</span><b>{SITE.bookingUrl ? <a href={SITE.bookingUrl}>Pick a time</a> : 'Coming soon'}</b></div>
               <div className="slot"><span>Based</span><b>Working remotely</b></div>
             </div>
           </div>
-          {/* the wall grid ends in a perspective floor; the wordmark runs along it */}
+          {/* the wall grid ends in a perspective floor; the name lies flat in one row of it and scrolls */}
           <div className="ct-stage" aria-hidden="true">
-            <div className="wordmark"><div className="wm-track">
-              {Array.from({ length: 6 }, (_, i) => <span key={i}>NEWKING<i /></span>)}
+            <div className="ct-floor"><div className="plane">
+              <div className="floor-name"><div className="wm-track">
+                {Array.from({ length: 16 }, (_, i) => <span key={i}>NEWKING ISAAC<i /></span>)}
+              </div></div>
             </div></div>
-            <div className="ct-floor"><div className="plane" /></div>
           </div>
           <div className="ct-foot-row"><div className="foot"><span>© 2026 {SITE.name}</span><span>{SITE.title}</span></div></div>
         </section>

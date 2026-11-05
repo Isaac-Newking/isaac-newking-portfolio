@@ -14,7 +14,7 @@ export const SITE = {
     ['Fg', 'Figma'], ['Cd', 'CorelDRAW'], ['Dv', 'DaVinci Resolve'],
   ] as [string, string][],
   services: ['Brand Identity', 'Logo Design', 'Motion Design', 'UI/UX Design', 'Visual Identity', 'Social & Launch Graphics', 'Illustration'],
-  socials: [] as { label: string; href: string }[],
+  socials: [{ label: 'Behance', href: 'https://www.behance.net/isaacnewking' }] as { label: string; href: string }[],
   bookingUrl: '',
 };
 

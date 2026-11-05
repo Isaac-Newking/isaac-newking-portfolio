@@ -10,17 +10,20 @@ import { clamp } from '@/lib/pixel';
 export default function Services() {
   const sec = useRef<HTMLElement>(null);
   const idx = useRef<HTMLDivElement>(null);
+  const stick = useRef<HTMLDivElement>(null);
   const items = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     let raf = 0;
     const frame = () => {
-      if (!sec.current || !idx.current) return;
+      if (!sec.current || !idx.current || !stick.current) return;
       const r = sec.current.getBoundingClientRect(), vh = innerHeight;
       if (r.top < vh && r.bottom > 0) {
         const n = SITE.services.length;
         const a = clamp(-r.top / (r.height - vh), 0, 1) * (n - 1);
-        const gap = clamp(vh * 0.12, 60, 104);
+        const gap = clamp(vh * 0.1, 52, 90);
+        // grid flows upward with the scroll, one continuous sheet
+        stick.current.style.backgroundPosition = `0 ${(r.top * 0.6) % 120}px`;
         items.current.forEach((el, i) => {
           if (!el) return;
           const d = i - a; // < 0: above the band, > 0: below it
@@ -43,9 +46,9 @@ export default function Services() {
 
   return (
     <section className="wheel" id="services" ref={sec} aria-label="Services">
-      <div className="stick">
+      <div className="stick" ref={stick}>
         <svg className="lens" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 0 Q50 30 100 0 L100 100 Q50 70 0 100 Z" />
+          <path d="M0 0 Q50 20 100 0 L100 100 Q50 80 0 100 Z" />
         </svg>
         <h2 className="bubble lab">What I do</h2>
         <ul className="items">

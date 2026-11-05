@@ -1,6 +1,6 @@
 import work from './work.json';
 
-export type Mock = 'plain' | 'browser' | 'phone' | 'x';
+export type Mock = 'plain' | 'browser' | 'laptop' | 'phone' | 'x';
 
 export type Piece = {
   src: string;
@@ -55,20 +55,25 @@ const DEFS: WorldDef[] = [
   },
   {
     slug: 'uiux', name: 'UI/UX', kind: 'Product interfaces', year: '2025',
-    discipline: 'UI, UX, web design', projects: '4 products', cover: 'new-pairs',
-    blurb: 'Interface design for crypto products: the Sniper trading terminal on desktop and mobile, the Axislink landing page, the DappBuilder no-code toolkit and an NFT marketplace.',
+    discipline: 'UI, UX, web design', projects: '3 products', cover: 'new-pairs',
+    blurb: 'Interface design for crypto products: the Sniper trading terminal on desktop and mobile, the DappBuilder no-code toolkit and an NFT marketplace.',
     pal: { bg: '#0D0D0D', fg: '#E9EDE8', accent: '#6BE38A', line: 'rgba(107,227,138,.18)' },
   },
   {
     slug: 'web3', name: 'Web3 Projects', kind: 'Launch visuals', year: '2026',
-    discipline: 'Key visuals, launch graphics', projects: '7 launches', cover: 'launch-copy-ai',
-    blurb: 'Launch banners and key visuals for token and product launches: Hashcake, Copy AI, Based Tax Inspector, Profit AI, DevKit, ANA and 0xShadow.',
+    discipline: 'Key visuals, launch graphics, UI', projects: '8 projects', cover: 'twitter-axis',
+    blurb: 'Brand worlds and launch visuals for crypto projects, led by Axislink: X headers, announcements, dashboard and landing-page UI, plus Hashcake and a run of token launches.',
     pal: { bg: '#0B0A1A', fg: '#EEEAF8', accent: '#E7B771', line: 'rgba(231,183,113,.2)' },
+    groups: [
+      { name: 'Axislink', lead: true, blurb: 'A crypto community platform: X headers, the mascot, a KYC announcement with Assure DeFi, the AI Bot launch, and the dashboard and landing-page UI.' },
+      { name: 'Hashcake', blurb: 'X headers for a meme token, in two directions: a pixel cake and a 3D cake.' },
+      { name: 'Token launches', blurb: 'Countdown and launch visuals for Copy AI, Based Tax Inspector, Profit AI, DevKit, ANA and 0xShadow.' },
+    ],
   },
   {
     slug: 'flyers', name: 'Flyers & Banners', kind: 'Social & print', year: '2026',
-    discipline: 'Social, print, campaign', projects: '10 brands', cover: 'twitter-axis',
-    blurb: 'Social banners and flyers for crypto communities and consumer brands: Hashcake, Sendor, Axislink, Sheriff Rango, Smart Forge, Luna, Terra Scan, Joji Goes to Japan, Scentify and Hip & Happy.',
+    discipline: 'Social, print, campaign', projects: '8 brands', cover: 'joji-goe-to-japan-3',
+    blurb: 'Social banners and flyers for crypto communities and consumer brands: Sendor, Sheriff Rango, Smart Forge, Luna, Terra Scan, Joji Goes to Japan, Scentify and Hip & Happy.',
     pal: { bg: '#F3EAF9', fg: '#2A1438', accent: '#A954DD', line: 'rgba(42,20,56,.16)' },
   },
 ];

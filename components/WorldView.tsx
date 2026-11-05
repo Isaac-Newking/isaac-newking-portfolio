@@ -15,7 +15,7 @@ function setPalette(p: Palette) {
 
 // One image at the strip's shared height. The frame decides the width from the image's shape.
 function Tile({ p, k, world }: { p: Piece; k: number; world: World }) {
-  const tall = p.mock === 'browser' && p.h / p.w > 1.4;
+  const tall = (p.mock === 'browser' || p.mock === 'laptop') && p.h / p.w > 1.4;
   const ratio = tall ? 1.6 : p.w / p.h;
   const img = (fit: 'cover' | 'top') => (
     <div className={`px${fit === 'top' ? ' top' : ''}`}>
@@ -29,8 +29,12 @@ function Tile({ p, k, world }: { p: Piece; k: number; world: World }) {
   if (p.mock === 'browser') {
     width = `calc((var(--sh) - 34px) * ${ratio})`;
     body = <div className="m-browser"><div className="bar"><i /><i /><i /><span /></div><div className="shot" style={{ height: 'calc(var(--sh) - 34px)' }}>{img(tall ? 'top' : 'cover')}</div></div>;
+  } else if (p.mock === 'laptop') {
+    // 16:10 screen in a slim lid, on a base that is wider than the lid
+    width = 'calc(((var(--sh) - 40px) * 1.6 + 22px) / 0.88)';
+    body = <div className="m-laptop"><div className="lap-lid"><div className="shot">{img('top')}</div></div><div className="lap-base" /></div>;
   } else if (p.mock === 'phone') {
-    width = `calc((var(--sh) - 28px) * ${ratio} + 28px)`;
+    width = `calc((var(--sh) - 26px) * ${ratio} + 26px)`;
     body = <div className="m-phone"><div className="shot">{img('cover')}</div></div>;
   } else if (p.mock === 'x') {
     width = 'calc((var(--sh) - 112px) * 3)';
@@ -58,12 +62,15 @@ function MotionTile() {
 function Strip({ pieces, start, world, motion }: { pieces: Piece[]; start: number; world: World; motion?: boolean }) {
   const track = useRef<HTMLDivElement>(null);
   const count = (motion ? MOTION.length : 0) + pieces.length;
+  // Arrows loop: → past the last piece returns to the first, ← before the first jumps to the last.
   const step = (dir: number) => {
     const t = track.current; if (!t) return;
     const tiles = Array.from(t.children) as HTMLElement[];
-    const x = t.scrollLeft;
-    const target = dir > 0 ? tiles.find((el) => el.offsetLeft > x + 4) : [...tiles].reverse().find((el) => el.offsetLeft < x - 4);
-    t.scrollTo({ left: target ? target.offsetLeft : dir > 0 ? t.scrollWidth : 0, behavior: reducedMotion() ? 'auto' : 'smooth' });
+    const x = t.scrollLeft, max = t.scrollWidth - t.clientWidth;
+    let left: number;
+    if (dir > 0) left = x >= max - 4 ? 0 : (tiles.find((el) => el.offsetLeft > x + 4)?.offsetLeft ?? max);
+    else left = x <= 4 ? max : ([...tiles].reverse().find((el) => el.offsetLeft < x - 4)?.offsetLeft ?? 0);
+    t.scrollTo({ left: Math.min(left, max), behavior: reducedMotion() ? 'auto' : 'smooth' });
   };
   return (
     <div className="strip" data-strip>
@@ -110,7 +117,8 @@ export default function WorldView({ index }: { index: number }) {
     const applyFrom = (strip: HTMLElement) => {
       const t = strip.querySelector('.track') as HTMLElement;
       const tiles = Array.from(t.children) as HTMLElement[];
-      const i = Math.max(0, tiles.findIndex((x) => x.offsetLeft + x.offsetWidth / 2 > t.scrollLeft));
+      const atEnd = t.scrollLeft >= t.scrollWidth - t.clientWidth - 4 && t.scrollLeft > 4;
+      const i = atEnd ? tiles.length - 1 : Math.max(0, tiles.findIndex((x) => x.offsetLeft + x.offsetWidth / 2 > t.scrollLeft));
       const n = strip.querySelector('[data-n]'); if (n) n.textContent = `[${i + 1}/${tiles.length}]`;
       if (strip !== active) return;
       const k = tiles[i]?.dataset.k;

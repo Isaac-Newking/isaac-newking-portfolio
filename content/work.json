@@ -133,74 +133,158 @@
  ],
  "web3": [
   {
+   "src": "/img/work/flyers/twitter-axis.jpg",
+   "name": "X header, Axislink",
+   "w": 2400,
+   "h": 800,
+   "bg": "#0d0b16",
+   "fg": "#e7e4f2",
+   "ac": "#795ed1",
+   "mock": "x",
+   "group": "Axislink"
+  },
+  {
+   "src": "/img/work/flyers/ban-3jpg.jpg",
+   "name": "X header, Axislink mascot",
+   "w": 2400,
+   "h": 800,
+   "bg": "#130b16",
+   "fg": "#efe4f2",
+   "ac": "#cb42f8",
+   "mock": "x",
+   "group": "Axislink"
+  },
+  {
+   "src": "/img/work/uiux/axislink-ui.jpg",
+   "name": "Dashboard UI",
+   "w": 2400,
+   "h": 744,
+   "bg": "#0B0B0B",
+   "fg": "#F1F1EE",
+   "ac": null,
+   "mock": "plain",
+   "group": "Axislink"
+  },
+  {
+   "src": "/img/work/uiux/web-ui-axis-link.jpg",
+   "name": "Landing page",
+   "w": 1179,
+   "h": 2400,
+   "bg": "#100b16",
+   "fg": "#ebe4f2",
+   "ac": "#955ed1",
+   "mock": "laptop",
+   "group": "Axislink"
+  },
+  {
+   "src": "/img/work/web3/axislink-kyc.jpg",
+   "name": "KYC announcement with Assure DeFi",
+   "w": 1360,
+   "h": 680,
+   "bg": "#16120b",
+   "fg": "#f2ede4",
+   "ac": "#d1a85e",
+   "mock": "plain",
+   "group": "Axislink"
+  },
+  {
+   "src": "/img/work/web3/axislink-aibot.jpg",
+   "name": "AI Bot launch",
+   "w": 1360,
+   "h": 680,
+   "bg": "#110b16",
+   "fg": "#ece4f2",
+   "ac": "#8520d1",
+   "mock": "plain",
+   "group": "Axislink"
+  },
+  {
    "src": "/img/work/web3/facebook-cover-banner.jpg",
-   "name": "Facebook-cover-banner",
+   "name": "X header, pixel cake",
    "w": 851,
    "h": 315,
    "bg": "#100b16",
    "fg": "#ebe4f2",
    "ac": "#812cd1",
-   "mock": "x"
+   "mock": "x",
+   "group": "Hashcake"
+  },
+  {
+   "src": "/img/work/flyers/edited-cover-banner-2.jpg",
+   "name": "X header, 3D cake",
+   "w": 851,
+   "h": 315,
+   "bg": "#110b16",
+   "fg": "#ece4f2",
+   "ac": "#872fd1",
+   "mock": "x",
+   "group": "Hashcake"
   },
   {
    "src": "/img/work/web3/launch-copy-ai.jpg",
-   "name": "Launch-Copy-AI",
+   "name": "Copy AI, 1 hour to launch",
    "w": 1360,
    "h": 680,
    "bg": "#0b0d16",
    "fg": "#e4e6f2",
    "ac": "#042bd1",
-   "mock": "plain"
+   "mock": "plain",
+   "group": "Token launches"
   },
   {
    "src": "/img/work/web3/main-launch-tax.jpg",
-   "name": "Main-launch-tax",
+   "name": "Based Tax Inspector, launch date",
    "w": 1920,
    "h": 1080,
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "plain"
+   "mock": "plain",
+   "group": "Token launches"
   },
   {
    "src": "/img/work/web3/profit-ai-score.jpg",
-   "name": "Profit AI score",
+   "name": "Profit AI, score card",
    "w": 1270,
    "h": 829,
    "bg": "#160e0b",
    "fg": "#f2e9e4",
    "ac": "#d18056",
-   "mock": "plain"
+   "mock": "plain",
+   "group": "Token launches"
   },
   {
    "src": "/img/work/web3/now-live-devkit.jpg",
-   "name": "NOW LIVE DEVKIT",
+   "name": "DevKit is live",
    "w": 800,
    "h": 1000,
    "bg": "#16100b",
    "fg": "#f2ebe4",
    "ac": "#d18e4e",
-   "mock": "plain"
+   "mock": "plain",
+   "group": "Token launches"
   },
   {
    "src": "/img/work/web3/pacman-banner.jpg",
-   "name": "Pacman-Banner",
+   "name": "ANA, Pac-Man utility",
    "w": 1360,
    "h": 680,
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "plain"
+   "mock": "plain",
+   "group": "Token launches"
   },
   {
    "src": "/img/work/web3/oxhsadow.jpg",
-   "name": "oxhsadow",
+   "name": "0xShadow, X header",
    "w": 1500,
    "h": 500,
    "bg": "#160e0b",
    "fg": "#f2e8e4",
    "ac": "#d16e46",
-   "mock": "x"
+   "mock": "x",
+   "group": "Token launches"
   }
  ],
  "uiux": [
@@ -212,7 +296,7 @@
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "browser"
+   "mock": "laptop"
   },
   {
    "src": "/img/work/uiux/sniper.jpg",
@@ -222,7 +306,7 @@
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "browser"
+   "mock": "laptop"
   },
   {
    "src": "/img/work/uiux/wallet-manager.jpg",
@@ -232,7 +316,7 @@
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "browser"
+   "mock": "laptop"
   },
   {
    "src": "/img/work/uiux/token-holdings.jpg",
@@ -242,7 +326,7 @@
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "browser"
+   "mock": "laptop"
   },
   {
    "src": "/img/work/uiux/home.jpg",
@@ -285,26 +369,6 @@
    "mock": "phone"
   },
   {
-   "src": "/img/work/uiux/axislink-ui.jpg",
-   "name": "Axislink UI",
-   "w": 2400,
-   "h": 744,
-   "bg": "#0B0B0B",
-   "fg": "#F1F1EE",
-   "ac": null,
-   "mock": "browser"
-  },
-  {
-   "src": "/img/work/uiux/web-ui-axis-link.jpg",
-   "name": "web-ui-axis-link",
-   "w": 1179,
-   "h": 2400,
-   "bg": "#100b16",
-   "fg": "#ebe4f2",
-   "ac": "#955ed1",
-   "mock": "phone"
-  },
-  {
    "src": "/img/work/uiux/dappbuilder-2.jpg",
    "name": "DAppbuilder (2)",
    "w": 1920,
@@ -312,7 +376,7 @@
    "bg": "#0b160e",
    "fg": "#e4f2e8",
    "ac": "#5ed181",
-   "mock": "browser"
+   "mock": "laptop"
   },
   {
    "src": "/img/work/uiux/nft.jpg",
@@ -322,20 +386,10 @@
    "bg": "#e1f2ec",
    "fg": "#122920",
    "ac": "#019961",
-   "mock": "browser"
+   "mock": "laptop"
   }
  ],
  "flyers": [
-  {
-   "src": "/img/work/flyers/ban-3jpg.jpg",
-   "name": "ban-3jpg",
-   "w": 2400,
-   "h": 800,
-   "bg": "#130b16",
-   "fg": "#efe4f2",
-   "ac": "#cb42f8",
-   "mock": "x"
-  },
   {
    "src": "/img/work/flyers/sendor-twitter.jpg",
    "name": "$SENDOR-twitter",
@@ -344,26 +398,6 @@
    "bg": "#0b160e",
    "fg": "#e4f2e8",
    "ac": "#0ed147",
-   "mock": "x"
-  },
-  {
-   "src": "/img/work/flyers/twitter-axis.jpg",
-   "name": "twitter-axis",
-   "w": 2400,
-   "h": 800,
-   "bg": "#0d0b16",
-   "fg": "#e7e4f2",
-   "ac": "#795ed1",
-   "mock": "x"
-  },
-  {
-   "src": "/img/work/flyers/edited-cover-banner-2.jpg",
-   "name": "edited-cover-banner-2",
-   "w": 851,
-   "h": 315,
-   "bg": "#110b16",
-   "fg": "#ece4f2",
-   "ac": "#872fd1",
    "mock": "x"
   },
   {

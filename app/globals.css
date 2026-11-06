@@ -163,7 +163,7 @@ a { color: inherit }
 .wheel .lens-mk.l { left: calc(var(--gutter) + 10px); transform: scaleX(-1) }
 .wheel .lens-mk.r { right: calc(var(--gutter-r) + 10px) }
 @media (max-width: 1100px) { .wheel .lens-mk { display: none } }
-.wheel .lab { position: absolute; top: calc(84px + env(safe-area-inset-top, 0px)); left: var(--gutter) }
+.wheel .lab { position: absolute; top: calc(84px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); white-space: nowrap; z-index: 3 }
 .wheel .idx { position: absolute; bottom: calc(26px + env(safe-area-inset-bottom, 0px)); right: var(--gutter-r); font-family: var(--f-pixel); font-size: 12px }
 
 /* work index */

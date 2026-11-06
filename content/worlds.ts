@@ -44,7 +44,7 @@ const DEFS: WorldDef[] = [
       { name: 'Esorae Home', lead: true, motion: true, blurb: 'Identity for a home textile and fragrance brand. Brand personality, billboard and roll-up campaigns, product shoots, a social system in charcoal and gold, and motion.' },
       { name: 'Esorae Foundation', blurb: 'Identity for an education-focused foundation: logo, brand pattern, illustrative style and campaign flyers in green and orange.' },
       { name: 'eurban', blurb: 'Launch campaign for a residential development: teaser posters for a new way of living built for Lagos and Benin.' },
-      { name: 'O5 Dynamix', blurb: 'Identity for a sports and fitness brand: the O5 runner mark, an orange and black palette, merch for tees, caps and bottles, and a launch social campaign.' },
+      { name: 'O5 Dynamix', blurb: 'Identity and website for a sports and fitness brand: the O5 runner mark, an orange and black palette, a booking site for four arenas, merch for tees, caps and bottles, and a launch social campaign.' },
     ],
   },
   {

@@ -85,6 +85,11 @@ const openFrom = (open: Open, v: Omit<Viewing, 'from'>) => (e: React.MouseEvent 
   open({ ...v, from: shot.getBoundingClientRect() });
 };
 
+// Profile pictures for Instagram cards, by handle; others fall back to initials.
+const IG_AVATAR: Record<string, string> = { eurban: '/img/ui/eu-avatar.png' };
+// a steady, plausible like count per post
+const likes = (s: string) => 900 + ([...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 100000, 7) % 2600);
+
 // One image at the strip's shared height. The frame decides the width from the image's shape.
 function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: Open }) {
   const tall = (p.mock === 'browser' || p.mock === 'laptop') && p.h / p.w > 1.4;
@@ -104,7 +109,10 @@ function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: 
   } else if (p.mock === 'laptop') {
     // 16:10 screen in a slim lid, on a base that is wider than the lid
     width = 'calc(((var(--sh) - 40px) * 1.6 + 22px) / 0.88)';
-    body = <div className="m-laptop"><div className="lap-lid"><div className="shot">{img('top')}</div></div><div className="lap-base" /></div>;
+    const screen = p.video
+      ? <div className="vid"><video src={p.video} poster={p.src} width={p.w} height={p.h} muted loop playsInline preload="none" data-autoplay aria-label={`${world.name}: ${p.name}`} /></div>
+      : img('top');
+    body = <div className="m-laptop"><div className="lap-lid"><div className="shot">{screen}</div></div><div className="lap-base" /></div>;
   } else if (p.mock === 'phone') {
     width = `calc((var(--sh) - 26px) * ${ratio} + 26px)`;
     body = <div className="m-phone"><div className="shot">{img('cover')}</div></div>;
@@ -114,11 +122,11 @@ function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: 
   } else if (p.mock === 'insta') {
     // an Instagram post card: profile row, the post at its own shape, then the action row
     const handle = (p.group ?? world.name).toLowerCase().replace(/[^a-z0-9]+/g, '');
-    width = `calc((var(--sh) - 108px) * ${ratio})`;
+    width = `calc((var(--sh) - 152px) * ${ratio})`;
     body = (
       <div className="m-ig">
-        <div className="ig-top"><span className="ig-av">{handle.slice(0, 2)}</span><b>{handle}</b><i className="ig-more" aria-hidden="true" /></div>
-        <div className="shot" style={{ height: 'calc(var(--sh) - 108px)' }}>{img('cover')}</div>
+        <div className="ig-top">{IG_AVATAR[handle] ? <img className="ig-av" src={IG_AVATAR[handle]} alt="" width={32} height={32} /> : <span className="ig-av">{handle.slice(0, 2)}</span>}<b>{handle}</b><i className="ig-more" aria-hidden="true" /></div>
+        <div className="shot" style={{ height: 'calc(var(--sh) - 152px)' }}>{img('cover')}</div>
         <div className="ig-bar" aria-hidden="true">
           <svg viewBox="0 0 24 24" className="ig-like"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.6.8-1.4 2.3-2.6 4.4-2.6 3.6 0 5.7 3.7 4.2 7.2C19.5 16.4 12 21 12 21z" /></svg>
           <svg viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3.5 20l1.2-4.2A8.5 8.5 0 1 1 20.5 11.5z" /></svg>
@@ -126,13 +134,14 @@ function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: 
           <span className="ig-dots"><i /><i /><i /><i /></span>
           <svg viewBox="0 0 24 24" className="ig-save"><path d="M6 3.5h12v17l-6-4.6-6 4.6z" /></svg>
         </div>
+        <div className="ig-cap"><b>{likes(p.name).toLocaleString('en-US')} likes</b><span><b>{handle}</b> {p.name.replace(/^[^,]*,\s*/, '')}</span></div>
       </div>
     );
   } else {
     width = `calc(var(--sh) * ${ratio})`;
     body = <div className="shot" style={{ height: 'var(--sh)' }}>{img('cover')}</div>;
   }
-  const view = openFrom(open, { src: p.src, w: p.w, h: p.h, name: p.group ? `${p.group}: ${p.name}` : p.name });
+  const view = openFrom(open, { src: p.video ?? p.src, w: p.w, h: p.h, name: p.group ? `${p.group}: ${p.name}` : p.name, video: !!p.video, poster: p.video ? p.src : undefined });
   return (
     <figure className="tile" data-k={k} style={{ width }} role="button" tabIndex={0} aria-label={`View ${p.name} full screen`} onClick={view} onKeyDown={view}>
       {body}<figcaption>{p.name}</figcaption>

@@ -671,6 +671,40 @@
    "mock": "plain"
   },
   {
+   "src": "/img/work/branding/eu-site-poster.jpg",
+   "name": "Website, home page in motion",
+   "w": 1280,
+   "h": 800,
+   "mock": "laptop",
+   "video": "/img/work/branding/eu-site.mp4",
+   "group": "eurban",
+   "bg": "#0B0B0B",
+   "fg": "#F1F1EE",
+   "ac": null
+  },
+  {
+   "src": "/img/work/branding/eu-web-home.jpg",
+   "name": "Website, Spaces That Hold Their Value",
+   "w": 2400,
+   "h": 1800,
+   "mock": "plain",
+   "group": "eurban",
+   "bg": "#0B0B0B",
+   "fg": "#F1F1EE",
+   "ac": null
+  },
+  {
+   "src": "/img/work/branding/eu-web-projects.jpg",
+   "name": "Website, Our Projects",
+   "w": 2400,
+   "h": 1800,
+   "mock": "plain",
+   "group": "eurban",
+   "bg": "#0B0B0B",
+   "fg": "#F1F1EE",
+   "ac": null
+  },
+  {
    "src": "/img/work/branding/eu-poster1.jpg",
    "name": "Poster, We Don't Just Construct Buildings",
    "w": 1200,

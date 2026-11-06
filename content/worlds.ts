@@ -12,6 +12,8 @@ export type Piece = {
   fg: string;
   ac: string | null;
   mock: Mock;
+  /** a looping screen recording to play inside the mockup instead of the still */
+  video?: string;
 };
 
 export type Palette = { bg: string; fg: string; accent: string; line: string };
@@ -43,7 +45,7 @@ const DEFS: WorldDef[] = [
     groups: [
       { name: 'Esorae Home', lead: true, motion: true, blurb: 'Identity for a home textile and fragrance brand. Brand personality, billboard and roll-up campaigns, product shoots, a social system in charcoal and gold, and motion.' },
       { name: 'Esorae Foundation', blurb: 'Identity for an education-focused foundation: logo, brand pattern, illustrative style and campaign flyers in green and orange.' },
-      { name: 'eurban', blurb: 'Launch campaign for a residential development: teaser posters for a new way of living built for Lagos and Benin.' },
+      { name: 'eurban', blurb: 'Website and launch campaign for a residential developer: a calm, image-led site for its homes in Lagos and Benin, and teaser posters for a new way of living.' },
       { name: 'O5 Dynamix', blurb: 'Identity and website for a sports and fitness brand: the O5 runner mark, an orange and black palette, a booking site for four arenas, merch for tees, caps and bottles, and a launch social campaign.' },
     ],
   },

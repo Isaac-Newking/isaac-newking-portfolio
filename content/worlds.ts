@@ -1,6 +1,6 @@
 import work from './work.json';
 
-export type Mock = 'plain' | 'browser' | 'laptop' | 'phone' | 'x';
+export type Mock = 'plain' | 'browser' | 'laptop' | 'phone' | 'x' | 'insta';
 
 export type Piece = {
   src: string;

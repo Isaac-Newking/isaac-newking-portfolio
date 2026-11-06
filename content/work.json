@@ -679,7 +679,7 @@
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "plain"
+   "mock": "insta"
   },
   {
    "src": "/img/work/branding/eu-poster2.jpg",
@@ -690,7 +690,7 @@
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "plain"
+   "mock": "insta"
   },
   {
    "src": "/img/work/branding/eu-poster3.jpg",
@@ -701,7 +701,7 @@
    "bg": "#0b1216",
    "fg": "#e4edf2",
    "ac": "#5ea7d1",
-   "mock": "plain"
+   "mock": "insta"
   },
   {
    "src": "/img/work/branding/eu-poster4.jpg",
@@ -712,7 +712,7 @@
    "bg": "#0b1116",
    "fg": "#e4ecf2",
    "ac": "#4e9cd1",
-   "mock": "plain"
+   "mock": "insta"
   },
   {
    "src": "/img/work/branding/o5-web-court.jpg",

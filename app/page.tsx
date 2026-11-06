@@ -1,5 +1,7 @@
 import { Fragment } from 'react';
 import Avatar from '@/components/Avatar';
+import Buddy from '@/components/Buddy';
+import FloorAvatar from '@/components/FloorAvatar';
 import Intro from '@/components/Intro';
 import Nav from '@/components/Nav';
 import PixelLogo from '@/components/PixelLogo';
@@ -84,6 +86,7 @@ export default function Home() {
           </div>
           {/* the wall grid ends in a perspective floor; the name lies flat in one row of it and scrolls */}
           <div className="ct-stage" aria-hidden="true">
+            <FloorAvatar />
             <div className="ct-floor"><div className="plane">
               <div className="floor-name"><div className="wm-track">
                 {Array.from({ length: 16 }, (_, i) => <span key={i}>NEWKING ISAAC<i /></span>)}
@@ -93,6 +96,7 @@ export default function Home() {
           <div className="ct-foot-row"><div className="foot"><span>© 2026 {SITE.name}</span><span>{SITE.title}</span></div></div>
         </section>
       </main>
+      <Buddy />
     </>
   );
 }

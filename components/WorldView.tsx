@@ -111,6 +111,23 @@ function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: 
   } else if (p.mock === 'x') {
     width = 'calc((var(--sh) - 112px) * 3)';
     body = <div className="m-x"><div className="shot" style={{ aspectRatio: '3 / 1' }}>{img('cover')}</div><div className="prof"><span className="av" /><span className="fl">Follow</span><div className="ln" /><div className="ln" /></div></div>;
+  } else if (p.mock === 'insta') {
+    // an Instagram post card: profile row, the post at its own shape, then the action row
+    const handle = (p.group ?? world.name).toLowerCase().replace(/[^a-z0-9]+/g, '');
+    width = `calc((var(--sh) - 108px) * ${ratio})`;
+    body = (
+      <div className="m-ig">
+        <div className="ig-top"><span className="ig-av">{handle.slice(0, 2)}</span><b>{handle}</b><i className="ig-more" aria-hidden="true" /></div>
+        <div className="shot" style={{ height: 'calc(var(--sh) - 108px)' }}>{img('cover')}</div>
+        <div className="ig-bar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" className="ig-like"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.6.8-1.4 2.3-2.6 4.4-2.6 3.6 0 5.7 3.7 4.2 7.2C19.5 16.4 12 21 12 21z" /></svg>
+          <svg viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3.5 20l1.2-4.2A8.5 8.5 0 1 1 20.5 11.5z" /></svg>
+          <svg viewBox="0 0 24 24"><path d="M21.5 3 10 14.2M21.5 3l-6.8 18-4.7-6.8L3 9.6z" /></svg>
+          <span className="ig-dots"><i /><i /><i /><i /></span>
+          <svg viewBox="0 0 24 24" className="ig-save"><path d="M6 3.5h12v17l-6-4.6-6 4.6z" /></svg>
+        </div>
+      </div>
+    );
   } else {
     width = `calc(var(--sh) * ${ratio})`;
     body = <div className="shot" style={{ height: 'var(--sh)' }}>{img('cover')}</div>;

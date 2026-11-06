@@ -217,6 +217,26 @@ a { color: inherit }
 .ct-floor .plane { position: absolute; left: -150%; right: -150%; top: 0; height: 2400px; transform-origin: 50% 0; transform: rotateX(80deg);
   background-image: linear-gradient(rgba(255,255,255,.24) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.24) 1px, transparent 1px); background-size: 120px 60px; background-position: center top }
 /* footer sits on the floor's near edge (pulled up over it), readable and not part of the hidden stage */
+/* the full-body avatar stands in the floor, in front of the scrolling name */
+.floor-avatar { position: absolute; z-index: 2; left: 50%; bottom: 16%; height: clamp(230px, 30vw, 440px); aspect-ratio: 25 / 46; transform: translate3d(-50%, 22%, 0); will-change: transform; pointer-events: none }
+.floor-avatar canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated }
+.ct-stage { margin-top: clamp(150px, 19vw, 240px) }
+/* Tea, the mascot */
+.buddy { position: fixed; z-index: 40; left: calc(var(--gutter) + env(safe-area-inset-left, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  padding: 0; border: 0; background: none; cursor: pointer; transform: translateY(140%); transition: transform .45s cubic-bezier(.34, 1.56, .64, 1); -webkit-tap-highlight-color: transparent }
+.buddy.up { transform: translateY(0) }
+.buddy-body { display: block; width: 110px; height: 92px; transition: transform .2s }
+.buddy-body canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated }
+.buddy.left .buddy-body { transform: scaleX(-1) }
+.buddy.hop .buddy-body canvas { animation: hop .5s cubic-bezier(.3, 0, .3, 1) }
+@keyframes hop { 40% { transform: translateY(-26px) } 70% { transform: translateY(0) } 85% { transform: translateY(-6px) } }
+.buddy-say { position: absolute; left: 6px; bottom: calc(100% + 8px); white-space: nowrap; font-family: var(--f-pixel); font-size: 11px; line-height: 1; color: var(--fg); background: var(--card);
+  border: 2px solid var(--fg); padding: 8px 10px; box-shadow: 3px 3px 0 var(--fg); opacity: 0; transform: translateY(6px) scale(.9); transform-origin: 20% 100%; transition: opacity .18s, transform .18s; pointer-events: none }
+.buddy-say.on { opacity: 1; transform: none }
+.buddy-say::after { content: ""; position: absolute; left: 22px; top: 100%; width: 10px; height: 7px; background: var(--fg); clip-path: polygon(0 0, 100% 0, 50% 100%) }
+.buddy:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px }
+@media (max-width: 600px) { .buddy-body { width: 80px; height: 67px } }
+@media (prefers-reduced-motion: reduce) { .buddy { transition: none } .buddy.hop .buddy-body canvas { animation: none } }
 .ct-foot-row { position: relative; z-index: 2; margin-top: -52px; padding-bottom: env(safe-area-inset-bottom, 0px) }
 .ct-foot-row .foot { margin: 0 auto; max-width: 1240px; min-height: 52px; align-items: center }
 /* the name lies flat on the floor, filling exactly one 60px row of the floor grid, and scrolls along it */
@@ -303,6 +323,20 @@ a { color: inherit }
 .m-phone::before { content: ""; position: absolute; z-index: 2; top: 18px; left: 50%; width: 30%; height: 18px; transform: translateX(-50%); background: #000; border-radius: 10px }
 .m-phone::after { content: ""; position: absolute; right: -6px; top: 22%; width: 3px; height: 11%; background: #2b2b30; border-radius: 0 2px 2px 0 }
 .m-phone .shot { height: 100%; border-radius: 34px }
+/* Instagram post card: white card, profile row, post, action row */
+.m-ig { height: var(--sh); display: flex; flex-direction: column; background: #fff; color: #111; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 40px -24px rgba(0,0,0,.55) }
+.ig-top { flex: none; height: 54px; display: flex; align-items: center; gap: 10px; padding: 0 14px; font-family: var(--f-body); font-size: 14px }
+.ig-av { width: 32px; height: 32px; border-radius: 50%; background: #111; color: #fff; display: grid; place-items: center; font-size: 10px; font-weight: 700; letter-spacing: .02em; box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--w-accent, #FF9600) }
+.ig-top b { font-weight: 600 }
+.ig-more { margin-left: auto; width: 4px; height: 4px; border-radius: 50%; background: #111; box-shadow: 0 -6px 0 #111, 0 6px 0 #111 }
+.m-ig .shot { flex: none }
+.ig-bar { flex: none; height: 54px; display: flex; align-items: center; gap: 14px; padding: 0 14px }
+.ig-bar svg { width: 24px; height: 24px; fill: none; stroke: #111; stroke-width: 1.8; stroke-linejoin: round; stroke-linecap: round }
+.ig-bar .ig-like { fill: #ED4956; stroke: #ED4956 }
+.ig-dots { flex: 1; display: flex; justify-content: center; gap: 4px; margin-right: 38px }
+.ig-dots i { width: 6px; height: 6px; border-radius: 50%; background: #c7c7c7 }
+.ig-dots i:first-child { background: #3897F0 }
+.ig-bar .ig-save { margin-left: auto }
 .m-x { height: var(--sh); border: 1.5px solid currentColor; overflow: hidden; display: flex; flex-direction: column }
 .m-x .prof { position: relative; flex: 1; padding: 40px 18px 14px; background: var(--w-bg); transition: background-color .8s }
 .m-x .av { position: absolute; left: 18px; top: -38px; width: 76px; height: 76px; border-radius: 50%; background: var(--w-accent); border: 4px solid var(--w-bg); transition: background-color .8s, border-color .8s }

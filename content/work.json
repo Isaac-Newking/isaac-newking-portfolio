@@ -473,6 +473,18 @@
  ],
  "branding": [
   {
+   "src": "/img/work/branding/eh-site-poster.jpg",
+   "name": "Website, home page in motion",
+   "w": 1280,
+   "h": 800,
+   "group": "Esorae Home",
+   "bg": "#0B0B0B",
+   "fg": "#F1F1EE",
+   "ac": null,
+   "mock": "laptop",
+   "video": "/img/work/branding/eh-site.mp4"
+  },
+  {
    "src": "/img/work/branding/eh-billboard.jpg",
    "name": "Billboard, The Luxury Promise",
    "w": 1920,

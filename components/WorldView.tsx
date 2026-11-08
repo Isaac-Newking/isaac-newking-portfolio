@@ -143,7 +143,7 @@ function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: 
   }
   const view = openFrom(open, { src: p.video ?? p.src, w: p.w, h: p.h, name: p.group ? `${p.group}: ${p.name}` : p.name, video: !!p.video, poster: p.video ? p.src : undefined });
   return (
-    <figure className="tile" data-k={k} style={{ width }} role="button" tabIndex={0} aria-label={`View ${p.name} full screen`} onClick={view} onKeyDown={view}>
+    <figure className="tile" data-k={k} data-mock={p.mock} style={{ width }} role="button" tabIndex={0} aria-label={`View ${p.name} full screen`} onClick={view} onKeyDown={view}>
       {body}<figcaption>{p.name}</figcaption>
     </figure>
   );

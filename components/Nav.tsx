@@ -30,7 +30,8 @@ export default function Nav() {
       raf = 0;
       const y = scrollY;
       const hero = document.querySelector('.hero') as HTMLElement | null;
-      const past = hero ? hero.getBoundingClientRect().bottom <= 64 : y > 64;
+      // the About section lands over the hero's last screen, so the hero is 'passed' once that screen is reached
+      const past = hero ? hero.getBoundingClientRect().bottom - innerHeight <= 64 : y > 64;
       setSolid(past);
       if (Math.abs(y - lastY) > 6) { setHidden(past && y > lastY); lastY = y; }
     };

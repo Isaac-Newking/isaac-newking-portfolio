@@ -62,11 +62,39 @@ export default function HeroRoom() {
     };
     addEventListener('pointermove', move, { passive: true });
 
+    // The About section waits at the end of the tunnel: it overlaps the hero's last screen (negative margin),
+    // is pinned in place with a transform and grows from a small doorway to the full screen as you fly in,
+    // so you arrive on it instead of scrolling down to it. Scrolling back shrinks it into the tunnel again.
+    const next = document.getElementById('about');
+    let mt = 0, portal = 'idle';
+    const measure = () => { if (next) mt = parseFloat(getComputedStyle(next).marginTop) || 0; };
+    measure();
+    addEventListener('resize', measure);
+    const clearPortal = () => {
+      if (!next || portal === 'idle') return;
+      portal = 'idle';
+      next.style.transform = next.style.clipPath = next.style.opacity = next.style.transformOrigin = next.style.visibility = '';
+    };
+
     const frame = () => {
       smx += (mx - smx) * 0.06; smy += (my - smy) * 0.06;
       const t = title.current, r = room.current, h = hero.current;
       if (!h || !r || !t) return;
       const hr = h.getBoundingClientRect();
+      if (next && !rm && mt < 0) {
+        const L = -mt, top = hr.top + hr.height + mt; // where the section would sit without the transform
+        if (top > 0 && top < L) {
+          const k = 1 - top / L, sc = 0.04 * Math.pow(25, k * k * (3 - 2 * k) * 0.35 + k * 0.65);
+          portal = 'on';
+          next.style.visibility = 'visible';
+          next.style.transformOrigin = `50% ${innerHeight / 2}px`;
+          next.style.transform = `translate3d(0, ${-top}px, 0) scale(${sc})`;
+          next.style.clipPath = `inset(0 0 ${Math.max(0, next.offsetHeight - innerHeight)}px 0)`;
+          next.style.opacity = String(clamp(k / 0.1, 0, 1));
+        } else if (top >= L) {
+          if (portal !== 'hidden') { clearPortal(); portal = 'hidden'; next.style.visibility = 'hidden'; }
+        } else clearPortal();
+      }
       if (hr.bottom > 0) {
         const p = clamp(-hr.top / (hr.height - innerHeight), 0, 1), e = p * p * (3 - 2 * p);
         r.style.transform = `translateZ(${e * 3400}px) rotateY(${smx * 4}deg) rotateX(${-smy * 3}deg)`;
@@ -85,7 +113,7 @@ export default function HeroRoom() {
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
-    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', move); removeEventListener('resize', onResize); clearTimeout(rt); };
+    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', move); removeEventListener('resize', onResize); removeEventListener('resize', measure); clearTimeout(rt); clearPortal(); };
   }, []);
 
   const roles = [...SITE.roles, ...SITE.roles, ...SITE.roles, ...SITE.roles];

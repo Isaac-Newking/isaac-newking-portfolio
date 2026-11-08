@@ -114,6 +114,9 @@ a { color: inherit }
 .paper { background-color: var(--bg); background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 132px 132px; background-position: -1px -1px }
 /* the About grid is anchored to its bottom edge, so its last line meets the Services grid with no seam */
 .hello { position: relative; z-index: 2; padding-block: 120px 96px; background-position: -1px 100% }
+/* it overlaps the hero's last screen, where it grows out of the end of the tunnel (see HeroRoom) */
+.hello { margin-top: -100vh }
+@media (prefers-reduced-motion: reduce) { .hello { margin-top: 0 } }
 .hello .grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; max-width: 1240px; margin: 0 auto }
 .frame { position: relative; aspect-ratio: 4/5; max-width: 100%; border: 1.5px solid #2F6BFF }
 .frame canvas { position: absolute; inset: 12%; width: 76%; height: 76%; image-rendering: pixelated }

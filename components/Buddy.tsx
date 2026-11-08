@@ -97,7 +97,10 @@ export default function Buddy() {
     const update = () => {
       const y = scrollY;
       const contact = document.getElementById('contact');
-      const away = y < innerHeight * 0.6 || (contact ? contact.getBoundingClientRect().top < innerHeight * 0.55 : false);
+      const hero = document.querySelector('.hero');
+      // stay hidden in the tunnel; come out once the About section has landed
+      const inHero = hero ? hero.getBoundingClientRect().bottom - innerHeight > 40 : y < innerHeight * 0.6;
+      const away = inHero || (contact ? contact.getBoundingClientRect().top < innerHeight * 0.55 : false);
       el.classList.toggle('up', !away);
       if (away) { setSay(''); return; }
       if (y !== lastY) el.classList.toggle('left', y < lastY);

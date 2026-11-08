@@ -404,3 +404,6 @@ a { color: inherit }
   body.in-world, .wbar { transition: none }
   .lb, .lb-fig, .lb-bar { transition: none }
 }
+/* the copy of About that grows out of the end of the tunnel; pinned by the sticky stage, only scaled */
+.portal { position: absolute; inset: 0; z-index: 6; overflow: hidden; transform-origin: 50% 50%; will-change: transform, opacity; pointer-events: none; contain: layout paint }
+.portal > .hello { margin: 0 }

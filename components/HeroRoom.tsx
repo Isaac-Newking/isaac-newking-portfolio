@@ -62,19 +62,33 @@ export default function HeroRoom() {
     };
     addEventListener('pointermove', move, { passive: true });
 
-    // The About section waits at the end of the tunnel: it overlaps the hero's last screen (negative margin),
-    // is pinned in place with a transform and grows from a small doorway to the full screen as you fly in,
-    // so you arrive on it instead of scrolling down to it. Scrolling back shrinks it into the tunnel again.
+    // The About section waits at the end of the tunnel. During the fly-in a copy of its first screen sits
+    // inside the sticky stage, so the browser keeps it pinned (no scroll correction, no shake), and only its
+    // scale changes. When the copy fills the screen the real section is exactly underneath and takes over.
     const next = document.getElementById('about');
-    let mt = 0, portal = 'idle', kS = -1, nh = 0;
+    let mt = 0, kS = -1, ghost: HTMLDivElement | null = null;
     const measure = () => { if (next) mt = parseFloat(getComputedStyle(next).marginTop) || 0; };
     measure();
     addEventListener('resize', measure);
-    const clearPortal = () => {
-      if (!next || portal === 'idle') return;
-      portal = 'idle';
-      next.style.transform = next.style.clipPath = next.style.opacity = next.style.transformOrigin = next.style.visibility = next.style.willChange = '';
+    const makeGhost = () => {
+      const stage = hero.current?.querySelector('.stage');
+      if (!next || !stage) return null;
+      const g = document.createElement('div');
+      g.className = 'portal';
+      const copy = next.cloneNode(true) as HTMLElement;
+      copy.removeAttribute('id');
+      copy.style.margin = '0';
+      copy.style.visibility = 'visible';
+      copy.setAttribute('aria-hidden', 'true');
+      // canvases (the avatar) don't copy their pixels with the DOM
+      const src = next.querySelectorAll('canvas'), dst = copy.querySelectorAll('canvas');
+      dst.forEach((cv, i) => { const o = src[i]; if (o && o.width) cv.getContext('2d')?.drawImage(o, 0, 0); });
+      g.appendChild(copy);
+      stage.appendChild(g);
+      return g;
     };
+    const dropGhost = () => { ghost?.remove(); ghost = null; };
+    const showReal = (on: boolean) => { if (next) next.style.visibility = on ? '' : 'hidden'; };
 
     const frame = () => {
       smx += (mx - smx) * 0.06; smy += (my - smy) * 0.06;
@@ -82,28 +96,23 @@ export default function HeroRoom() {
       if (!h || !r || !t) return;
       const hr = h.getBoundingClientRect();
       if (next && !rm && mt < 0) {
-        const L = -mt, top = hr.top + hr.height + mt; // where the section would sit without the transform
+        const L = -mt, top = hr.top + hr.height + mt; // where the real section sits now
         const target = clamp(1 - top / L, 0, 1);
-        // ease toward the scroll position so the zoom glides even when the scroll arrives in jumps
-        if (kS < 0) kS = target; // first frame: start where the page already is
-        kS += (target - kS) * 0.16;
-        if (Math.abs(target - kS) < 0.0005) kS = target;
+        if (kS < 0) kS = target;
+        kS += (target - kS) * 0.22; // gentle easing of the zoom only; the position is pinned by the browser
+        if (Math.abs(target - kS) < 0.001 || top <= 0) kS = target;
         if (kS > 0 && kS < 1) {
-          if (portal !== 'on') {
-            portal = 'on';
-            nh = next.offsetHeight;
-            next.style.visibility = 'visible';
-            next.style.willChange = 'transform, opacity';
-            next.style.clipPath = `inset(0 0 ${Math.max(0, nh - innerHeight)}px 0)`;
-            next.style.transformOrigin = `50% ${innerHeight / 2}px`;
+          if (!ghost) ghost = makeGhost();
+          showReal(false);
+          if (ghost) {
+            const e = kS * kS * (3 - 2 * kS), sc = Math.exp(Math.log(0.04) * (1 - e));
+            ghost.style.transform = `scale(${sc.toFixed(4)})`;
+            ghost.style.opacity = String(clamp(kS / 0.08, 0, 1));
           }
-          // slow start, quick middle, gentle landing; scale moves in log space so the approach feels even
-          const e = kS * kS * (3 - 2 * kS), sc = Math.exp(Math.log(0.04) * (1 - e));
-          next.style.transform = `translate3d(0, ${top > 0 ? -top : 0}px, 0) scale(${sc.toFixed(4)})`;
-          next.style.opacity = String(clamp(kS / 0.08, 0, 1));
-        } else if (kS <= 0) {
-          if (portal !== 'hidden') { clearPortal(); portal = 'hidden'; next.style.visibility = 'hidden'; }
-        } else clearPortal();
+        } else {
+          dropGhost();
+          showReal(kS >= 1);
+        }
       }
       if (hr.bottom > 0) {
         const p = clamp(-hr.top / (hr.height - innerHeight), 0, 1), e = p * p * (3 - 2 * p);
@@ -123,7 +132,7 @@ export default function HeroRoom() {
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
-    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', move); removeEventListener('resize', onResize); removeEventListener('resize', measure); clearTimeout(rt); clearPortal(); };
+    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', move); removeEventListener('resize', onResize); removeEventListener('resize', measure); clearTimeout(rt); dropGhost(); showReal(true); };
   }, []);
 
   const roles = [...SITE.roles, ...SITE.roles, ...SITE.roles, ...SITE.roles];

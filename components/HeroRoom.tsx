@@ -66,14 +66,14 @@ export default function HeroRoom() {
     // is pinned in place with a transform and grows from a small doorway to the full screen as you fly in,
     // so you arrive on it instead of scrolling down to it. Scrolling back shrinks it into the tunnel again.
     const next = document.getElementById('about');
-    let mt = 0, portal = 'idle';
+    let mt = 0, portal = 'idle', kS = -1, nh = 0;
     const measure = () => { if (next) mt = parseFloat(getComputedStyle(next).marginTop) || 0; };
     measure();
     addEventListener('resize', measure);
     const clearPortal = () => {
       if (!next || portal === 'idle') return;
       portal = 'idle';
-      next.style.transform = next.style.clipPath = next.style.opacity = next.style.transformOrigin = next.style.visibility = '';
+      next.style.transform = next.style.clipPath = next.style.opacity = next.style.transformOrigin = next.style.visibility = next.style.willChange = '';
     };
 
     const frame = () => {
@@ -83,15 +83,25 @@ export default function HeroRoom() {
       const hr = h.getBoundingClientRect();
       if (next && !rm && mt < 0) {
         const L = -mt, top = hr.top + hr.height + mt; // where the section would sit without the transform
-        if (top > 0 && top < L) {
-          const k = 1 - top / L, sc = 0.04 * Math.pow(25, k * k * (3 - 2 * k) * 0.35 + k * 0.65);
-          portal = 'on';
-          next.style.visibility = 'visible';
-          next.style.transformOrigin = `50% ${innerHeight / 2}px`;
-          next.style.transform = `translate3d(0, ${-top}px, 0) scale(${sc})`;
-          next.style.clipPath = `inset(0 0 ${Math.max(0, next.offsetHeight - innerHeight)}px 0)`;
-          next.style.opacity = String(clamp(k / 0.1, 0, 1));
-        } else if (top >= L) {
+        const target = clamp(1 - top / L, 0, 1);
+        // ease toward the scroll position so the zoom glides even when the scroll arrives in jumps
+        if (kS < 0) kS = target; // first frame: start where the page already is
+        kS += (target - kS) * 0.16;
+        if (Math.abs(target - kS) < 0.0005) kS = target;
+        if (kS > 0 && kS < 1) {
+          if (portal !== 'on') {
+            portal = 'on';
+            nh = next.offsetHeight;
+            next.style.visibility = 'visible';
+            next.style.willChange = 'transform, opacity';
+            next.style.clipPath = `inset(0 0 ${Math.max(0, nh - innerHeight)}px 0)`;
+            next.style.transformOrigin = `50% ${innerHeight / 2}px`;
+          }
+          // slow start, quick middle, gentle landing; scale moves in log space so the approach feels even
+          const e = kS * kS * (3 - 2 * kS), sc = Math.exp(Math.log(0.04) * (1 - e));
+          next.style.transform = `translate3d(0, ${top > 0 ? -top : 0}px, 0) scale(${sc.toFixed(4)})`;
+          next.style.opacity = String(clamp(kS / 0.08, 0, 1));
+        } else if (kS <= 0) {
           if (portal !== 'hidden') { clearPortal(); portal = 'hidden'; next.style.visibility = 'hidden'; }
         } else clearPortal();
       }

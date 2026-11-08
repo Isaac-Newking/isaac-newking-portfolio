@@ -38,23 +38,31 @@ export default function Loader({ onDone }: { onDone: () => void }) {
     const c = ref.current!, ctx = c.getContext('2d')!;
     const dpr = Math.min(devicePixelRatio || 1, 2);
     c.width = innerWidth * dpr; c.height = innerHeight * dpr;
-    // the cup and saucer are about 23 cells wide and 22 tall; size cells so it reads on phones and desktops
-    const cell = Math.max(6, Math.round(Math.min(c.width / 30, c.height / 46)));
+    // a small cup: about 23 cells wide at 4–7 css px a cell (roughly 110–160px across)
+    const cell = Math.round(clamp(Math.min(innerWidth / 70, innerHeight / 90), 4, 7) * dpr);
     const cols = Math.ceil(c.width / cell), rows = Math.ceil(c.height / cell);
     const ox = Math.floor(cols / 2 - 8), oy = Math.floor(rows / 2 - 8);
+    // the dotted ground is drawn once; each frame only repaints the small box around the cup
+    const bg = document.createElement('canvas'); bg.width = c.width; bg.height = c.height;
+    const bctx = bg.getContext('2d')!;
+    bctx.fillStyle = C.bg; bctx.fillRect(0, 0, c.width, c.height);
+    bctx.fillStyle = C.dot;
+    const gap = cell * 3, dot = Math.max(2, Math.round(dpr * 1.5));
+    for (let y = (oy * cell) % gap; y < c.height; y += gap) for (let x = (ox * cell) % gap; x < c.width; x += gap) bctx.fillRect(x + cell / 2 - dot / 2, y + cell / 2 - dot / 2, dot, dot);
+    ctx.drawImage(bg, 0, 0);
+    const box = [(ox - 7) * cell, (oy - 8) * cell, 32 * cell, 30 * cell] as const;
     const pixelFont = getComputedStyle(document.documentElement).getPropertyValue('--font-pixel').trim() || 'monospace';
     const t0 = performance.now();
     let finished = false, raf = 0;
 
+    const inset = cell >= 10 ? 1 : 0; // a hairline between cells only when they are big enough to carry it
     const px = (x: number, y: number, color: string) => {
       ctx.fillStyle = color;
-      ctx.fillRect((ox + x) * cell + 1, (oy + y) * cell + 1, cell - 2, cell - 2);
+      ctx.fillRect((ox + x) * cell + inset, (oy + y) * cell + inset, cell - inset * 2, cell - inset * 2);
     };
 
     const draw = (p: number, t: number) => {
-      ctx.fillStyle = C.bg; ctx.fillRect(0, 0, c.width, c.height);
-      ctx.fillStyle = C.dot;
-      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) ctx.fillRect(x * cell + cell / 2 - 1, y * cell + cell / 2 - 1, 2, 2);
+      ctx.drawImage(bg, ...box, ...box);
 
       // tea: level rises with p; each column's surface rides a moving sine wave
       const depth = IN_BOTTOM - IN_TOP + 1;
@@ -94,7 +102,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
       // label with ticking dots
       const dots = '.'.repeat(Math.floor(t / 160) % 4);
       ctx.fillStyle = C.text;
-      ctx.font = `${Math.round(cell * 1.15)}px ${pixelFont}`;
+      ctx.font = `${Math.round(Math.max(cell * 1.3, 11 * dpr))}px ${pixelFont}`;
       ctx.textAlign = 'left'; ctx.textBaseline = 'top';
       const label = 'LOADING';
       const lw = ctx.measureText(label + '...').width;
@@ -102,14 +110,17 @@ export default function Loader({ onDone }: { onDone: () => void }) {
     };
 
     const dissolve = () => {
+      // blocks for the dissolve are bigger than the cup's cells, and each is cleared once
+      const B = Math.round(28 * dpr), bc = Math.ceil(c.width / B), br = Math.ceil(c.height / B);
       const order: [number, number, number][] = [];
-      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) order.push([x, y, Math.random()]);
+      for (let y = 0; y < br; y++) for (let x = 0; x < bc; x++) order.push([x, y, Math.random()]);
       order.sort((a, b) => a[2] - b[2]);
       const s = performance.now();
+      let done = 0;
       c.parentElement!.style.background = 'transparent';
       const step = (now: number) => {
         const q = clamp((now - s) / OUT, 0, 1), k = Math.floor(q * order.length);
-        for (let i = 0; i < k; i++) ctx.clearRect(order[i][0] * cell, order[i][1] * cell, cell, cell);
+        for (; done < k; done++) ctx.clearRect(order[done][0] * B, order[done][1] * B, B, B);
         if (q < 1) raf = requestAnimationFrame(step); else setGone(true);
       };
       raf = requestAnimationFrame(step);

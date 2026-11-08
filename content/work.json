@@ -221,6 +221,63 @@
    "ac": "#8520d1"
   },
   {
+   "src": "/img/work/web3/profit-reel.jpg",
+   "name": "Reel, logo loop",
+   "w": 720,
+   "h": 1280,
+   "mock": "phone",
+   "video": "/img/work/web3/profit-reel.mp4",
+   "group": "Profit AI",
+   "bg": "#120C06",
+   "fg": "#FFF6DC",
+   "ac": "#FF8F3A"
+  },
+  {
+   "src": "/img/work/web3/profit-header.jpg",
+   "name": "X header, Empowering data",
+   "w": 1280,
+   "h": 426,
+   "mock": "x",
+   "group": "Profit AI",
+   "bg": "#120C06",
+   "fg": "#FFF6DC",
+   "ac": "#FF8F3A"
+  },
+  {
+   "src": "/img/work/web3/profit-logo.jpg",
+   "name": "Wordmark",
+   "w": 1280,
+   "h": 1280,
+   "mock": "plain",
+   "group": "Profit AI",
+   "bg": "#120C06",
+   "fg": "#FFF6DC",
+   "ac": "#FF8F3A"
+  },
+  {
+   "src": "/img/work/web3/profit-motion.jpg",
+   "name": "Logo animation",
+   "w": 848,
+   "h": 478,
+   "mock": "plain",
+   "video": "/img/work/web3/profit-motion.mp4",
+   "group": "Profit AI",
+   "bg": "#120C06",
+   "fg": "#FFF6DC",
+   "ac": "#FF8F3A"
+  },
+  {
+   "src": "/img/work/web3/profit-ai-score.jpg",
+   "name": "Score card",
+   "w": 1270,
+   "h": 829,
+   "mock": "plain",
+   "group": "Profit AI",
+   "bg": "#120C06",
+   "fg": "#FFF6DC",
+   "ac": "#FF8F3A"
+  },
+  {
    "src": "/img/work/web3/facebook-cover-banner.jpg",
    "name": "X header, pixel cake",
    "w": 851,
@@ -261,17 +318,6 @@
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "plain",
-   "group": "Token launches"
-  },
-  {
-   "src": "/img/work/web3/profit-ai-score.jpg",
-   "name": "Profit AI, score card",
-   "w": 1270,
-   "h": 829,
-   "bg": "#160e0b",
-   "fg": "#f2e9e4",
-   "ac": "#d18056",
    "mock": "plain",
    "group": "Token launches"
   },

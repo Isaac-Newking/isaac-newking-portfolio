@@ -69,8 +69,9 @@ const DEFS: WorldDef[] = [
     pal: { bg: '#0B0A1A', fg: '#EEEAF8', accent: '#E7B771', line: 'rgba(231,183,113,.2)' },
     groups: [
       { name: 'Axislink', lead: true, blurb: 'A crypto community platform: the mascot header, the website and dapp, launch and liquidity announcements, a KYC announcement with Assure DeFi, and the AI Bot launch.' },
+      { name: 'Profit AI', blurb: 'Identity for an AI trading-analytics token: a wordmark with a coin set into the O, an X header, a looping logo reel for socials, a logo animation and the score card.' },
       { name: 'Hashcake', blurb: 'X headers for a meme token, in two directions: a pixel cake and a 3D cake.' },
-      { name: 'Token launches', blurb: 'Countdown and launch visuals for Copy AI, Based Tax Inspector, Profit AI, DevKit, ANA and 0xShadow.' },
+      { name: 'Token launches', blurb: 'Countdown and launch visuals for Copy AI, Based Tax Inspector, DevKit, ANA and 0xShadow.' },
     ],
   },
   {

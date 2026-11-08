@@ -94,7 +94,10 @@ const likes = (s: string) => 900 + ([...s].reduce((a, c) => (a * 31 + c.charCode
 function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: Open }) {
   const tall = (p.mock === 'browser' || p.mock === 'laptop') && p.h / p.w > 1.4;
   const ratio = tall ? 1.6 : p.w / p.h;
-  const img = (fit: 'cover' | 'top') => (
+  const img = (fit: 'cover' | 'top') => p.video ? (
+    // a looping clip plays in place of the still, in any frame; the still is its poster
+    <div className="vid"><video src={p.video} poster={p.src} width={p.w} height={p.h} muted loop playsInline preload="none" data-autoplay aria-label={`${world.name}: ${p.name}`} style={{ objectPosition: fit === 'top' ? 'top' : 'center' }} /></div>
+  ) : (
     <div className={`px${fit === 'top' ? ' top' : ''}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={p.src} alt={`${world.name}: ${p.name}`} width={p.w} height={p.h} loading={k < 4 ? 'eager' : 'lazy'} decoding="async" />
@@ -109,10 +112,7 @@ function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: 
   } else if (p.mock === 'laptop') {
     // 16:10 screen in a slim lid, on a base that is wider than the lid
     width = 'calc(((var(--sh) - 40px) * 1.6 + 22px) / 0.88)';
-    const screen = p.video
-      ? <div className="vid"><video src={p.video} poster={p.src} width={p.w} height={p.h} muted loop playsInline preload="none" data-autoplay aria-label={`${world.name}: ${p.name}`} /></div>
-      : img('top');
-    body = <div className="m-laptop"><div className="lap-lid"><div className="shot">{screen}</div></div><div className="lap-base" /></div>;
+    body = <div className="m-laptop"><div className="lap-lid"><div className="shot">{img('top')}</div></div><div className="lap-base" /></div>;
   } else if (p.mock === 'phone') {
     width = `calc((var(--sh) - 26px) * ${ratio} + 26px)`;
     body = <div className="m-phone"><div className="shot">{img('cover')}</div></div>;

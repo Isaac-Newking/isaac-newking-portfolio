@@ -133,17 +133,6 @@
  ],
  "web3": [
   {
-   "src": "/img/work/flyers/twitter-axis.jpg",
-   "name": "X header, Axislink",
-   "w": 2400,
-   "h": 800,
-   "bg": "#0d0b16",
-   "fg": "#e7e4f2",
-   "ac": "#795ed1",
-   "mock": "x",
-   "group": "Axislink"
-  },
-  {
    "src": "/img/work/flyers/ban-3jpg.jpg",
    "name": "X header, Axislink mascot",
    "w": 2400,
@@ -156,20 +145,20 @@
   },
   {
    "src": "/img/work/uiux/axislink-ui.jpg",
-   "name": "Dashboard UI",
+   "name": "Dapp dashboard",
    "w": 2400,
    "h": 744,
    "bg": "#0B0B0B",
    "fg": "#F1F1EE",
    "ac": null,
-   "mock": "plain",
+   "mock": "browser",
    "group": "Axislink"
   },
   {
-   "src": "/img/work/uiux/web-ui-axis-link.jpg",
-   "name": "Landing page",
-   "w": 1179,
-   "h": 2400,
+   "src": "/img/work/uiux/axislink-landing.jpg",
+   "name": "Website, Introducing Axislink",
+   "w": 1280,
+   "h": 728,
    "bg": "#100b16",
    "fg": "#ebe4f2",
    "ac": "#955ed1",
@@ -197,6 +186,39 @@
    "ac": "#8520d1",
    "mock": "plain",
    "group": "Axislink"
+  },
+  {
+   "src": "/img/work/web3/axislink-live.jpg",
+   "name": "Announcement, We Are Live",
+   "w": 1280,
+   "h": 640,
+   "mock": "plain",
+   "group": "Axislink",
+   "bg": "#110b16",
+   "fg": "#ece4f2",
+   "ac": "#8520d1"
+  },
+  {
+   "src": "/img/work/web3/axislink-24hrs.jpg",
+   "name": "Countdown, 24 Hrs to Live",
+   "w": 1280,
+   "h": 640,
+   "mock": "plain",
+   "group": "Axislink",
+   "bg": "#110b16",
+   "fg": "#ece4f2",
+   "ac": "#8520d1"
+  },
+  {
+   "src": "/img/work/web3/axislink-liquidity.jpg",
+   "name": "Announcement, Liquidity Extension",
+   "w": 1280,
+   "h": 640,
+   "mock": "plain",
+   "group": "Axislink",
+   "bg": "#110b16",
+   "fg": "#ece4f2",
+   "ac": "#8520d1"
   },
   {
    "src": "/img/work/web3/facebook-cover-banner.jpg",

@@ -63,11 +63,11 @@ const DEFS: WorldDef[] = [
   },
   {
     slug: 'web3', name: 'Web3 Projects', kind: 'Launch visuals', year: '2026',
-    discipline: 'Key visuals, launch graphics, UI', projects: '8 projects', cover: 'twitter-axis',
+    discipline: 'Key visuals, launch graphics, UI', projects: '8 projects', cover: 'axislink-live',
     blurb: 'Brand worlds and launch visuals for crypto projects, led by Axislink: X headers, announcements, dashboard and landing-page UI, plus Hashcake and a run of token launches.',
     pal: { bg: '#0B0A1A', fg: '#EEEAF8', accent: '#E7B771', line: 'rgba(231,183,113,.2)' },
     groups: [
-      { name: 'Axislink', lead: true, blurb: 'A crypto community platform: X headers, the mascot, a KYC announcement with Assure DeFi, the AI Bot launch, and the dashboard and landing-page UI.' },
+      { name: 'Axislink', lead: true, blurb: 'A crypto community platform: the mascot header, the website and dapp, launch and liquidity announcements, a KYC announcement with Assure DeFi, and the AI Bot launch.' },
       { name: 'Hashcake', blurb: 'X headers for a meme token, in two directions: a pixel cake and a 3D cake.' },
       { name: 'Token launches', blurb: 'Countdown and launch visuals for Copy AI, Based Tax Inspector, Profit AI, DevKit, ANA and 0xShadow.' },
     ],

@@ -39,7 +39,7 @@ type WorldDef = Omit<World, 'pieces'>;
 const DEFS: WorldDef[] = [
   {
     slug: 'branding', name: 'Branding', kind: 'Major branding projects', year: '2026',
-    discipline: 'Identity, campaign, motion', projects: '4 brands', cover: 'eh-billboard',
+    discipline: 'Identity, campaign, motion', projects: '5 brands', cover: 'eh-billboard',
     blurb: 'Four identities built end to end, led by Esorae Home: strategy, logo, campaigns, packaging moments, merch, social and motion.',
     pal: { bg: '#1F1B16', fg: '#F3EEE4', accent: '#C9973F', line: 'rgba(201,151,63,.22)' },
     groups: [
@@ -47,6 +47,7 @@ const DEFS: WorldDef[] = [
       { name: 'Esorae Foundation', blurb: 'Identity for an education-focused foundation: logo, brand pattern, illustrative style and campaign flyers in green and orange.' },
       { name: 'eurban', blurb: 'Website and launch campaign for a residential developer: a calm, image-led site for its homes in Lagos and Benin, and teaser posters for a new way of living.' },
       { name: 'O5 Dynamix', blurb: 'Identity and website for a sports and fitness brand: the O5 runner mark, an orange and black palette, a booking site for four arenas, merch for tees, caps and bottles, and a launch social campaign.' },
+      { name: 'OJKonsult', blurb: 'Identity for a consulting and resources firm: a looping mark drawn in one stroke, a seal, a pattern in orange and forest green, business cards and team tees.' },
     ],
   },
   {

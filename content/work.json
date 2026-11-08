@@ -836,6 +836,61 @@
    "fg": "#F2F2F2",
    "ac": "#FF4D00",
    "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/ojk-cards.jpg",
+   "name": "Business cards",
+   "w": 1024,
+   "h": 724,
+   "group": "OJKonsult",
+   "bg": "#0E241A",
+   "fg": "#F2EFE8",
+   "ac": "#FF5A1F",
+   "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/ojk-seal.jpg",
+   "name": "Logo seal",
+   "w": 1024,
+   "h": 724,
+   "group": "OJKonsult",
+   "bg": "#0E241A",
+   "fg": "#F2EFE8",
+   "ac": "#FF5A1F",
+   "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/ojk-pattern.jpg",
+   "name": "Brand pattern",
+   "w": 1024,
+   "h": 724,
+   "group": "OJKonsult",
+   "bg": "#0E241A",
+   "fg": "#F2EFE8",
+   "ac": "#FF5A1F",
+   "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/ojk-mark.jpg",
+   "name": "Mark on brand gradient",
+   "w": 1024,
+   "h": 724,
+   "group": "OJKonsult",
+   "bg": "#0E241A",
+   "fg": "#F2EFE8",
+   "ac": "#FF5A1F",
+   "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/ojk-tees.jpg",
+   "name": "Tees, white and green",
+   "w": 1024,
+   "h": 724,
+   "group": "OJKonsult",
+   "bg": "#0E241A",
+   "fg": "#F2EFE8",
+   "ac": "#FF5A1F",
+   "mock": "plain"
   }
  ]
 }

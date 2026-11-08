@@ -89,7 +89,7 @@ export default function Home() {
             <FloorAvatar />
             <div className="ct-floor"><div className="plane">
               <div className="floor-name"><div className="wm-track">
-                {Array.from({ length: 16 }, (_, i) => <span key={i}>NEWKING ISAAC<i /></span>)}
+                {Array.from({ length: 48 }, (_, i) => <span key={i}>NEWKING ISAAC<i /></span>)}
               </div></div>
             </div></div>
           </div>

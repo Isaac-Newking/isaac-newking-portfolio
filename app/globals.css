@@ -221,7 +221,7 @@ a { color: inherit }
   background-image: linear-gradient(rgba(255,255,255,.24) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.24) 1px, transparent 1px); background-size: 120px 60px; background-position: center top }
 /* footer sits on the floor's near edge (pulled up over it), readable and not part of the hidden stage */
 /* the full-body avatar stands in the floor, in front of the scrolling name */
-.floor-avatar { position: absolute; z-index: 2; left: 50%; bottom: 16%; height: clamp(230px, 30vw, 440px); aspect-ratio: 25 / 46; transform: translate3d(-50%, 22%, 0); will-change: transform; pointer-events: none }
+.floor-avatar { position: absolute; z-index: 2; left: 50%; bottom: 16%; height: clamp(150px, 18vw, 260px); aspect-ratio: 25 / 46; transform: translate3d(-50%, 22%, 0); will-change: transform; pointer-events: none }
 .floor-avatar canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated }
 .ct-stage { margin-top: clamp(150px, 19vw, 240px) }
 /* Tea, the mascot */
@@ -245,7 +245,7 @@ a { color: inherit }
 /* the name lies flat on the floor, filling exactly one 60px row of the floor grid, and scrolls along it */
 .floor-name { position: absolute; left: 0; right: 0; top: 300px; height: 60px; overflow: hidden; font-family: var(--f-display); font-weight: 800; font-size: 46px; line-height: 60px; letter-spacing: -.04em; white-space: nowrap; color: rgba(255,255,255,.5) }
 @media (max-width: 760px) { .floor-name { top: 180px } }
-.wm-track { display: flex; width: max-content; animation: wm 90s linear infinite }
+.wm-track { display: flex; width: max-content; animation: wm 270s linear infinite }
 .wm-track span { display: inline-flex; align-items: center; padding-right: .22em }
 .wm-track i { display: inline-block; width: .16em; height: .16em; margin-left: .22em; background: var(--signal) }
 @keyframes wm { to { transform: translateX(-50%) } }

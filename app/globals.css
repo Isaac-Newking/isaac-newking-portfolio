@@ -424,3 +424,52 @@ a { color: inherit }
 /* the copy of About that grows out of the end of the tunnel; pinned by the sticky stage, only scaled */
 .portal { position: absolute; inset: 0; z-index: 6; overflow: hidden; transform-origin: 50% 50%; will-change: transform, opacity; pointer-events: none; contain: layout paint }
 .portal > .hello { margin: 0 }
+
+/* ---------- Branding: one brand at a time in a fitted grid, switched with press buttons ---------- */
+.bc { border-top: 1px solid var(--w-line); padding-top: 28px }
+.bc-switch { position: sticky; top: 63px; z-index: 4; display: flex; gap: 12px; padding: 14px 0 18px; overflow-x: auto; scrollbar-width: none;
+  background: var(--w-bg); transition: background-color .8s ease; margin: 0 calc(-1 * var(--gutter-r)) 0 calc(-1 * var(--gutter)); padding-left: var(--gutter); padding-right: var(--gutter-r) }
+.bc-switch::-webkit-scrollbar { display: none }
+.bc-btn { flex: none; display: inline-flex; align-items: center; gap: 10px; height: 42px; padding: 0 16px; font: 600 15px/1 var(--f-display); letter-spacing: -.01em;
+  color: var(--w-fg); background: var(--w-bg); border: 1.5px solid currentColor; box-shadow: 4px 4px 0 0 currentColor; cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, background-color .2s, color .2s }
+.bc-btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 0 currentColor }
+.bc-btn:active, .bc-btn.on { transform: translate(4px, 4px); box-shadow: 0 0 0 0 currentColor }
+.bc-btn.on { background: var(--w-fg); color: var(--w-bg); border-color: var(--w-fg) }
+.bc-btn:focus-visible { outline: 2px solid var(--w-accent); outline-offset: 3px }
+.bc-n { font: 400 10px/1 var(--f-pixel); opacity: .7 }
+.bc-case { padding-top: 40px }
+.bc-case.in .bc-head { animation: bc-in .5s cubic-bezier(.2, .7, .2, 1) both }
+.bc-case.in .bc-item { animation: bc-in .55s cubic-bezier(.2, .7, .2, 1) both }
+.bc-case.out { opacity: 0; transform: translateY(14px); transition: opacity .24s ease, transform .24s ease }
+@keyframes bc-in { from { opacity: 0; transform: translateY(18px) } }
+.bc-head { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr) minmax(0, 1.2fr); gap: 32px 40px; align-items: end; margin-bottom: 36px }
+.bc-title { margin: 0; font: 800 clamp(44px, 6.4vw, 104px)/.9 var(--f-display); letter-spacing: -.05em; text-wrap: balance }
+.bc-facts { margin: 0; font-size: 14px }
+.bc-facts div { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--w-line) }
+.bc-facts div:first-child { border-top: 1px solid var(--w-line) }
+.bc-facts dt { font: 400 10px/1.6 var(--f-pixel); opacity: .7; text-transform: uppercase }
+.bc-facts dd { margin: 0 }
+.bc-blurb { margin: 0; font-size: 17px; line-height: 1.55; max-width: 52ch; opacity: .9 }
+.bc-grid { display: grid; gap: 10px }
+.bc-row { display: flex; gap: 10px }
+.bc-item { margin: 0; flex-basis: 0; min-width: 0; position: relative; cursor: zoom-in }
+.bc-item .shot { position: absolute; inset: 0; overflow: hidden; background: color-mix(in srgb, var(--w-fg) 6%, transparent) }
+.bc-item img, .bc-item video { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s cubic-bezier(.2, .7, .2, 1), opacity .4s }
+.bc-item:hover img, .bc-item:hover video { transform: scale(1.025) }
+.bc-item figcaption { position: absolute; left: 10px; bottom: 10px; max-width: calc(100% - 20px); font: 400 10px/1.3 var(--f-pixel); padding: 5px 8px; background: var(--w-bg); color: var(--w-fg);
+  opacity: 0; transform: translateY(4px); transition: opacity .2s, transform .2s; pointer-events: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.bc-item:hover figcaption, .bc-item:focus-visible figcaption { opacity: 1; transform: none }
+.bc-item:focus-visible { outline: 2px solid var(--w-accent); outline-offset: 3px }
+.bc-next-row { display: flex; justify-content: flex-end; padding: 36px 0 8px }
+.bc-big { height: 52px; font-size: 17px; padding: 0 22px }
+.bc-more { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--w-line); padding-bottom: 72px }
+.bc-more h3 { margin: 0 0 22px; font: 600 clamp(28px, 3.4vw, 48px)/1 var(--f-display); letter-spacing: -.035em }
+.bc-more-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 12px }
+.bc-card { display: grid; gap: 10px; padding: 0; border: 0; background: none; color: inherit; text-align: left; cursor: pointer; font: 500 15px/1.2 var(--f-body) }
+.bc-card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block; filter: grayscale(1) contrast(.95); transition: filter .4s, transform .4s }
+.bc-card:hover img, .bc-card:focus-visible img { filter: none; transform: translateY(-3px) }
+.bc-card:focus-visible { outline: 2px solid var(--w-accent); outline-offset: 4px }
+@media (max-width: 900px) { .bc-head { grid-template-columns: 1fr; align-items: start } }
+@media (max-width: 760px) { .bc-switch { top: 57px } .bc-btn { height: 38px; font-size: 14px; padding: 0 12px } .bc-grid, .bc-row { gap: 6px } .bc-item figcaption { display: none } .bc-next-row { justify-content: stretch } .bc-big { width: 100%; justify-content: center } }
+@media (prefers-reduced-motion: reduce) { .bc-case.in .bc-head, .bc-case.in .bc-item { animation: none } .bc-case.out { transition: none } }

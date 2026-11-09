@@ -194,6 +194,159 @@ function Strip({ pieces, start, world, motion, open }: { pieces: Piece[]; start:
   );
 }
 
+
+// ---------------------------------------------------------------------------------------------
+// Branding only: one brand at a time, laid out as a fitted grid (every row fills the width at one
+// height, nothing cropped), with press buttons to switch brands in place on the same page.
+type Item = { src: string; w: number; h: number; name: string; video?: string; poster?: string };
+
+function packRows(items: Item[], target: number) {
+  const rows: Item[][] = [];
+  let row: Item[] = [], sum = 0;
+  items.forEach((it, i) => {
+    const r = it.w / it.h;
+    // a wide piece, or the opening piece when it's landscape, gets a row of its own
+    if (r >= 1.9 || (i === 0 && r > 1.25)) { if (row.length) { rows.push(row); row = []; sum = 0; } rows.push([it]); return; }
+    row.push(it); sum += r;
+    if (sum >= target) { rows.push(row); row = []; sum = 0; }
+  });
+  if (row.length) {
+    const last = rows[rows.length - 1];
+    if (sum < target * 0.55 && last && last.length < 4 && last[0].w / last[0].h < 1.9) last.push(...row); else rows.push(row);
+  }
+  return rows;
+}
+
+function BrandCase({ w, open }: { w: World; open: Open }) {
+  const groups = w.groups ?? [];
+  const [i, setI] = useState(0);
+  const [phase, setPhase] = useState<'in' | 'out'>('in');
+  const [target, setTarget] = useState(3.6);
+  const top = useRef<HTMLDivElement>(null);
+  const grid = useRef<HTMLDivElement>(null);
+  const { lenis } = useShell();
+
+  // remember the brand in the address (#lonepay) so a link opens straight on it
+  const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '');
+  useEffect(() => {
+    const h = location.hash.slice(1);
+    const k = groups.findIndex((g) => slug(g.name) === h);
+    if (k > 0) setI(k);
+    const mq = matchMedia('(max-width: 760px)');
+    const set = () => setTarget(mq.matches ? 1.7 : 3.6);
+    set(); mq.addEventListener('change', set);
+    return () => mq.removeEventListener('change', set);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const g = groups[i];
+  const pieces = w.pieces.filter((p) => p.group === g.name);
+  const items: Item[] = pieces.map((p) => ({ src: p.src, w: p.w, h: p.h, name: p.name, video: p.video }));
+  if (g.motion) MOTION.forEach((m) => items.splice(Math.min(2, items.length), 0, { src: m.poster ?? '', w: m.w, h: m.h, name: m.title, video: m.src }));
+  const rows = packRows(items, target);
+
+  // colours follow the brand; videos play only while on screen
+  useEffect(() => {
+    const first = pieces[0];
+    setPalette(first ? piecePalette(w, first) : w.pal);
+    const vids = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target as HTMLVideoElement; if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: 0.2 });
+    grid.current?.querySelectorAll('video').forEach((v) => vids.observe(v));
+    // the page header resets colours when it passes the middle; take them back once the brand is in front
+    const pal = first ? piecePalette(w, first) : w.pal;
+    const mid = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) setPalette(pal); }), { rootMargin: '-48% 0px -48% 0px' });
+    if (top.current) mid.observe(top.current);
+    return () => { vids.disconnect(); mid.disconnect(); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i, target]);
+
+  const pick = (k: number) => {
+    if (k === i) return;
+    const reduce = reducedMotion();
+    setPhase('out');
+    setTimeout(() => {
+      setI(k); setPhase('in');
+      history.replaceState(null, '', `#${slug(groups[k].name)}`);
+      const y = (top.current?.getBoundingClientRect().top ?? 0) + scrollY - 70;
+      const l = lenis(); if (l) l.scrollTo(y, { immediate: reduce }); else scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+    }, reduce ? 0 : 260);
+  };
+
+  const others = groups.map((x, k) => ({ x, k })).filter((o) => o.k !== i);
+  // a strong single image per brand for the cards, else its first still
+  const COVER: Record<string, string> = { 'Esorae Home': 'eh-billboard', LonePay: 'lp-c-cards', eurban: 'eu-poster2', 'O5 Dynamix': 'o5-web-court', OJKonsult: 'ojk-cards' };
+  const coverOf = (name: string) => w.pieces.find((p) => p.group === name && COVER[name] && p.src.includes('/' + COVER[name] + '.')) ?? w.pieces.find((p) => p.group === name && !p.video);
+  let n = 0;
+
+  return (
+    <div className="bc" ref={top}>
+      <nav className="bc-switch" aria-label="Brands">
+        {groups.map((x, k) => (
+          <button key={x.name} type="button" className={`bc-btn${k === i ? ' on' : ''}`} aria-pressed={k === i} onClick={() => pick(k)}>
+            <span className="bc-n">{String(k + 1).padStart(2, '0')}</span>{x.name}
+          </button>
+        ))}
+      </nav>
+
+      <div className={`bc-case ${phase}`} key={g.name}>
+        <header className="bc-head">
+          <h2 className="bc-title">{g.name}</h2>
+          <dl className="bc-facts">
+            <div><dt>Brand</dt><dd>{String(i + 1).padStart(2, '0')} / {String(groups.length).padStart(2, '0')}</dd></div>
+            <div><dt>Work</dt><dd>{items.length} pieces</dd></div>
+            <div><dt>Discipline</dt><dd>{g.motion ? 'Identity, campaign, motion' : 'Identity'}</dd></div>
+          </dl>
+          <p className="bc-blurb">{g.blurb}</p>
+        </header>
+
+        <div className="bc-grid" ref={grid}>
+          {rows.map((row, ri) => (
+            <div className="bc-row" key={ri}>
+              {row.map((it) => {
+                const r = it.w / it.h, k = n++;
+                const view = openFrom(open, { src: it.video ?? it.src, w: it.w, h: it.h, name: `${g.name}: ${it.name}`, video: !!it.video, poster: it.video ? it.src : undefined });
+                return (
+                  <figure key={it.src + it.name} className="bc-item" style={{ flexGrow: r, aspectRatio: `${it.w} / ${it.h}`, animationDelay: `${Math.min(k, 10) * 45}ms` }}
+                    role="button" tabIndex={0} aria-label={`View ${it.name} full screen`} onClick={view} onKeyDown={view}>
+                    <div className="shot">
+                      {it.video
+                        ? <video src={it.video} poster={it.src ? webpSmall(it.src, it.w) : undefined} muted loop playsInline preload="none" aria-label={it.name} />
+                        // eslint-disable-next-line @next/next/no-img-element
+                        : <img src={it.src} srcSet={srcSetFor(it.src, it.w)} sizes={`(max-width: 760px) 100vw, ${Math.round(Math.min(100, (r / Math.max(r, row.reduce((a, b) => a + b.w / b.h, 0))) * 100))}vw`} alt={`${g.name}: ${it.name}`} width={it.w} height={it.h} loading={ri < 2 ? 'eager' : 'lazy'} decoding="async" />}
+                    </div>
+                    <figcaption>{it.name}</figcaption>
+                  </figure>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+
+        <div className="bc-next-row">
+          <button type="button" className="bc-btn bc-big" onClick={() => pick((i + 1) % groups.length)}>
+            Next brand: {groups[(i + 1) % groups.length].name} <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+
+      <section className="bc-more" aria-label="More brands">
+        <h3>Discover more brands</h3>
+        <div className="bc-more-grid">
+          {others.map(({ x, k }) => {
+            const c = coverOf(x.name);
+            return (
+              <button key={x.name} type="button" className="bc-card" onClick={() => pick(k)}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {c && <img src={webpSmall(c.src, c.w)} alt="" loading="lazy" decoding="async" />}
+                <span>{x.name}</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export default function WorldView({ index }: { index: number }) {
   const w = WORLDS[index];
   const next = WORLDS[(index + 1) % WORLDS.length];
@@ -369,7 +522,7 @@ export default function WorldView({ index }: { index: number }) {
           </div>
         </header>
 
-        {sections.map((s) => {
+        {w.slug === 'branding' ? <BrandCase w={w} open={open} /> : sections.map((s) => {
           const start = k; k += s.pieces.length;
           return (
             <section className="pj-sec" key={s.label}>

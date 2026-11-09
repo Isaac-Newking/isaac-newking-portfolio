@@ -1,151 +1,60 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { clamp, reducedMotion } from '@/lib/pixel';
 
-// A pixel cup fills with tea (orange, with a moving wave, a lighter crest, rising bubbles and steam),
-// then the screen dissolves in blocks into the hero. 1.1s in total; first visit per session only.
-const RUN = 780, OUT = 320;
+// A small pixel cup that fills with tea, with LOADING ticking underneath, then the screen fades into the hero.
+// It is plain SVG and CSS, so it is in the very first paint (before any JavaScript runs) and keeps animating
+// smoothly even while the page is busy starting up. First visit per session only (see the head script in layout).
+const W = 16;
+const cells: [number, number][] = [];
+for (let x = 0; x < W; x++) cells.push([x, 0]);
+for (let y = 1; y <= 11; y++) cells.push([0, y], [W - 1, y]);
+for (let x = 1; x < W - 1; x++) cells.push([x, 12]);
+cells.push([16, 2], [17, 2], [18, 3], [18, 4], [18, 5], [17, 6], [16, 6]); // handle
+for (let x = -3; x <= 15; x++) cells.push([x, 14]); // saucer
+for (let x = 17; x <= 19; x++) cells.push([x, 14]);
 
-const C = {
-  bg: '#000', dot: 'rgba(255,255,255,.07)', line: '#FFFFFF',
-  tea: '#FF9600', deep: '#E07A00', crest: '#FFC266', back: '#FFDCA8', bubble: '#FFE6BF', steam: 'rgba(255,255,255,', text: '#FFFFFF',
-};
+const px = (x: number, y: number, fill: string, k?: string | number) => <rect key={k ?? `${x}.${y}`} x={x + 0.07} y={y + 0.07} width={0.86} height={0.86} fill={fill} />;
+const tea: React.ReactNode[] = [];
+for (let y = 1; y <= 11; y++) for (let x = 1; x < W - 1; x++) tea.push(px(x, y, y === 1 ? '#FFC266' : y >= 9 ? '#E07A00' : '#FF9600'));
 
-// Cup body is 16 × 13 cells: rim on row 0, walls on columns 0 and 15, a rounded base on row 12.
-const W = 16, H = 13, IN_TOP = 1, IN_BOTTOM = 11;
-const OUTLINE: [number, number][] = [];
-for (let x = 0; x < W; x++) OUTLINE.push([x, 0]);
-for (let y = 1; y <= 11; y++) OUTLINE.push([0, y], [W - 1, y]);
-for (let x = 1; x < W - 1; x++) OUTLINE.push([x, 12]);
-// handle: a pixel C on the right
-OUTLINE.push([16, 2], [17, 2], [18, 3], [18, 4], [18, 5], [17, 6], [16, 6]);
-// saucer: a long line and a short dash, like the reference
-for (let x = -3; x <= 15; x++) OUTLINE.push([x, 14]);
-for (let x = 17; x <= 19; x++) OUTLINE.push([x, 14]);
-
-const BUBBLES = [{ x: 4, speed: 0.0085, off: 0 }, { x: 9, speed: 0.011, off: 3.5 }, { x: 12, speed: 0.0072, off: 7 }];
+const MIN = 900, OUT = 520;
 
 export default function Loader({ onDone }: { onDone: () => void }) {
-  const ref = useRef<HTMLCanvasElement>(null);
   const [gone, setGone] = useState(false);
-  const finishRef = useRef<() => void>(() => {});
+  const el = useRef<HTMLDivElement>(null);
+  const leave = useRef<() => void>(() => {});
 
   useEffect(() => {
-    let seen = false;
-    try { seen = sessionStorage.getItem('in-intro') === '1'; } catch { /* storage blocked */ }
-    if (reducedMotion() || seen) { setGone(true); onDone(); return; }
-    const c = ref.current!, ctx = c.getContext('2d')!;
-    const dpr = Math.min(devicePixelRatio || 1, 2);
-    c.width = innerWidth * dpr; c.height = innerHeight * dpr;
-    // a small cup: about 23 cells wide at 4–7 css px a cell (roughly 110–160px across)
-    const cell = Math.round(clamp(Math.min(innerWidth / 70, innerHeight / 90), 4, 7) * dpr);
-    const cols = Math.ceil(c.width / cell), rows = Math.ceil(c.height / cell);
-    const ox = Math.floor(cols / 2 - 8), oy = Math.floor(rows / 2 - 8);
-    // the dotted ground is drawn once; each frame only repaints the small box around the cup
-    const bg = document.createElement('canvas'); bg.width = c.width; bg.height = c.height;
-    const bctx = bg.getContext('2d')!;
-    bctx.fillStyle = C.bg; bctx.fillRect(0, 0, c.width, c.height);
-    bctx.fillStyle = C.dot;
-    const gap = cell * 3, dot = Math.max(2, Math.round(dpr * 1.5));
-    for (let y = (oy * cell) % gap; y < c.height; y += gap) for (let x = (ox * cell) % gap; x < c.width; x += gap) bctx.fillRect(x + cell / 2 - dot / 2, y + cell / 2 - dot / 2, dot, dot);
-    ctx.drawImage(bg, 0, 0);
-    const box = [(ox - 7) * cell, (oy - 8) * cell, 32 * cell, 30 * cell] as const;
-    const pixelFont = getComputedStyle(document.documentElement).getPropertyValue('--font-pixel').trim() || 'monospace';
-    const t0 = performance.now();
-    let finished = false, raf = 0;
-
-    const inset = cell >= 10 ? 1 : 0; // a hairline between cells only when they are big enough to carry it
-    const px = (x: number, y: number, color: string) => {
-      ctx.fillStyle = color;
-      ctx.fillRect((ox + x) * cell + inset, (oy + y) * cell + inset, cell - inset * 2, cell - inset * 2);
-    };
-
-    const draw = (p: number, t: number) => {
-      ctx.drawImage(bg, ...box, ...box);
-
-      // tea: level rises with p; each column's surface rides a moving sine wave
-      const depth = IN_BOTTOM - IN_TOP + 1;
-      const level = 0.4 + p * (depth - 1.4);
-      for (let x = 1; x < W - 1; x++) {
-        const front = level + Math.sin(x * 0.75 + t * 0.012) * 0.75;
-        const back = level + 0.7 + Math.sin(x * 0.75 - t * 0.009 + 2.1) * 0.75;
-        for (let y = IN_TOP; y <= IN_BOTTOM; y++) {
-          const h = IN_BOTTOM - y + 1; // height of this cell above the base
-          if (h <= front) {
-            const surface = h > front - 1;
-            px(x, y, surface ? C.crest : h <= depth * 0.3 ? C.deep : C.tea);
-          } else if (h <= back) {
-            px(x, y, C.back);
-          }
-        }
-      }
-      // bubbles drift up through the tea
-      for (const b of BUBBLES) {
-        const span = Math.max(1, Math.floor(level) - 1);
-        const rise = ((t * b.speed + b.off) % span);
-        const y = IN_BOTTOM - Math.floor(rise);
-        if (IN_BOTTOM - y + 1 < level - 0.5) px(b.x, y, C.bubble);
-      }
-      // cup, handle and saucer on top
-      for (const [x, y] of OUTLINE) px(x, y, C.line);
-      // steam appears once the cup is nearly full
-      if (p > 0.55) {
-        const a = clamp((p - 0.55) / 0.45, 0, 1) * 0.55;
-        for (const [sx, phase] of [[5, 0], [10, 1.7]] as const) {
-          for (let k = 1; k <= 4; k++) {
-            const wob = Math.round(Math.sin(k * 1.3 + t * 0.01 + phase));
-            px(sx + wob, -k - 1, C.steam + (a * (1 - k / 5)).toFixed(3) + ')');
-          }
-        }
-      }
-      // label with ticking dots
-      const dots = '.'.repeat(Math.floor(t / 160) % 4);
-      ctx.fillStyle = C.text;
-      ctx.font = `${Math.round(Math.max(cell * 1.3, 11 * dpr))}px ${pixelFont}`;
-      ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-      const label = 'LOADING';
-      const lw = ctx.measureText(label + '...').width;
-      ctx.fillText(label + dots, (ox + 8) * cell - lw / 2, (oy + 16.4) * cell);
-    };
-
-    const dissolve = () => {
-      // blocks for the dissolve are bigger than the cup's cells, and each is cleared once
-      const B = Math.round(28 * dpr), bc = Math.ceil(c.width / B), br = Math.ceil(c.height / B);
-      const order: [number, number, number][] = [];
-      for (let y = 0; y < br; y++) for (let x = 0; x < bc; x++) order.push([x, y, Math.random()]);
-      order.sort((a, b) => a[2] - b[2]);
-      const s = performance.now();
-      let done = 0;
-      c.parentElement!.style.background = 'transparent';
-      const step = (now: number) => {
-        const q = clamp((now - s) / OUT, 0, 1), k = Math.floor(q * order.length);
-        for (; done < k; done++) ctx.clearRect(order[done][0] * B, order[done][1] * B, B, B);
-        if (q < 1) raf = requestAnimationFrame(step); else setGone(true);
-      };
-      raf = requestAnimationFrame(step);
-    };
+    if (document.documentElement.classList.contains('no-loader')) { setGone(true); onDone(); return; }
+    let done = false;
+    const t: ReturnType<typeof setTimeout>[] = [];
     const finish = () => {
-      if (finished) return; finished = true;
+      if (done) return; done = true;
       try { sessionStorage.setItem('in-intro', '1'); } catch { /* storage blocked */ }
-      cancelAnimationFrame(raf); draw(1, performance.now() - t0); dissolve(); onDone();
+      el.current?.classList.add('out');
+      onDone();
+      t.push(setTimeout(() => setGone(true), OUT));
     };
-    finishRef.current = finish;
-    const tick = (now: number) => {
-      if (finished) return;
-      const t = now - t0, p = clamp(t / RUN, 0, 1);
-      draw(p * p * (3 - 2 * p), t);
-      if (p < 1) raf = requestAnimationFrame(tick); else finish();
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    leave.current = finish;
+    // the cup starts filling at first paint; leave once it is full, counted from the start of the page load
+    t.push(setTimeout(finish, Math.max(0, MIN - performance.now())));
+    return () => t.forEach(clearTimeout);
   }, [onDone]);
 
   if (gone) return null;
   return (
-    <div className="loader" role="status" aria-label="Loading">
-      <canvas ref={ref} />
-      <button className="skip" type="button" onClick={() => finishRef.current()}>Skip</button>
+    <div className="loader" ref={el} role="status" aria-label="Loading">
+      <div className="ld-cup">
+        <svg viewBox="-4 -6 25 21" shapeRendering="crispEdges" aria-hidden="true">
+          <defs><clipPath id="ld-in"><rect x="1" y="1" width="14" height="11" /></clipPath></defs>
+          <g clipPath="url(#ld-in)"><g className="ld-tea">{tea}</g></g>
+          {cells.map(([x, y]) => px(x, y, '#FFFFFF'))}
+          <g className="ld-steam">{[[5, -2], [6, -3], [5, -4], [10, -2], [9, -3], [10, -4]].map(([x, y]) => px(x, y, 'rgba(255,255,255,.55)'))}</g>
+        </svg>
+        <p className="ld-label">LOADING<span className="ld-dots" /></p>
+      </div>
+      <button className="skip" type="button" onClick={() => leave.current()}>Skip</button>
     </div>
   );
 }

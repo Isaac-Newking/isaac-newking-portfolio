@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { WORLDS } from '@/content/worlds';
-import { clamp, depixel, loadImage } from '@/lib/pixel';
+import { clamp, depixel, loadImage, webpSmall } from '@/lib/pixel';
 import { useShell } from './SiteShell';
 
 export default function WorkIndex() {
@@ -29,7 +29,7 @@ export default function WorkIndex() {
     const w = WORLDS[i], c = canvas.current!, r = peek.current!.getBoundingClientRect();
     c.width = Math.round(r.width * 1.5); c.height = Math.round(r.height * 1.5);
     let k = 0;
-    const show = async () => { const im = await loadImage(w.pieces[k % w.pieces.length].src); if (im && s.on === i) depixel(c, im, { cover: true, step: 34 }); k++; };
+    const show = async () => { const pc = w.pieces[k % w.pieces.length]; const im = await loadImage(webpSmall(pc.src, pc.w)); if (im && s.on === i) depixel(c, im, { cover: true, step: 34 }); k++; };
     show(); s.timer = setInterval(show, 1100);
     peek.current!.style.opacity = '1';
   };

@@ -1,17 +1,17 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { findPiece } from '@/content/worlds';
 import { SITE } from '@/content/site';
 import { clamp, reducedMotion } from '@/lib/pixel';
 
-// Work hung on the room's walls: [world, piece, side, depth px, top as share of viewport, width px]
-const PLATES: [string, string, 'l' | 'r', number, number, number][] = [
-  ['branding', 'eh-billboard', 'l', 520, 0.16, 360], ['fission', 'fission-jt-redo-2', 'r', 760, 0.2, 380],
-  ['uiux', 'new-pairs', 'l', 1150, 0.5, 420], ['web3', 'launch-copy-ai', 'r', 1400, 0.48, 380],
-  ['branding', 'eh-post2', 'l', 1800, 0.1, 260], ['flyers', 'joji-goe-to-japan-3', 'r', 2050, 0.12, 300],
-  ['branding', 'eu-poster2', 'r', 2500, 0.4, 260], ['uiux', 'dappbuilder-2', 'l', 2700, 0.45, 420],
-  ['fission', 'fission-tokenomics', 'r', 3100, 0.18, 400], ['web3', 'profit-ai-score', 'l', 3300, 0.2, 380],
+// Pixel-art panels hung on the room's walls: [file, side, depth px, top as share of viewport, width px, cells wide, cells tall]
+// Drawn at 1 px per cell (public/img/pixel) and scaled up crisply, so ten panels weigh about 40KB in total.
+const PLATES: [string, 'l' | 'r', number, number, number, number, number][] = [
+  ['px-window', 'l', 520, 0.16, 360, 48, 36], ['px-sunset', 'r', 760, 0.2, 380, 48, 36],
+  ['px-pen', 'l', 1150, 0.5, 400, 48, 36], ['px-rocket', 'r', 1400, 0.42, 270, 36, 48],
+  ['px-avatar', 'l', 1800, 0.08, 260, 36, 48], ['px-palette', 'r', 2050, 0.12, 330, 48, 36],
+  ['px-cup', 'r', 2500, 0.42, 300, 48, 36], ['px-layers', 'l', 2700, 0.45, 380, 48, 36],
+  ['px-gamepad', 'r', 3100, 0.18, 380, 48, 36], ['px-heart', 'l', 3300, 0.2, 260, 36, 48],
 ];
 
 // The title's mask covers a larger area than its box so the "2026" sticker and name label are included.
@@ -51,7 +51,13 @@ export default function HeroRoom() {
     let masks: string[] = [];
     const rm = reducedMotion();
     const make = () => { const t = title.current; if (!t || rm) return; masks = buildMasks(t.offsetWidth, t.offsetHeight); step = -1; };
-    (document.fonts?.ready ?? Promise.resolve()).then(make);
+    // the title's break-apart masks are only needed once you scroll, so build them when the browser is idle
+    // (or at the first scroll), keeping the first second of the page free for the loader and hero
+    let built = false;
+    const buildOnce = () => { if (built) return; built = true; removeEventListener('scroll', buildOnce); (document.fonts?.ready ?? Promise.resolve()).then(make); };
+    addEventListener('scroll', buildOnce, { passive: true });
+    const ric = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
+    if (ric) ric(buildOnce, { timeout: 2500 }); else setTimeout(buildOnce, 1200);
     let rt = 0 as unknown as ReturnType<typeof setTimeout>;
     const onResize = () => { clearTimeout(rt); rt = setTimeout(make, 200); };
     addEventListener('resize', onResize);
@@ -132,7 +138,7 @@ export default function HeroRoom() {
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
-    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', move); removeEventListener('resize', onResize); removeEventListener('resize', measure); clearTimeout(rt); dropGhost(); showReal(true); };
+    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', move); removeEventListener('resize', onResize); removeEventListener('resize', measure); removeEventListener('scroll', buildOnce); clearTimeout(rt); dropGhost(); showReal(true); };
   }, []);
 
   const roles = [...SITE.roles, ...SITE.roles, ...SITE.roles, ...SITE.roles];
@@ -143,15 +149,11 @@ export default function HeroRoom() {
           <div className="face f-floor" /><div className="face f-ceil" />
           <div className="face f-left" /><div className="face f-right" />
           <div className="face f-back" />
-          {PLATES.map(([w, key, side, z, top, width]) => {
-            const p = findPiece(w, key);
-            if (!p) return null;
-            return (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={key} src={p.src} alt="" className={`plate ${side}`} width={width} height={Math.round((width * p.h) / p.w)}
-                style={{ width, transform: `translateY(${top * 100}vh) translateZ(${-z}px) rotateY(${side === 'l' ? 90 : -90}deg)` }} />
-            );
-          })}
+          {PLATES.map(([file, side, z, top, width, cw, ch]) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={file} src={`/img/pixel/${file}.png`} alt="" className={`plate px-plate ${side}`} width={width} height={Math.round((width * ch) / cw)} decoding="async"
+              style={{ width, transform: `translateY(${top * 100}vh) translateZ(${-z}px) rotateY(${side === 'l' ? 90 : -90}deg)` }} />
+          ))}
         </div>
         <div className="corner">{SITE.email}</div>
         <div className="title" ref={title}>

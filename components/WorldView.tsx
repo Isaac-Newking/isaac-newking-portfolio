@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MOTION, SITE } from '@/content/site';
 import { WORLDS, isLight, piecePalette, type Palette, type Piece, type World } from '@/content/worlds';
-import { depixel, reducedMotion } from '@/lib/pixel';
+import { depixel, reducedMotion, srcSetFor, webp, webpSmall } from '@/lib/pixel';
 import { useShell } from './SiteShell';
 
 function setPalette(p: Palette) {
@@ -51,7 +51,7 @@ function Lightbox({ item, onClose }: { item: Viewing; onClose: () => void }) {
     requestAnimationFrame(() => requestAnimationFrame(() => { setOn(true); f.style.transform = 'none'; }));
     if (!item.video && canvas.current) {
       const c = canvas.current; c.width = box.w; c.height = box.h;
-      const im = new Image(); im.onload = () => depixel(c, im, { step: 38 }).then(() => c.classList.add('done')); im.src = item.src;
+      const im = new Image(); im.onload = () => depixel(c, im, { step: 38 }).then(() => c.classList.add('done')); im.src = webp(item.src);
     }
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { e.stopImmediatePropagation(); close(); } };
     addEventListener('keydown', onKey, true);
@@ -63,10 +63,10 @@ function Lightbox({ item, onClose }: { item: Viewing; onClose: () => void }) {
     <div className={`lb${on ? ' on' : ''}`} onClick={close} role="dialog" aria-modal="true" aria-label={item.name}>
       <figure ref={fig} className="lb-fig" style={{ left: box.x, top: box.y, width: box.w, height: box.h }} onClick={(e) => e.stopPropagation()}>
         {item.video
-          ? <video src={item.src} poster={item.poster} autoPlay muted loop playsInline />
+          ? <video src={item.src} poster={item.poster && webp(item.poster)} autoPlay muted loop playsInline />
           : <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.src} alt={item.name} width={item.w} height={item.h} />
+              <img src={webp(item.src)} alt={item.name} width={item.w} height={item.h} />
               <canvas ref={canvas} aria-hidden="true" />
             </>}
       </figure>
@@ -96,11 +96,11 @@ function Tile({ p, k, world, open }: { p: Piece; k: number; world: World; open: 
   const ratio = tall ? 1.6 : p.w / p.h;
   const img = (fit: 'cover' | 'top') => p.video ? (
     // a looping clip plays in place of the still, in any frame; the still is its poster
-    <div className="vid"><video src={p.video} poster={p.src} width={p.w} height={p.h} muted loop playsInline preload="none" data-autoplay aria-label={`${world.name}: ${p.name}`} style={{ objectPosition: fit === 'top' ? 'top' : 'center' }} /></div>
+    <div className="vid"><video src={p.video} poster={webpSmall(p.src, p.w)} width={p.w} height={p.h} muted loop playsInline preload="none" data-autoplay aria-label={`${world.name}: ${p.name}`} style={{ objectPosition: fit === 'top' ? 'top' : 'center' }} /></div>
   ) : (
     <div className={`px${fit === 'top' ? ' top' : ''}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={p.src} alt={`${world.name}: ${p.name}`} width={p.w} height={p.h} loading={k < 4 ? 'eager' : 'lazy'} decoding="async" />
+      <img src={p.src} srcSet={srcSetFor(p.src, p.w)} sizes="(max-width: 760px) 100vw, 70vw" alt={`${world.name}: ${p.name}`} width={p.w} height={p.h} loading={k < 4 ? 'eager' : 'lazy'} decoding="async" />
       <canvas />
     </div>
   );
@@ -359,7 +359,7 @@ export default function WorldView({ index }: { index: number }) {
           <figure className="pj-cover">
             <div className="px" style={{ aspectRatio: `${cover.w}/${cover.h}` }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={cover.src} alt={`${w.name}: ${cover.name}`} width={cover.w} height={cover.h} />
+              <img src={cover.src} srcSet={srcSetFor(cover.src, cover.w)} sizes="100vw" alt={`${w.name}: ${cover.name}`} width={cover.w} height={cover.h} />
               <canvas />
             </div>
           </figure>

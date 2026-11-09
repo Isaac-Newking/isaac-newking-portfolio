@@ -49,3 +49,10 @@ export function loadImage(src: string) {
 }
 
 export const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+
+// Work images ship as WebP next to the original JPG/PNG, plus a 1200px copy of anything wider than 1300px
+// (made by the image script), so phones and most screens download far less.
+const isWork = (src: string) => src.startsWith('/img/work/') && /\.(jpe?g|png)$/i.test(src);
+export const webp = (src: string) => (isWork(src) ? src.replace(/\.(jpe?g|png)$/i, '.webp') : src);
+export const webpSmall = (src: string, w: number) => (isWork(src) && w > 1300 ? src.replace(/\.(jpe?g|png)$/i, '.w1200.webp') : webp(src));
+export const srcSetFor = (src: string, w: number) => (!isWork(src) ? undefined : w > 1300 ? `${webpSmall(src, w)} 1200w, ${webp(src)} ${w}w` : `${webp(src)} ${w}w`);

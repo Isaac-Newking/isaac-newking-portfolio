@@ -42,7 +42,7 @@ const BODY = [
   '.....wwwwww..wwwwww.....',
 ];
 const ART = [...HEAD, ...BODY];
-const W = 24, H = ART.length;
+const W = 26, H = ART.length; // two spare columns on the right for the waving hand
 const COL: Record<string, string> = { w: '#F2F2F2', o: '#FF9600', p: '#C46F00', d: '#4A4A4E' };
 const DEPTH = '#262628';
 
@@ -62,15 +62,40 @@ export default function FloorAvatar() {
     const score = cells.map(([, y]) => (H - y) / H + Math.random() * 0.45);
     const order = cells.map((_, i) => i).sort((a, b) => score[a] - score[b]);
 
-    let shown = -1;
-    const draw = (n: number) => {
-      if (n === shown) return;
-      shown = n;
+    let shown = -1, wf = 0;
+    const paint = (list: [number, number, string][]) => {
       ctx.clearRect(0, 0, W + 1, H + 1);
       ctx.fillStyle = DEPTH;
-      for (let k = 0; k < n; k++) { const [x, y] = cells[order[k]]; ctx.fillRect(x + 1, y + 1, 1, 1); }
-      for (let k = 0; k < n; k++) { const [x, y, col] = cells[order[k]]; ctx.fillStyle = col; ctx.fillRect(x, y, 1, 1); }
+      for (const [x, y] of list) ctx.fillRect(x + 1, y + 1, 1, 1);
+      for (const [x, y, col] of list) { ctx.fillStyle = col; ctx.fillRect(x, y, 1, 1); }
     };
+    const draw = (n: number) => {
+      if (n === shown && wf === 0) return;
+      shown = n; wf = 0;
+      paint(order.slice(0, n).map((k) => cells[k]));
+    };
+    // waving: the right arm (columns 19-21 of the body) swings up beside the head, hand tilting side to side
+    const body = cells.filter(([x, y]) => !(x >= 19 && x <= 21 && y >= 23 && y <= 32));
+    const arm = (tilt: number): [number, number, string][] => {
+      const out: [number, number, string][] = [];
+      for (let y = 13; y <= 22; y++) for (let x = 19; x <= 21; x++) out.push([x + (y < 17 ? tilt : 0), y, COL.o]);
+      for (let y = 10; y <= 12; y++) for (let x = 19; x <= 21; x++) out.push([x + tilt * 2, y, COL.w]);
+      return out;
+    };
+    const waveFrames = [body.concat(arm(0)), body.concat(arm(1))];
+    let waving = 0 as unknown as ReturnType<typeof setInterval>;
+    const wave = (on: boolean) => {
+      if (on && !waving) { let k = 0; waving = setInterval(() => { wf = 1; paint(waveFrames[k++ % 2]); }, 260); }
+      if (!on && waving) { clearInterval(waving); waving = 0 as unknown as ReturnType<typeof setInterval>; wf = 1; }
+    };
+    // stand just behind the name row on the floor, so he never covers the letters
+    const place = () => {
+      const stage = el.parentElement, name = stage?.querySelector('.floor-name');
+      if (!stage || !name) return;
+      const sr = stage.getBoundingClientRect(), nr = name.getBoundingClientRect();
+      el.style.bottom = `${Math.round(sr.bottom - nr.top + 2)}px`;
+    };
+    place();
 
     if (reducedMotion()) { draw(cells.length); el.style.transform = 'none'; return; }
 
@@ -79,7 +104,8 @@ export default function FloorAvatar() {
       raf = 0;
       const max = document.documentElement.scrollHeight - innerHeight;
       const p = clamp(1 - (max - scrollY) / (innerHeight * 0.85), 0, 1);
-      draw(Math.round(clamp(p * 1.15, 0, 1) * cells.length));
+      const n = Math.round(clamp(p * 1.15, 0, 1) * cells.length);
+      if (p >= 0.97) wave(true); else { wave(false); draw(n); }
       const e = 1 - Math.pow(1 - p, 3);
       el.style.transform = `translate3d(-50%, ${(1 - e) * 22}%, 0)`;
     };
@@ -87,9 +113,10 @@ export default function FloorAvatar() {
     const io = new IntersectionObserver(([en]) => { live = en.isIntersecting; if (live) onScroll(); }, { rootMargin: '200px 0px' });
     io.observe(el);
     addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll);
+    const onResize = () => { place(); onScroll(); };
+    addEventListener('resize', onResize);
     frame();
-    return () => { io.disconnect(); removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); cancelAnimationFrame(raf); };
+    return () => { io.disconnect(); removeEventListener('scroll', onScroll); removeEventListener('resize', onResize); cancelAnimationFrame(raf); clearInterval(waving); };
   }, []);
 
   return (

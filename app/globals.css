@@ -67,7 +67,23 @@ a { color: inherit }
 
 /* loader */
 .loader { position: fixed; inset: 0; z-index: 100; background: var(--void); color: #fff }
-.loader canvas { position: absolute; inset: 0; width: 100%; height: 100% }
+.loader { display: grid; place-items: center; background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 1.5px); background-size: 21px 21px;
+  transition: opacity .52s cubic-bezier(.6, 0, .2, 1), visibility 0s .52s }
+.no-loader .loader { display: none }
+.loader.out { opacity: 0; visibility: hidden; pointer-events: none }
+.ld-cup { display: grid; justify-items: center; gap: 14px; transition: transform .52s cubic-bezier(.6, 0, .2, 1) }
+.loader.out .ld-cup { transform: scale(1.35) }
+.ld-cup svg { width: clamp(120px, 11vw, 168px); height: auto; display: block }
+/* tea rises a whole pixel row at a time; it starts a third full so the cup never looks empty */
+.ld-tea { transform: translateY(7px); animation: ld-fill .7s steps(7, end) .05s forwards }
+@keyframes ld-fill { to { transform: translateY(0) } }
+.ld-steam { opacity: 0; animation: ld-steam .9s steps(2, jump-none) .7s infinite alternate }
+@keyframes ld-steam { from { opacity: .2 } to { opacity: 1 } }
+.ld-label { margin: 0; font-family: var(--f-pixel); font-size: 12px; letter-spacing: .12em; color: #fff; display: flex }
+.ld-dots { display: inline-block; width: 3ch; overflow: hidden; white-space: nowrap }
+.ld-dots::before { content: '...'; display: inline-block; animation: ld-dots 1.2s steps(4, jump-none) infinite; clip-path: inset(0 100% 0 0) }
+@keyframes ld-dots { 0% { clip-path: inset(0 100% 0 0) } 100% { clip-path: inset(0 0 0 0) } }
+@media (prefers-reduced-motion: reduce) { .ld-tea { animation: none; transform: none } }
 .loader .skip { position: absolute; right: var(--gutter-r); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); font-family: var(--f-pixel); font-size: 12px; color: #fff; border: 1.5px solid #fff; padding: 6px 12px }
 
 /* hero room */
@@ -85,6 +101,7 @@ a { color: inherit }
 .plate { position: absolute; top: 0; height: auto; backface-visibility: hidden; border: 1px solid rgba(255,255,255,.25) }
 .plate.l { left: 0; transform-origin: 0 0 }
 .plate.r { right: 0; transform-origin: 100% 0 }
+.px-plate { image-rendering: crisp-edges; image-rendering: pixelated; border-color: rgba(255,255,255,.18) }
 /* the walls start bare; the work fades in the moment you start scrolling */
 .plate { opacity: 0; transition: opacity .35s ease-out }
 .room.lit .plate { opacity: 1 }
@@ -221,7 +238,7 @@ a { color: inherit }
   background-image: linear-gradient(rgba(255,255,255,.24) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.24) 1px, transparent 1px); background-size: 120px 60px; background-position: center top }
 /* footer sits on the floor's near edge (pulled up over it), readable and not part of the hidden stage */
 /* the full-body avatar stands in the floor, in front of the scrolling name */
-.floor-avatar { position: absolute; z-index: 2; left: 50%; bottom: 16%; height: clamp(150px, 18vw, 260px); aspect-ratio: 25 / 46; transform: translate3d(-50%, 22%, 0); will-change: transform; pointer-events: none }
+.floor-avatar { position: absolute; z-index: 2; left: 50%; bottom: 52%; height: clamp(110px, 12vw, 190px); aspect-ratio: 27 / 46; transform: translate3d(-50%, 22%, 0); will-change: transform; pointer-events: none }
 .floor-avatar canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated }
 .ct-stage { margin-top: clamp(150px, 19vw, 240px) }
 /* Tea, the mascot */

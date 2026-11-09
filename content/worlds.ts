@@ -48,7 +48,7 @@ const DEFS: WorldDef[] = [
       { name: 'eurban', blurb: 'Website and launch campaign for a residential developer: a calm, image-led site for its homes in Lagos and Benin, and teaser posters for a new way of living.' },
       { name: 'O5 Dynamix', blurb: 'Identity and website for a sports and fitness brand: the O5 runner mark, an orange and black palette, a booking site for four arenas, merch for tees, caps and bottles, and a launch social campaign.' },
       { name: 'OJKonsult', blurb: 'Identity for a consulting and resources firm: a looping mark drawn in one stroke, a seal, a pattern in orange and forest green, business cards and team tees.' },
-      { name: 'LonePay', blurb: 'Identity for a payments app: a folded L mark and pattern in electric violet, the app icon and store listing, business cards, stationery and a branded notebook.' },
+      { name: 'LonePay', blurb: 'Identity for a payments app: a folded L mark and pattern in electric violet, the app icon and store listing, debit cards, stationery, apparel, merch and a staff illustration style.' },
     ],
   },
   {

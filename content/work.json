@@ -939,8 +939,8 @@
    "mock": "plain"
   },
   {
-   "src": "/img/work/branding/lp-print.jpg",
-   "name": "Print: stationery, business cards, notebook",
+   "src": "/img/work/branding/lp-c-brand.jpg",
+   "name": "Mark, app icon, store listing and social post",
    "group": "LonePay",
    "bg": "#0B0820",
    "fg": "#F1EEFF",
@@ -950,8 +950,41 @@
    "h": 1500
   },
   {
-   "src": "/img/work/branding/lp-digital.jpg",
-   "name": "App: home-screen icon and store listing",
+   "src": "/img/work/branding/lp-c-cards.jpg",
+   "name": "Debit cards and business cards",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1500
+  },
+  {
+   "src": "/img/work/branding/lp-c-office.jpg",
+   "name": "Stationery, notebooks and binders",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1500
+  },
+  {
+   "src": "/img/work/branding/lp-c-apparel.jpg",
+   "name": "Tees and hoodies",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1500
+  },
+  {
+   "src": "/img/work/branding/lp-c-merch.jpg",
+   "name": "Tote, drawstring bag, staff ID and illustration",
    "group": "LonePay",
    "bg": "#0B0820",
    "fg": "#F1EEFF",

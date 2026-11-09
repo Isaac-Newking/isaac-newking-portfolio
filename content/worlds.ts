@@ -44,11 +44,11 @@ const DEFS: WorldDef[] = [
     pal: { bg: '#1F1B16', fg: '#F3EEE4', accent: '#C9973F', line: 'rgba(201,151,63,.22)' },
     groups: [
       { name: 'Esorae Home', lead: true, motion: true, blurb: 'Identity and website for a home textile and fragrance brand. Brand personality, an online store, billboard and roll-up campaigns, product shoots, a social system in charcoal and gold, and motion.' },
+      { name: 'LonePay', blurb: 'Identity and brand guidelines for a payments app. A folded L mark built on a slanted initial, Electric Indigo and Midnight Indigo with Inter Bold, a flowing pattern and secondary shapes, then the system at work: app, cards, stationery, apparel, merch, billboards and social.' },
       { name: 'Esorae Foundation', blurb: 'Identity for an education-focused foundation: logo, brand pattern, illustrative style and campaign flyers in green and orange.' },
       { name: 'eurban', blurb: 'Website and launch campaign for a residential developer: a calm, image-led site for its homes in Lagos and Benin, and teaser posters for a new way of living.' },
       { name: 'O5 Dynamix', blurb: 'Identity and website for a sports and fitness brand: the O5 runner mark, an orange and black palette, a booking site for four arenas, merch for tees, caps and bottles, and a launch social campaign.' },
       { name: 'OJKonsult', blurb: 'Identity for a consulting and resources firm: a looping mark drawn in one stroke, a seal, a pattern in orange and forest green, business cards and team tees.' },
-      { name: 'LonePay', blurb: 'Identity for a payments app: a folded L mark and pattern in electric violet, the app icon and store listing, debit cards, stationery, apparel, merch and a staff illustration style.' },
     ],
   },
   {

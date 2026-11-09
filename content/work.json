@@ -884,6 +884,18 @@
    "mock": "plain"
   },
   {
+   "src": "/img/work/branding/ojk-motion.jpg",
+   "name": "Logo animation",
+   "w": 1280,
+   "h": 720,
+   "group": "OJKonsult",
+   "bg": "#0E241A",
+   "fg": "#F2EFE8",
+   "ac": "#FF5A1F",
+   "mock": "plain",
+   "video": "/img/work/branding/ojk-motion.mp4"
+  },
+  {
    "src": "/img/work/branding/ojk-cards.jpg",
    "name": "Business cards",
    "w": 1024,
@@ -939,6 +951,28 @@
    "mock": "plain"
   },
   {
+   "src": "/img/work/branding/lp-g-logo.jpg",
+   "name": "Guidelines: logo construction, lock-ups and colourways",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1376
+  },
+  {
+   "src": "/img/work/branding/lp-g-system.jpg",
+   "name": "Guidelines: colour, type and pattern",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1376
+  },
+  {
    "src": "/img/work/branding/lp-c-brand.jpg",
    "name": "Mark, app icon, store listing and social post",
    "group": "LonePay",
@@ -992,6 +1026,39 @@
    "mock": "plain",
    "w": 2400,
    "h": 1500
+  },
+  {
+   "src": "/img/work/branding/lp-g-ooh.jpg",
+   "name": "Out of home: billboards, signage and banners",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1376
+  },
+  {
+   "src": "/img/work/branding/lp-g-digital.jpg",
+   "name": "Digital: app, Instagram, LinkedIn and stickers",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1376
+  },
+  {
+   "src": "/img/work/branding/lp-g-extras.jpg",
+   "name": "Secondary graphics, pin badge, cup and merch",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1376
   }
  ]
 }

@@ -937,6 +937,28 @@
    "fg": "#F2EFE8",
    "ac": "#FF5A1F",
    "mock": "plain"
+  },
+  {
+   "src": "/img/work/branding/lp-print.jpg",
+   "name": "Print: stationery, business cards, notebook",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1500
+  },
+  {
+   "src": "/img/work/branding/lp-digital.jpg",
+   "name": "App: home-screen icon and store listing",
+   "group": "LonePay",
+   "bg": "#0B0820",
+   "fg": "#F1EEFF",
+   "ac": "#7B4DFF",
+   "mock": "plain",
+   "w": 2400,
+   "h": 1500
   }
  ]
 }

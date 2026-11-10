@@ -200,28 +200,61 @@ function Strip({ pieces, start, world, motion, open }: { pieces: Piece[]; start:
 // height, nothing cropped), with press buttons to switch brands in place on the same page.
 type Item = { src: string; w: number; h: number; name: string; video?: string; poster?: string };
 
-function packRows(items: Item[], target: number) {
-  const rows: Item[][] = [];
-  let row: Item[] = [], sum = 0;
-  items.forEach((it, i) => {
-    const r = it.w / it.h;
-    // a wide piece, or the opening piece when it's landscape, gets a row of its own
-    if (r >= 1.9 || (i === 0 && r > 1.25)) { if (row.length) { rows.push(row); row = []; sum = 0; } rows.push([it]); return; }
-    row.push(it); sum += r;
-    if (sum >= target) { rows.push(row); row = []; sum = 0; }
-  });
-  if (row.length) {
-    const last = rows[rows.length - 1];
-    if (sum < target * 0.55 && last && last.length < 4 && last[0].w / last[0].h < 1.9) last.push(...row); else rows.push(row);
+// Mosaic blocks after the "Creative" and "Editorial" layouts in the grid guide: [col, colSpan, row, rowSpan].
+// Rows are half a column tall, so a 4×8 slot is square. Desktop uses 12 columns, phones 4.
+type Slot = [number, number, number, number];
+type Block = { h: number; slots: Slot[] };
+const DESK: { cycle: Block[]; fill: Block[] } = {
+  cycle: [
+    { h: 16, slots: [[1, 4, 1, 8], [5, 2, 1, 4], [7, 2, 1, 4], [5, 4, 5, 4], [9, 4, 1, 8], [1, 6, 9, 8], [7, 2, 9, 3], [7, 2, 12, 5], [9, 4, 9, 4], [9, 2, 13, 4], [11, 2, 13, 4]] },
+    { h: 12, slots: [[1, 5, 1, 12], [6, 7, 1, 5], [6, 3, 6, 7], [9, 4, 6, 7]] },
+    { h: 10, slots: [[1, 7, 1, 10], [8, 5, 1, 5], [8, 5, 6, 5]] },
+  ],
+  fill: [
+    { h: 12, slots: [[1, 5, 1, 12], [6, 7, 1, 5], [6, 3, 6, 7], [9, 4, 6, 7]] },
+    { h: 10, slots: [[1, 7, 1, 10], [8, 5, 1, 5], [8, 5, 6, 5]] },
+    { h: 8, slots: [[1, 6, 1, 8], [7, 6, 1, 8]] },
+    { h: 13, slots: [[1, 12, 1, 13]] },
+  ],
+};
+const MOB: { cycle: Block[]; fill: Block[] } = {
+  cycle: [
+    { h: 9, slots: [[1, 4, 1, 5], [1, 2, 6, 4], [3, 2, 6, 4]] },
+    { h: 8, slots: [[1, 2, 1, 8], [3, 2, 1, 4], [3, 2, 5, 4]] },
+  ],
+  fill: [{ h: 4, slots: [[1, 2, 1, 4], [3, 2, 1, 4]] }, { h: 5, slots: [[1, 4, 1, 5]] }],
+};
+
+// Plans the blocks for the item count, then fills every slot across the whole layout: each piece goes to a slot
+// close to its shape (wide slides and banners to wide slots, posters to tall ones) while keeping roughly its order.
+function mosaic(items: Item[], set: { cycle: Block[]; fill: Block[] }) {
+  const slots: { area: string; r: number; pos: number }[] = [];
+  let left = items.length, row = 1, k = 0;
+  while (left > 0) {
+    let bl = set.cycle[k % set.cycle.length];
+    if (bl.slots.length > left) bl = set.fill.find((f) => f.slots.length <= left)!; else k++;
+    bl.slots.forEach((sl) => slots.push({ area: `${row + sl[2] - 1} / ${sl[0]} / span ${sl[3]} / span ${sl[1]}`, r: Math.log(sl[1] / (sl[3] / 2)), pos: slots.length }));
+    left -= bl.slots.length; row += bl.h;
   }
-  return rows;
+  const n = items.length;
+  const free = items.map((it, j) => ({ j, r: Math.log(it.w / it.h), wide: it.w / it.h > 1.6 }));
+  const area: string[] = new Array(n);
+  [...slots].sort((x, y) => Math.abs(y.r) - Math.abs(x.r)).forEach((sl) => {
+    let best = 0, bestCost = Infinity;
+    free.forEach((c, i) => {
+      const shape = Math.abs(c.r - sl.r) * (c.wide ? 2.2 : 1);
+      const cost = shape + 0.9 * Math.abs(c.j - sl.pos) / n;
+      if (cost < bestCost) { bestCost = cost; best = i; }
+    });
+    area[free.splice(best, 1)[0].j] = sl.area;
+  });
+  return area;
 }
 
 function BrandCase({ w, open }: { w: World; open: Open }) {
   const groups = w.groups ?? [];
   const [i, setI] = useState(0);
   const [phase, setPhase] = useState<'in' | 'out'>('in');
-  const [target, setTarget] = useState(3.6);
   const top = useRef<HTMLDivElement>(null);
   const grid = useRef<HTMLDivElement>(null);
   const { lenis } = useShell();
@@ -229,13 +262,11 @@ function BrandCase({ w, open }: { w: World; open: Open }) {
   // remember the brand in the address (#lonepay) so a link opens straight on it
   const slug = (n: string) => n.toLowerCase().replace(/[^a-z0-9]+/g, '');
   useEffect(() => {
-    const h = location.hash.slice(1);
-    const k = groups.findIndex((g) => slug(g.name) === h);
-    if (k > 0) setI(k);
-    const mq = matchMedia('(max-width: 760px)');
-    const set = () => setTarget(mq.matches ? 1.7 : 3.6);
-    set(); mq.addEventListener('change', set);
-    return () => mq.removeEventListener('change', set);
+    const fromHash = () => { const k = groups.findIndex((g) => slug(g.name) === location.hash.slice(1)); if (k >= 0) setI(k); };
+    fromHash();
+    addEventListener('hashchange', fromHash);
+    return () => removeEventListener('hashchange', fromHash);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -243,7 +274,7 @@ function BrandCase({ w, open }: { w: World; open: Open }) {
   const pieces = w.pieces.filter((p) => p.group === g.name);
   const items: Item[] = pieces.map((p) => ({ src: p.src, w: p.w, h: p.h, name: p.name, video: p.video }));
   if (g.motion) MOTION.forEach((m) => items.splice(Math.min(2, items.length), 0, { src: m.poster ?? '', w: m.w, h: m.h, name: m.title, video: m.src }));
-  const rows = packRows(items, target);
+  const dArea = mosaic(items, DESK), mArea = mosaic(items, MOB);
 
   // colours follow the brand; videos play only while on screen
   useEffect(() => {
@@ -257,7 +288,7 @@ function BrandCase({ w, open }: { w: World; open: Open }) {
     if (top.current) mid.observe(top.current);
     return () => { vids.disconnect(); mid.disconnect(); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [i, target]);
+  }, [i]);
 
   const pick = (k: number) => {
     if (k === i) return;
@@ -273,7 +304,7 @@ function BrandCase({ w, open }: { w: World; open: Open }) {
 
   const others = groups.map((x, k) => ({ x, k })).filter((o) => o.k !== i);
   // a strong single image per brand for the cards, else its first still
-  const COVER: Record<string, string> = { 'Esorae Home': 'eh-billboard', LonePay: 'lp-c-cards', eurban: 'eu-poster2', 'O5 Dynamix': 'o5-web-court', OJKonsult: 'ojk-cards' };
+  const COVER: Record<string, string> = { 'Esorae Home': 'eh-billboard', LonePay: 'lp-cards', eurban: 'eu-poster2', 'O5 Dynamix': 'o5-web-court', OJKonsult: 'ojk-cards' };
   const coverOf = (name: string) => w.pieces.find((p) => p.group === name && COVER[name] && p.src.includes('/' + COVER[name] + '.')) ?? w.pieces.find((p) => p.group === name && !p.video);
   let n = 0;
 
@@ -299,26 +330,23 @@ function BrandCase({ w, open }: { w: World; open: Open }) {
         </header>
 
         <div className="bc-grid" ref={grid}>
-          {rows.map((row, ri) => (
-            <div className="bc-row" key={ri}>
-              {row.map((it) => {
-                const r = it.w / it.h, k = n++;
-                const view = openFrom(open, { src: it.video ?? it.src, w: it.w, h: it.h, name: `${g.name}: ${it.name}`, video: !!it.video, poster: it.video ? it.src : undefined });
-                return (
-                  <figure key={it.src + it.name} className="bc-item" style={{ flexGrow: r, aspectRatio: `${it.w} / ${it.h}`, animationDelay: `${Math.min(k, 10) * 45}ms` }}
-                    role="button" tabIndex={0} aria-label={`View ${it.name} full screen`} onClick={view} onKeyDown={view}>
-                    <div className="shot">
-                      {it.video
-                        ? <video src={it.video} poster={it.src ? webpSmall(it.src, it.w) : undefined} muted loop playsInline preload="none" aria-label={it.name} />
-                        // eslint-disable-next-line @next/next/no-img-element
-                        : <img src={it.src} srcSet={srcSetFor(it.src, it.w)} sizes={`(max-width: 760px) 100vw, ${Math.round(Math.min(100, (r / Math.max(r, row.reduce((a, b) => a + b.w / b.h, 0))) * 100))}vw`} alt={`${g.name}: ${it.name}`} width={it.w} height={it.h} loading={ri < 2 ? 'eager' : 'lazy'} decoding="async" />}
-                    </div>
-                    <figcaption>{it.name}</figcaption>
-                  </figure>
-                );
-              })}
-            </div>
-          ))}
+          <div className="bc-mosaic">
+            {items.map((it, k) => {
+              const view = openFrom(open, { src: it.video ?? it.src, w: it.w, h: it.h, name: `${g.name}: ${it.name}`, video: !!it.video, poster: it.video ? it.src : undefined });
+              return (
+                <figure key={it.src + it.name} className="bc-item" style={{ '--d': dArea[k], '--m': mArea[k], animationDelay: `${Math.min(k, 12) * 40}ms` } as React.CSSProperties}
+                  role="button" tabIndex={0} aria-label={`View ${it.name} full screen`} onClick={view} onKeyDown={view}>
+                  <div className="shot">
+                    {it.video
+                      ? <video src={it.video} poster={it.src ? webpSmall(it.src, it.w) : undefined} muted loop playsInline preload="none" aria-label={it.name} />
+                      // eslint-disable-next-line @next/next/no-img-element
+                      : <img src={it.src} srcSet={srcSetFor(it.src, it.w)} sizes="(max-width: 760px) 100vw, 50vw" alt={`${g.name}: ${it.name}`} width={it.w} height={it.h} loading={k < 6 ? 'eager' : 'lazy'} decoding="async" />}
+                  </div>
+                  <figcaption>{it.name}</figcaption>
+                </figure>
+              );
+            })}
+          </div>
         </div>
 
         <div className="bc-next-row">

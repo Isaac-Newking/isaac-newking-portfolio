@@ -200,56 +200,56 @@ function Strip({ pieces, start, world, motion, open }: { pieces: Piece[]; start:
 // height, nothing cropped), with press buttons to switch brands in place on the same page.
 type Item = { src: string; w: number; h: number; name: string; video?: string; poster?: string };
 
-// Mosaic blocks after the "Creative" and "Editorial" layouts in the grid guide: [col, colSpan, row, rowSpan].
-// Rows are half a column tall, so a 4×8 slot is square. Desktop uses 12 columns, phones 4.
-type Slot = [number, number, number, number];
-type Block = { h: number; slots: Slot[] };
-const DESK: { cycle: Block[]; fill: Block[] } = {
-  cycle: [
-    { h: 16, slots: [[1, 4, 1, 8], [5, 2, 1, 4], [7, 2, 1, 4], [5, 4, 5, 4], [9, 4, 1, 8], [1, 6, 9, 8], [7, 2, 9, 3], [7, 2, 12, 5], [9, 4, 9, 4], [9, 2, 13, 4], [11, 2, 13, 4]] },
-    { h: 12, slots: [[1, 5, 1, 12], [6, 7, 1, 5], [6, 3, 6, 7], [9, 4, 6, 7]] },
-    { h: 10, slots: [[1, 7, 1, 10], [8, 5, 1, 5], [8, 5, 6, 5]] },
-  ],
-  fill: [
-    { h: 12, slots: [[1, 5, 1, 12], [6, 7, 1, 5], [6, 3, 6, 7], [9, 4, 6, 7]] },
-    { h: 10, slots: [[1, 7, 1, 10], [8, 5, 1, 5], [8, 5, 6, 5]] },
-    { h: 8, slots: [[1, 6, 1, 8], [7, 6, 1, 8]] },
-    { h: 13, slots: [[1, 12, 1, 13]] },
-  ],
-};
-const MOB: { cycle: Block[]; fill: Block[] } = {
-  cycle: [
-    { h: 9, slots: [[1, 4, 1, 5], [1, 2, 6, 4], [3, 2, 6, 4]] },
-    { h: 8, slots: [[1, 2, 1, 8], [3, 2, 1, 4], [3, 2, 5, 4]] },
-  ],
-  fill: [{ h: 4, slots: [[1, 2, 1, 4], [3, 2, 1, 4]] }, { h: 5, slots: [[1, 4, 1, 5]] }],
-};
+// Creative mosaic with no cropping. Pieces are laid in blocks whose sizes are solved from the images' own
+// shapes, so every piece shows in full: a feature piece beside a stack of two (left or right), justified rows
+// of two to four, and very wide pieces on their own. Coordinates are in a 1000-wide space; the page scales them.
+type Rect = { x: number; y: number; w: number; h: number };
+type Plan = { rects: Rect[]; height: number };
 
-// Plans the blocks for the item count, then fills every slot across the whole layout: each piece goes to a slot
-// close to its shape (wide slides and banners to wide slots, posters to tall ones) while keeping roughly its order.
-function mosaic(items: Item[], set: { cycle: Block[]; fill: Block[] }) {
-  const slots: { area: string; r: number; pos: number }[] = [];
-  let left = items.length, row = 1, k = 0;
-  while (left > 0) {
-    let bl = set.cycle[k % set.cycle.length];
-    if (bl.slots.length > left) bl = set.fill.find((f) => f.slots.length <= left)!; else k++;
-    bl.slots.forEach((sl) => slots.push({ area: `${row + sl[2] - 1} / ${sl[0]} / span ${sl[3]} / span ${sl[1]}`, r: Math.log(sl[1] / (sl[3] / 2)), pos: slots.length }));
-    left -= bl.slots.length; row += bl.h;
+function planMosaic(items: Item[], o: { gap: number; minW: number; rowH: [number, number]; pattern: string[]; maxRow: number }): Plan {
+  const W = 1000, g = o.gap, R = items.map((it) => it.w / it.h);
+  const rects: Rect[] = new Array(items.length);
+  let y = 0, at = 0, step = 0;
+  const row = (idx: number[]) => {
+    const h = (W - g * (idx.length - 1)) / idx.reduce((a, i) => a + R[i], 0);
+    return { h, ok: h >= o.rowH[0] && h <= o.rowH[1] && idx.every((i) => R[i] * h >= o.minW) };
+  };
+  const putRow = (idx: number[], h: number) => { let x = 0; idx.forEach((i) => { const w = R[i] * h; rects[i] = { x, y, w, h }; x += w + g; }); y += h + g; };
+  // feature piece f beside a stack of a over b; widths solved so both sides end at the same height
+  const stack = (f: number, a: number, b: number, left: boolean) => {
+    const s = 1 / R[a] + 1 / R[b], c = ((W - g) / R[f] - g) / (s + 1 / R[f]), bw = W - g - c, h = bw / R[f];
+    const ok = c >= o.minW && bw >= o.minW * 1.5 && h <= o.rowH[1] * 2.1 && c / R[a] >= o.minW * 0.55 && c / R[b] >= o.minW * 0.55;
+    return { ok, put: () => {
+      const fx = left ? 0 : c + g, sx = left ? bw + g : 0, ha = c / R[a];
+      rects[f] = { x: fx, y, w: bw, h }; rects[a] = { x: sx, y, w: c, h: ha }; rects[b] = { x: sx, y: y + ha + g, w: c, h: h - ha - g }; y += h + g;
+    } };
+  };
+  while (at < items.length) {
+    const left = items.length - at;
+    const want = o.pattern[step % o.pattern.length];
+    let done = false;
+    // a very wide piece takes the full width
+    if (R[at] > 2.4) { putRow([at], W / R[at]); at++; step++; continue; }
+    if ((want === 'L' || want === 'R') && left >= 3) {
+      const tri = [at, at + 1, at + 2];
+      // try each of the three as the feature, keep the first that works (prefer the squarest feature)
+      const order = [...tri].sort((p, q) => Math.abs(Math.log(R[p])) - Math.abs(Math.log(R[q])));
+      for (const f of order) {
+        const [a, b] = tri.filter((t) => t !== f), t = stack(f, a, b, want === 'L');
+        if (t.ok) { t.put(); done = true; break; }
+      }
+      if (done) { at += 3; step++; continue; }
+    }
+    const n = want === '1' ? 1 : want === '2' ? 2 : want === '3' ? 3 : 3;
+    const tries = [n, n === 3 ? 2 : 3, 4, 2, 1].filter((k, i, arr) => k <= left && k <= o.maxRow && arr.indexOf(k) === i);
+    for (const k of tries) { const idx = Array.from({ length: k }, (_, j) => at + j), r = row(idx); if (r.ok) { putRow(idx, r.h); at += k; done = true; break; } }
+    if (!done) { putRow([at], W / R[at]); at += 1; } // nothing fits: the piece gets the full width on its own
+    step++;
   }
-  const n = items.length;
-  const free = items.map((it, j) => ({ j, r: Math.log(it.w / it.h), wide: it.w / it.h > 1.6 }));
-  const area: string[] = new Array(n);
-  [...slots].sort((x, y) => Math.abs(y.r) - Math.abs(x.r)).forEach((sl) => {
-    let best = 0, bestCost = Infinity;
-    free.forEach((c, i) => {
-      const shape = Math.abs(c.r - sl.r) * (c.wide ? 2.2 : 1);
-      const cost = shape + 0.9 * Math.abs(c.j - sl.pos) / n;
-      if (cost < bestCost) { bestCost = cost; best = i; }
-    });
-    area[free.splice(best, 1)[0].j] = sl.area;
-  });
-  return area;
+  return { rects, height: Math.max(0, y - g) };
 }
+const DESK = { gap: 10, minW: 190, rowH: [190, 520] as [number, number], pattern: ['L', '3', 'R', '2'], maxRow: 4 };
+const MOB = { gap: 16, minW: 440, rowH: [260, 1100] as [number, number], pattern: ['1', 'L', '2', 'R'], maxRow: 2 };
 
 function BrandCase({ w, open }: { w: World; open: Open }) {
   const groups = w.groups ?? [];
@@ -274,7 +274,8 @@ function BrandCase({ w, open }: { w: World; open: Open }) {
   const pieces = w.pieces.filter((p) => p.group === g.name);
   const items: Item[] = pieces.map((p) => ({ src: p.src, w: p.w, h: p.h, name: p.name, video: p.video }));
   if (g.motion) MOTION.forEach((m) => items.splice(Math.min(2, items.length), 0, { src: m.poster ?? '', w: m.w, h: m.h, name: m.title, video: m.src }));
-  const dArea = mosaic(items, DESK), mArea = mosaic(items, MOB);
+  const dPlan = planMosaic(items, DESK), mPlan = planMosaic(items, MOB);
+  const pos = (pl: Plan, k: number, p: string) => { const r = pl.rects[k]; return { [`--${p}x`]: `${r.x / 10}%`, [`--${p}y`]: `${(r.y / pl.height) * 100}%`, [`--${p}w`]: `${r.w / 10}%`, [`--${p}h`]: `${(r.h / pl.height) * 100}%` }; };
 
   // colours follow the brand; videos play only while on screen
   useEffect(() => {
@@ -330,11 +331,11 @@ function BrandCase({ w, open }: { w: World; open: Open }) {
         </header>
 
         <div className="bc-grid" ref={grid}>
-          <div className="bc-mosaic">
+          <div className="bc-mosaic" style={{ '--da': `1000 / ${dPlan.height}`, '--ma': `1000 / ${mPlan.height}` } as React.CSSProperties}>
             {items.map((it, k) => {
               const view = openFrom(open, { src: it.video ?? it.src, w: it.w, h: it.h, name: `${g.name}: ${it.name}`, video: !!it.video, poster: it.video ? it.src : undefined });
               return (
-                <figure key={it.src + it.name} className="bc-item" style={{ '--d': dArea[k], '--m': mArea[k], animationDelay: `${Math.min(k, 12) * 40}ms` } as React.CSSProperties}
+                <figure key={it.src + it.name} className="bc-item" style={{ ...pos(dPlan, k, 'd'), ...pos(mPlan, k, 'm'), animationDelay: `${Math.min(k, 12) * 40}ms` } as React.CSSProperties}
                   role="button" tabIndex={0} aria-label={`View ${it.name} full screen`} onClick={view} onKeyDown={view}>
                   <div className="shot">
                     {it.video

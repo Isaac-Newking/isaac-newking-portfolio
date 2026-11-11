@@ -1,0 +1,118 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+html, body { margin: 0; width: 2400px; height: 1800px; overflow: hidden; background: #c94a24 }
+.scene { position: absolute; inset: 0; perspective: 3200px; perspective-origin: 50% 20%; overflow: hidden }
+.world { position: absolute; left: 50%; top: 52%; width: 0; height: 0; transform-style: preserve-3d }
+.floor { position: absolute; left: -9000px; top: -9000px; width: 18000px; height: 18000px; transform-style: preserve-3d }
+/* basketball hardcourt: orange rubber, fine woven texture, teal arcs */
+.court .floor { background:
+  repeating-linear-gradient(45deg, rgba(0,0,0,.05) 0 3px, transparent 3px 7px),
+  repeating-linear-gradient(-45deg, rgba(255,255,255,.04) 0 3px, transparent 3px 7px),
+  radial-gradient(circle at 50% 50%, #e2643a, #c9481f 4%, #a83a18 9%) }
+.court .arc { position: absolute; border: 26px solid #3aa6b0; border-radius: 50%; opacity: .95 }
+/* tennis: clay on one side, green hard court on the other, white lines */
+.tennis .floor { background:
+  repeating-linear-gradient(0deg, rgba(0,0,0,.035) 0 2px, transparent 2px 5px),
+  linear-gradient(90deg, #4f8a52 0 46%, #c8562e 46% 100%) }
+.stone, .linen { --shade: rgba(70,50,30,.38) }
+.stone .floor { background:
+  repeating-linear-gradient(90deg, transparent 0 1196px, rgba(120,95,70,.18) 1196px 1200px),
+  repeating-linear-gradient(0deg, transparent 0 596px, rgba(120,95,70,.18) 596px 600px),
+  repeating-linear-gradient(12deg, rgba(140,110,80,.05) 0 2px, transparent 2px 9px),
+  radial-gradient(circle at 50% 50%, #efe6d8, #e2d5c2 5%, #cdbda6 10%) }
+.linen .floor { background:
+  repeating-linear-gradient(0deg, rgba(90,70,50,.05) 0 1px, transparent 1px 4px),
+  repeating-linear-gradient(90deg, rgba(90,70,50,.04) 0 1px, transparent 1px 4px),
+  radial-gradient(circle at 50% 50%, #ece4d6, #ddd1bf 5%, #c9baa3 10%) }
+.sun { position: absolute; left: 4000px; top: 4800px; width: 10000px; height: 8400px; -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent); mask-image: radial-gradient(closest-side, #000 55%, transparent); pointer-events: none; background: linear-gradient(118deg, rgba(60,40,20,.28) 0 18%, rgba(255,246,228,.32) 26% 40%, rgba(60,40,20,.10) 47% 52%, rgba(255,246,228,.26) 58% 72%, rgba(60,40,20,.30) 86%); filter: blur(30px) }
+.leaves { position: absolute; inset: -10%; pointer-events: none; mix-blend-mode: multiply; filter: blur(26px); opacity: .55 }
+.leaves i { position: absolute; border-radius: 50% 10% 50% 10%; background: #4a3a26 }
+.tennis .line { position: absolute; background: #f3efe6 }
+.light { position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 30% 0%, rgba(255,230,190,.22), transparent 55%), radial-gradient(ellipse at 50% 120%, rgba(0,0,0,.35), transparent 60%) }
+
+.lap { position: absolute; transform-style: preserve-3d; transform: translateZ(26px) }
+.base { position: absolute; left: -660px; top: -430px; width: 1320px; height: 860px; border-radius: 34px; transform-style: preserve-3d;
+  background: linear-gradient(160deg, #e9eaec, #c9cbce 55%, #b7b9bc) }
+.base .kb { position: absolute; left: 80px; right: 80px; top: 70px; height: 440px; border-radius: 14px; background: #2a2b2d; padding: 14px;
+  display: grid; grid-template-columns: repeat(14, 1fr); grid-template-rows: repeat(5, 1fr); gap: 9px; box-sizing: border-box }
+.base .kb i { background: linear-gradient(#232325, #161618); border-radius: 8px; box-shadow: inset 0 -2px 0 rgba(255,255,255,.04) }
+.base .kb i.w2 { grid-column: span 2 } .base .kb i.sp { grid-column: span 6 }
+.base .pad { position: absolute; left: 50%; top: 540px; width: 600px; height: 280px; margin-left: -300px; border-radius: 22px;
+  background: linear-gradient(160deg, #dcdee0, #c2c4c7); box-shadow: inset 0 0 0 2px rgba(0,0,0,.06) }
+.base .notch { position: absolute; left: 50%; bottom: -1px; width: 180px; height: 12px; margin-left: -90px; border-radius: 12px 12px 0 0; background: rgba(0,0,0,.12) }
+.edge { position: absolute; left: -660px; top: 430px; width: 1320px; height: 26px; transform-origin: 50% 0; transform: rotateX(-90deg);
+  background: linear-gradient(#a9abae, #8d8f92); border-radius: 0 0 30px 30px }
+.lid { position: absolute; left: -660px; top: -430px; width: 1320px; height: 860px; transform-origin: 50% 0; transform: rotateX(102deg); transform-style: preserve-3d }
+.lid .face { position: absolute; inset: 0; border-radius: 34px; background: #0b0b0c; box-shadow: 0 0 0 5px #a7a9ac; transform: rotateX(180deg); backface-visibility: hidden }
+.lid .shot { position: absolute; left: 30px; right: 30px; top: 34px; bottom: 30px; border-radius: 10px; overflow: hidden; background: #111 }
+.lid .shot img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; display: block }
+.lid .shot::after { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,.10), transparent 38%) }
+.lid .cam { position: absolute; left: 50%; top: 0; width: 220px; height: 30px; margin-left: -110px; background: #0b0b0c; border-radius: 0 0 14px 14px; z-index: 2 }
+.lid .back { position: absolute; inset: 0; border-radius: 34px; background: linear-gradient(#cfd1d4, #aeb0b3) }
+.shadow { position: absolute; left: -760px; top: -560px; width: 1520px; height: 1120px; border-radius: 80px; background: var(--shade, rgba(40,10,0,.55)); filter: blur(46px); transform: translateZ(-26px) translate(60px, 90px) }
+.lidshadow { position: absolute; left: -680px; top: -1300px; width: 1360px; height: 900px; background: linear-gradient(rgba(40,10,0,0), rgba(40,10,0,.45)); filter: blur(50px); transform: translateZ(-26px) skewX(-12deg) translateX(-160px) }
+
+.ball { position: absolute; border-radius: 50% }
+.bball { width: 560px; height: 560px; left: -150px; top: 70px;
+  background: radial-gradient(circle at 34% 30%, #f0874e, #d4541f 45%, #8e2c0b 100%) }
+.bball svg { position: absolute; inset: 0; width: 100%; height: 100% }
+.bball::after { content: ""; position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, rgba(255,220,190,.35), transparent 30%, transparent 55%, rgba(30,5,0,.55) 100%), repeating-radial-gradient(circle at 40% 40%, rgba(0,0,0,.07) 0 1px, transparent 1px 4px) }
+.tball { width: 150px; height: 150px; background: radial-gradient(circle at 35% 30%, #f4ff8a, #c9dd27 50%, #7e8c0d) }
+.tball::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: repeating-conic-gradient(rgba(255,255,255,.06) 0 3deg, transparent 3deg 6deg) }
+.tball svg { position: absolute; inset: 0 }
+</style></head>
+<body>
+<div class="scene" id="scene">
+  <div class="world" id="world">
+    <div class="floor" id="floor"></div>
+  </div>
+  <div class="light"></div>
+</div>
+<script>
+const q = new URLSearchParams(location.search);
+const scene = q.get('scene') || 'court', shot = q.get('shot') || 's1.png';
+document.body.className = scene;
+const world = document.getElementById('world'), floor = document.getElementById('floor');
+const angled = scene === 'court' || scene === 'stone';
+const tilt = angled ? 'rotateX(60deg) rotateZ(-14deg)' : 'rotateX(55deg) rotateZ(0deg)';
+world.style.transform = (angled ? 'translate(120px, 170px) scale(.66) ' : 'translateY(190px) scale(.66) ') + tilt;
+const add = (parent, html) => { parent.insertAdjacentHTML('beforeend', html); return parent.lastElementChild; };
+
+if (scene === 'court') {
+  // centred on 4000,4000 in floor coordinates
+  [[-1800, 600, 5200, 4200], [2500, -2600, 4600, 3800], [-900, 3150, 6000, 5000]].forEach(([x, y, w, h]) =>
+    add(floor, `<div class="arc" style="left:${9000 + x}px;top:${9000 + y}px;width:${w}px;height:${h}px"></div>`));
+} else {
+  const L = (x, y, w, h) => add(floor, `<div class="line" style="left:${9000 + x}px;top:${9000 + y}px;width:${w}px;height:${h}px"></div>`);
+  L(-9000, 820, 18000, 26);    // baseline in front of the laptop
+  L(-340, -9000, 26, 9820);   // centre service line on the green
+  L(1900, -9000, 22, 9820);
+}
+
+const lap = add(floor, `<div class="lap" style="left:9000px;top:9000px">
+  <div class="shadow"></div>
+  <div class="base"><div class="kb">${Array.from({ length: 65 }, (_, i) => `<i class="${i === 60 ? 'sp' : ''}"></i>`).join('')}</div><div class="pad"></div><div class="notch"></div></div>
+  <div class="edge"></div>
+  <div class="lid"><div class="back"></div><div class="face"><div class="cam"></div><div class="shot"><img src="${shot}"></div></div></div>
+</div>`);
+
+if (scene === 'stone' || scene === 'linen') {
+  // soft afternoon window light falling across the floor, the room's shade at the edges
+  floor.insertAdjacentHTML('afterbegin', '<div class="sun"></div>');
+} else if (scene === 'court') {
+  // basketball sits on the floor, top left; drawn upright (a sphere looks the same from any angle)
+  const b = add(document.getElementById('scene'), `<div class="ball bball" style="left:70px;top:110px;width:470px;height:470px"><svg viewBox="0 0 100 100"><g fill="none" stroke="#2a1006" stroke-width="1.1"><circle cx="50" cy="50" r="49.2"/><path d="M50 1 V99"/><path d="M1 52 Q50 40 99 52"/><path d="M18 12 Q38 50 18 88"/><path d="M82 12 Q62 50 82 88"/></g></svg></div>`);
+  add(document.getElementById('scene'), `<div style="position:absolute;left:150px;top:520px;width:460px;height:130px;border-radius:50%;background:rgba(50,10,0,.5);filter:blur(30px);z-index:-1"></div>`);
+  b.style.zIndex = 2;
+} else {
+  const s = document.getElementById('scene');
+  add(s, `<div style="position:absolute;left:1820px;top:520px;width:170px;height:60px;border-radius:50%;background:rgba(40,10,0,.5);filter:blur(14px)"></div>`);
+  add(s, `<div class="ball tball" style="left:1800px;top:420px"><svg viewBox="0 0 100 100" width="150" height="150"><g fill="none" stroke="#f6f8e8" stroke-width="5"><path d="M8 30 Q50 52 8 76"/><path d="M92 24 Q50 50 92 72"/></g></svg></div>`);
+  add(s, `<div style="position:absolute;left:300px;top:1380px;width:150px;height:50px;border-radius:50%;background:rgba(40,10,0,.45);filter:blur(12px)"></div>`);
+  add(s, `<div class="ball tball" style="left:290px;top:1290px"><svg viewBox="0 0 100 100" width="150" height="150"><g fill="none" stroke="#f6f8e8" stroke-width="5"><path d="M8 30 Q50 52 8 76"/><path d="M92 24 Q50 50 92 72"/></g></svg></div>`);
+}
+</script>
+</body></html>

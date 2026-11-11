@@ -206,19 +206,21 @@ type Item = { src: string; w: number; h: number; name: string; video?: string; p
 type Rect = { x: number; y: number; w: number; h: number };
 type Plan = { rects: Rect[]; height: number };
 
-function planMosaic(items: Item[], o: { gap: number; minW: number; rowH: [number, number]; pattern: string[]; maxRow: number }): Plan {
+function planMosaic(items: Item[], o: { gap: number; minW: number; rowH: [number, number]; pattern: string[]; maxRow: number; px: number }): Plan {
   const W = 1000, g = o.gap, R = items.map((it) => it.w / it.h);
+  // never show a piece wider than its own pixels (10% leeway), so nothing is blown up and soft
+  const sharp = (i: number, w: number) => (w * o.px) / W <= items[i].w * 1.1;
   const rects: Rect[] = new Array(items.length);
   let y = 0, at = 0, step = 0;
   const row = (idx: number[]) => {
     const h = (W - g * (idx.length - 1)) / idx.reduce((a, i) => a + R[i], 0);
-    return { h, ok: h >= o.rowH[0] && h <= o.rowH[1] && idx.every((i) => R[i] * h >= o.minW) };
+    return { h, ok: h >= o.rowH[0] && h <= o.rowH[1] && idx.every((i) => R[i] * h >= o.minW && sharp(i, R[i] * h)), loose: idx.every((i) => R[i] * h >= o.minW * 0.8 && sharp(i, R[i] * h)) };
   };
   const putRow = (idx: number[], h: number) => { let x = 0; idx.forEach((i) => { const w = R[i] * h; rects[i] = { x, y, w, h }; x += w + g; }); y += h + g; };
   // feature piece f beside a stack of a over b; widths solved so both sides end at the same height
   const stack = (f: number, a: number, b: number, left: boolean) => {
     const s = 1 / R[a] + 1 / R[b], c = ((W - g) / R[f] - g) / (s + 1 / R[f]), bw = W - g - c, h = bw / R[f];
-    const ok = c >= o.minW && bw >= o.minW * 1.5 && h <= o.rowH[1] * 2.1 && c / R[a] >= o.minW * 0.55 && c / R[b] >= o.minW * 0.55;
+    const ok = sharp(f, bw) && sharp(a, c) && sharp(b, c) && c >= o.minW && bw >= o.minW * 1.5 && h <= o.rowH[1] * 2.1 && c / R[a] >= o.minW * 0.55 && c / R[b] >= o.minW * 0.55;
     return { ok, put: () => {
       const fx = left ? 0 : c + g, sx = left ? bw + g : 0, ha = c / R[a];
       rects[f] = { x: fx, y, w: bw, h }; rects[a] = { x: sx, y, w: c, h: ha }; rects[b] = { x: sx, y: y + ha + g, w: c, h: h - ha - g }; y += h + g;
@@ -229,7 +231,7 @@ function planMosaic(items: Item[], o: { gap: number; minW: number; rowH: [number
     const want = o.pattern[step % o.pattern.length];
     let done = false;
     // a very wide piece takes the full width
-    if (R[at] > 2.4) { putRow([at], W / R[at]); at++; step++; continue; }
+    if (R[at] > 2.4 && sharp(at, W)) { putRow([at], W / R[at]); at++; step++; continue; }
     if ((want === 'L' || want === 'R') && left >= 3) {
       const tri = [at, at + 1, at + 2];
       // try each of the three as the feature, keep the first that works (prefer the squarest feature)
@@ -243,13 +245,15 @@ function planMosaic(items: Item[], o: { gap: number; minW: number; rowH: [number
     const n = want === '1' ? 1 : want === '2' ? 2 : want === '3' ? 3 : 3;
     const tries = [n, n === 3 ? 2 : 3, 4, 2, 1].filter((k, i, arr) => k <= left && k <= o.maxRow && arr.indexOf(k) === i);
     for (const k of tries) { const idx = Array.from({ length: k }, (_, j) => at + j), r = row(idx); if (r.ok) { putRow(idx, r.h); at += k; done = true; break; } }
-    if (!done) { putRow([at], W / R[at]); at += 1; } // nothing fits: the piece gets the full width on its own
+    // nothing fits the pattern: pair it up side by side if that stays sharp, else show it alone at its own size
+    if (!done) for (const k of [2, 3, 4].filter((k) => k <= left && k <= Math.max(2, o.maxRow))) { const idx = Array.from({ length: k }, (_, j) => at + j), r = row(idx); if (r.loose) { putRow(idx, r.h); at += k; done = true; break; } }
+    if (!done) { const w = Math.min(W, (items[at].w * 1.1 * W) / o.px), h = w / R[at]; rects[at] = { x: (W - w) / 2, y, w, h }; y += h + g; at += 1; }
     step++;
   }
   return { rects, height: Math.max(0, y - g) };
 }
-const DESK = { gap: 10, minW: 190, rowH: [190, 520] as [number, number], pattern: ['L', '3', 'R', '2'], maxRow: 4 };
-const MOB = { gap: 16, minW: 440, rowH: [260, 1100] as [number, number], pattern: ['1', 'L', '2', 'R'], maxRow: 2 };
+const DESK = { gap: 10, minW: 190, rowH: [190, 520] as [number, number], pattern: ['L', '3', 'R', '2'], maxRow: 4, px: 1408 };
+const MOB = { gap: 16, minW: 440, rowH: [260, 1100] as [number, number], pattern: ['1', 'L', '2', 'R'], maxRow: 2, px: 380 };
 
 function BrandCase({ w, open }: { w: World; open: Open }) {
   const groups = w.groups ?? [];

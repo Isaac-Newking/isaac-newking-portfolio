@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Isaac Newking, Design Portfolio 2026</title>
+<style>
+@font-face { font-family: 'FD'; src: url(../../app/fonts/funnel-display.woff2) format('woff2'); font-weight: 300 800 }
+@font-face { font-family: 'IS'; src: url(../../app/fonts/instrument-sans.woff2) format('woff2'); font-weight: 400 700 }
+@font-face { font-family: 'PX'; src: url(../../app/fonts/silkscreen.woff2) format('woff2') }
+:root { --void: #050505; --ink: #F2F2F2; --dim: rgba(242,242,242,.62); --line: rgba(255,255,255,.09); --signal: #FF9600; --blue: #2F6BFF }
+* { box-sizing: border-box; margin: 0 }
+html, body { background: #222 }
+.slide { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--void); color: var(--ink); font-family: 'IS', sans-serif;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 132px 132px; background-position: -1px -1px; page-break-after: always }
+.bar { position: absolute; left: 72px; right: 72px; top: 44px; display: flex; justify-content: space-between; font: 400 14px/1 'PX', monospace; letter-spacing: .08em; color: var(--dim) }
+.bar b { color: var(--ink); font-weight: 400 }
+.foot { position: absolute; left: 72px; right: 72px; bottom: 40px; display: flex; justify-content: space-between; font: 400 13px/1 'PX', monospace; color: var(--dim) }
+.mk { display: inline-block; width: 10px; height: 10px; background: var(--signal); margin: 0 14px; vertical-align: middle }
+.label { font: 400 15px/1 'PX', monospace; letter-spacing: .1em; color: var(--signal); text-transform: uppercase }
+h1, h2 { font-family: 'FD', sans-serif; font-weight: 800; letter-spacing: -.05em; line-height: .86 }
+
+/* cover */
+.cover .title { position: absolute; left: 50%; top: 47%; transform: translate(-50%, -50%); text-align: center }
+.cover .by { font: 600 30px/1 'FD'; letter-spacing: .22em; margin-bottom: 26px }
+.cover h1 { font-size: 250px }
+.cover .sticker { position: absolute; right: -150px; top: 150px; font: 800 64px/1 'FD'; color: #111; background: #fff; padding: 18px 26px 22px; box-shadow: 8px 8px 0 var(--signal) }
+.cover .roles { position: absolute; left: 0; right: 0; bottom: 150px; text-align: center; font: 500 22px/1 'IS'; letter-spacing: .16em; text-transform: uppercase; color: var(--dim) }
+.room { position: absolute; inset: 120px 230px 220px; border: 1px solid rgba(255,255,255,.14) }
+.room::before { content: ''; position: absolute; inset: 120px 300px; border: 1px solid rgba(255,255,255,.1) }
+
+/* about */
+.about .frame { position: absolute; left: 150px; top: 230px; width: 520px; height: 650px; border: 2px solid var(--blue) }
+.about .frame canvas { position: absolute; left: 70px; top: 80px; width: 380px; height: 456px; image-rendering: pixelated }
+.about .frame i { position: absolute; width: 14px; height: 14px; background: var(--void); border: 2px solid var(--blue) }
+.about .txt { position: absolute; left: 790px; right: 150px; top: 230px }
+.about h2 { font-size: 150px }
+.about h2 small { display: block; font-size: 84px; letter-spacing: -.04em; margin-top: 10px }
+.about h2 em { font-style: normal; color: var(--signal) }
+.about p { font-size: 27px; line-height: 1.5; color: var(--dim); margin-top: 40px; max-width: 900px }
+.facts { display: flex; gap: 56px; margin-top: 54px }
+.facts div { border-top: 1px solid rgba(255,255,255,.2); padding-top: 18px; min-width: 220px }
+.facts b { display: block; font: 800 64px/1 'FD'; letter-spacing: -.04em }
+.facts span { font: 400 13px/1.6 'PX'; color: var(--dim) }
+
+/* what I do */
+.wid { background-color: #0b0b0b }
+.wid .band { position: absolute; left: 0; right: 0; top: 50%; height: 190px; transform: translateY(-50%); background: var(--signal);
+  clip-path: path('M0 0 Q960 38 1920 0 L1920 190 Q960 152 0 190 Z') }
+.wid .list { position: absolute; left: 0; right: 0; top: 50%; text-align: center; font: 600 120px/1 'FD'; letter-spacing: -.04em }
+.wid .list div { position: absolute; left: 0; right: 0; transform: translateY(-50%) }
+.wid .lab { position: absolute; left: 50%; top: 130px; transform: translateX(-50%); font: 600 30px/1 'FD'; background: #1a1a1a; padding: 12px 22px }
+
+/* project slides */
+.proj .side { position: absolute; left: 72px; top: 150px; width: 400px; bottom: 120px; display: flex; flex-direction: column }
+.proj h2 { font-size: 92px; margin: 22px 0 28px; text-wrap: balance }
+.proj .blurb { font-size: 22px; line-height: 1.5; color: var(--dim) }
+.proj .meta { margin-top: auto; font: 400 13px/1.9 'PX'; color: var(--dim) }
+.proj .meta b { color: var(--ink); font-weight: 400 }
+.proj .box { position: absolute; left: 520px; right: 72px; top: 110px; bottom: 80px }
+.proj .mosaic { position: absolute }
+.proj .mosaic img { position: absolute; display: block; object-fit: cover; background: #111 }
+.proj .cap { position: absolute; font: 400 12px/1 'PX'; color: var(--dim); white-space: nowrap }
+
+/* section opener for the smaller worlds */
+.duo .box { left: 72px; right: 72px; top: 330px; bottom: 120px }
+.duo .head { position: absolute; left: 72px; right: 72px; top: 120px; height: 180px; display: flex; align-items: flex-end; justify-content: space-between; gap: 60px }
+.duo h2 { font-size: 104px }
+.duo .blurb { max-width: 640px; flex: none; font-size: 22px; line-height: 1.5; color: var(--dim); text-align: right }
+
+/* contact */
+.contact h2 { position: absolute; left: 150px; top: 190px; font-size: 190px; max-width: 1500px }
+.contact .mail { position: absolute; left: 150px; top: 640px; font: 600 54px/1 'FD'; border-bottom: 3px solid var(--signal); padding-bottom: 12px }
+.contact .links { position: absolute; left: 150px; top: 770px; font: 400 18px/1.8 'PX'; color: var(--dim) }
+.contact .floor { position: absolute; left: -20%; right: -20%; bottom: 0; height: 230px; perspective: 600px; overflow: hidden; border-top: 1px solid rgba(255,255,255,.25) }
+.contact .floor div { position: absolute; left: 0; right: 0; top: 40px; transform: rotateX(62deg); transform-origin: 50% 0; font: 800 170px/1 'FD'; letter-spacing: -.04em; white-space: nowrap; color: rgba(255,255,255,.42); text-align: center }
+.contact .av { position: absolute; right: 230px; bottom: 120px; width: 190px; image-rendering: pixelated }
+</style></head>
+<body>
+
+<section class="slide cover">
+  <div class="room"></div>
+  <div class="bar"><b>ISAAC NEWKING</b><span>BRAND DESIGNER <span class="mk"></span> PORTFOLIO 2026</span></div>
+  <div class="title"><div class="by">ISAAC NEWKING</div><h1>Design<br>Portfolio</h1><div class="sticker">2026</div></div>
+  <div class="roles">Brand Designer <span class="mk"></span> Visual Identity <span class="mk"></span> Motion <span class="mk"></span> UI/UX <span class="mk"></span> Logo</div>
+  <div class="foot"><span>NEWKINGISAAC@OUTLOOK.COM</span><span>01 / 11</span></div>
+</section>
+
+<section class="slide about">
+  <div class="bar"><b>ISAAC NEWKING</b><span>ABOUT</span></div>
+  <div class="frame"><canvas id="av" width="20" height="24"></canvas><i style="left:-8px;top:-8px"></i><i style="right:-8px;top:-8px"></i><i style="left:-8px;bottom:-8px"></i><i style="right:-8px;bottom:-8px"></i><i style="left:calc(50% - 8px);top:-8px"></i><i style="left:calc(50% - 8px);bottom:-8px"></i><i style="left:-8px;top:calc(50% - 8px)"></i><i style="right:-8px;top:calc(50% - 8px)"></i></div>
+  <div class="txt">
+    <div class="label">Hello</div>
+    <h2>Hello<small>I'm Isaac N<em>ew</em>king</small></h2>
+    <p>I'm a brand designer. For six years I've built identities that hold up everywhere they land: a token launch on X, a trading app, a billboard, a box on a shelf. I work across branding, motion and interface design for crypto founders, agencies and local businesses.</p>
+    <div class="facts"><div><b>6 yrs</b><span>EXPERIENCE</span></div><div><b>7</b><span>BRAND IDENTITIES</span></div><div><b>5</b><span>WORLDS OF WORK</span></div></div>
+  </div>
+  <div class="foot"><span>BRANDING <span class="mk"></span> LOGO <span class="mk"></span> MOTION <span class="mk"></span> ILLUSTRATION <span class="mk"></span> VISUAL IDENTITY</span><span>02 / 11</span></div>
+</section>
+
+<section class="slide wid" id="wid">
+  <div class="bar"><b>ISAAC NEWKING</b><span>SERVICES</span></div>
+  <div class="lab">What I do</div>
+  <div class="band"></div>
+  <div class="list" id="widlist"></div>
+  <div class="foot"><span>SEE THE ANIMATED VERSION: WHAT-I-DO.GIF</span><span>03 / 11</span></div>
+</section>
+
+<div id="projects"></div>
+
+<section class="slide contact">
+  <div class="bar"><b>ISAAC NEWKING</b><span>CONTACT</span></div>
+  <h2>Got a brand to build? Let's talk.</h2>
+  <div class="mail">newkingisaac@outlook.com</div>
+  <div class="links">BEHANCE.NET/ISAACNEWKING <span class="mk"></span> ISAAC-ROSE.VERCEL.APP</div>
+  <div class="floor"><div>NEWKING ISAAC <span class="mk" style="width:28px;height:28px"></span> NEWKING ISAAC <span class="mk" style="width:28px;height:28px"></span> NEWKING ISAAC</div></div>
+  <div class="foot" style="z-index:2"><span>© 2026 ISAAC NEWKING</span><span>11 / 11</span></div>
+</section>
+
+<script>
+const IMG = '../../public/img/work/';
+// the site's 8-bit avatar, drawn at 1px per cell
+const AV = ['......########......', '....############....', '...##############...', '..################..', '..####........####..', '..###..........###..',
+  '..##............##..', '..##..##....##..##..', '..##..##....##..##..', '..##............##..', '..##.....##.....##..', '...##..........##...',
+  '...##...####...##...', '....##........##....', '.....##########.....', '.......######.......', '.......##..##.......', '....############....',
+  '..################..', '.##################.', '.##################.', '####################', '####################', '####################'];
+{ const x = document.getElementById('av').getContext('2d'); AV.forEach((r, y) => [...r].forEach((c, i) => { if (c === '#') { x.fillStyle = y >= 17 ? '#FF9600' : '#F2F2F2'; x.fillRect(i, y, 1, 1); } })); }
+const SERVICES = ['Brand Identity', 'Logo Design', 'Motion Design', 'UI/UX Design', 'Visual Identity', 'Social & Launch Graphics', 'Illustration'];
+// what I do: the lens frame, with the active service inside the band
+const ACTIVE = Number(new URLSearchParams(location.search).get('svc') ?? 2);
+window.setSvc = (A) => document.getElementById('widlist').innerHTML = SERVICES.map((s, i) => {
+  const ACTIVE = A;
+  const d = i - ACTIVE, ad = Math.abs(d);
+  if (ad > 2) return '';
+  const y = Math.sign(d) * (Math.min(ad, 1) * 150 + Math.max(0, ad - 1) * 115), sc = 1 - ad * 0.17;
+  return `<div style="transform:translateY(calc(-50% + ${y}px)) scale(${sc});opacity:${1 - ad * 0.36};color:${ad < 0.5 ? '#0a0a0a' : '#f2f2f2'}">${s}</div>`;
+}).join('');
+setSvc(ACTIVE);
+
+const P = [
+  { kind: 'Branding · 01', name: 'Esorae Home', blurb: 'Identity and website for a home textile and fragrance brand: brand personality, an online store, billboard and roll-up campaigns, product shoots and a social system in charcoal and gold.', meta: [['Discipline', 'Identity, campaign, motion'], ['Year', '2025']],
+    imgs: [['branding/eh-billboard.jpg', 1920, 1080], ['branding/eh-pillow.jpg', 1493, 2000], ['branding/eh-site-poster.jpg', 1280, 800], ['branding/eh-post7.jpg', 1200, 1500], ['branding/eh-personality.jpg', 1920, 1080]] },
+  { kind: 'Branding · 02', name: "The Stewards' Table", blurb: 'Identity for a church stewardship community: a heart-and-cross mark, Forest, Moss and Ivory with gold and maroon, Bricolage Grotesque, apparel, out-of-home and a member app.', meta: [['Discipline', 'Identity, UI/UX'], ['Year', '2026']],
+    imgs: [['branding/st-hero.jpg', 1920, 1084], ['branding/st-tee-green.jpg', 1060, 978], ['branding/st-group.jpg', 1064, 562], ['branding/st-shelter.jpg', 1920, 1080], ['branding/st-laptop.jpg', 1920, 1080]] },
+  { kind: 'Branding · 03', name: 'LonePay', blurb: 'Identity and brand guidelines for a payments app: a folded L mark, Electric and Midnight Indigo with Inter Bold, a flowing pattern, then the system at work across cards, app, apparel and billboards.', meta: [['Discipline', 'Identity, guidelines'], ['Year', '2025']],
+    imgs: [['branding/lp-cards.jpg', 1280, 875], ['branding/lp-mark.jpg', 625, 717], ['branding/lp-p-devices.jpg', 2000, 1125], ['branding/lp-card-violet.jpg', 1080, 810], ['branding/lp-tee-violet.jpg', 1080, 810]] },
+  { duo: true, kind: 'Brand · Social', name: 'Fission', blurb: 'Brand world for a DeFi protocol: a green crystal key visual, tokenomics and a run of launch and partnership graphics.', imgs: [['fission/design-2.jpg', 2000, 2000, 'Key visual, the crystal'], ['fission/fission-tokenomics.jpg', 1920, 1080, 'Tokenomics']] },
+  { duo: true, kind: 'UI / UX', name: 'Product interfaces', blurb: 'Trading and NFT products designed for speed: dense data made calm, on desktop and mobile.', imgs: [['uiux/new-pairs.jpg', 2400, 1707, 'Sniper: New Pairs'], ['uiux/nft.jpg', 2100, 1500, 'NFT marketplace']] },
+  { duo: true, kind: 'Web3', name: 'Web3 projects', blurb: 'Launch systems for crypto projects, from Axislink announcements to the Profit AI score card.', imgs: [['web3/axislink-live.jpg', 1280, 640, 'Axislink: We Are Live'], ['web3/profit-ai-score.jpg', 1270, 829, 'Profit AI: score card']] },
+  { duo: true, kind: 'Print · Social', name: 'Flyers & Banners', blurb: 'Event and product flyers with a strong headline first: anime culture, beauty and lifestyle.', imgs: [['flyers/joji-goe-to-japan-3.jpg', 2000, 2000, 'Joji Sama goes to Japan'], ['flyers/scentify-logo.jpg', 2000, 2000, 'Scentify']] },
+];
+
+// the site's no-crop mosaic: a feature piece beside a stack of two, then justified rows; scaled to fit the box
+function plan(items, W, g) {
+  const R = items.map((i) => i[1] / i[2]), rects = [];
+  let y = 0, at = 0, flip = true;
+  const row = (idx) => { const h = (W - g * (idx.length - 1)) / idx.reduce((a, i) => a + R[i], 0); let x = 0; idx.forEach((i) => { rects[i] = { x, y, w: R[i] * h, h }; x += R[i] * h + g; }); y += h + g; };
+  while (at < items.length) {
+    const left = items.length - at;
+    if (left >= 3) {
+      const tri = [at, at + 1, at + 2]; let done = false;
+      for (const f of [...tri].sort((p, q) => Math.abs(Math.log(R[p])) - Math.abs(Math.log(R[q])))) {
+        const [a, b] = tri.filter((t) => t !== f), s = 1 / R[a] + 1 / R[b], c = ((W - g) / R[f] - g) / (s + 1 / R[f]), bw = W - g - c, h = bw / R[f];
+        if (c > W * 0.22 && bw > W * 0.4) {
+          const fx = flip ? 0 : c + g, sx = flip ? bw + g : 0, ha = c / R[a];
+          rects[f] = { x: fx, y, w: bw, h }; rects[a] = { x: sx, y, w: c, h: ha }; rects[b] = { x: sx, y: y + ha + g, w: c, h: h - ha - g }; y += h + g; at += 3; flip = !flip; done = true; break;
+        }
+      }
+      if (done) continue;
+    }
+    const k = Math.min(left, 2); row(Array.from({ length: k }, (_, j) => at + j)); at += k;
+  }
+  return { rects, H: y - g };
+}
+
+const host = document.getElementById('projects');
+P.forEach((p, n) => {
+  const s = document.createElement('section');
+  s.className = 'slide proj' + (p.duo ? ' duo' : '');
+  const page = String(n + 4).padStart(2, '0');
+  s.innerHTML = p.duo
+    ? `<div class="bar"><b>ISAAC NEWKING</b><span>${p.kind.toUpperCase()}</span></div><div class="head"><div><div class="label">${p.kind}</div><h2>${p.name}</h2></div><p class="blurb">${p.blurb}</p></div><div class="box"></div><div class="foot"><span>SELECTED WORK</span><span>${page} / 11</span></div>`
+    : `<div class="bar"><b>ISAAC NEWKING</b><span>${p.kind.toUpperCase()}</span></div><div class="side"><div class="label">${p.kind}</div><h2>${p.name}</h2><p class="blurb">${p.blurb}</p><div class="meta">${p.meta.map(([a, b]) => `${a.toUpperCase()} <b>${b}</b>`).join('<br>')}</div></div><div class="box"></div><div class="foot"><span>CASE STUDY</span><span>${page} / 11</span></div>`;
+  host.appendChild(s);
+  const box = s.querySelector('.box');
+  requestAnimationFrame(() => {
+    const BW = box.clientWidth, BH = box.clientHeight, g = 16;
+    const items = p.imgs.map(([f, w, h]) => [f, w, h]);
+    const pl = p.duo ? (() => { const h = (BW - g) / (items[0][1] / items[0][2] + items[1][1] / items[1][2]); return { rects: [{ x: 0, y: 0, w: items[0][1] / items[0][2] * h, h }, { x: items[0][1] / items[0][2] * h + g, y: 0, w: items[1][1] / items[1][2] * h, h }], H: h }; })() : plan(items, BW, g);
+    const sc = Math.min(1, BH / pl.H), mw = BW * sc, mh = pl.H * sc;
+    const m = document.createElement('div'); m.className = 'mosaic';
+    Object.assign(m.style, { width: mw + 'px', height: mh + 'px', left: (BW - mw) / 2 + 'px', top: (p.duo ? 0 : (BH - mh) / 2) + 'px' });
+    pl.rects.forEach((r, i) => {
+      const im = new Image(); im.src = IMG + items[i][0];
+      Object.assign(im.style, { left: r.x * sc + 'px', top: r.y * sc + 'px', width: r.w * sc + 'px', height: r.h * sc + 'px' });
+      m.appendChild(im);
+      if (p.duo) { const c = document.createElement('div'); c.className = 'cap'; c.textContent = p.imgs[i][3].toUpperCase(); Object.assign(c.style, { left: r.x * sc + 'px', top: r.h * sc + 16 + 'px' }); m.appendChild(c); }
+    });
+    box.appendChild(m);
+  });
+});
+</script>
+</body></html>

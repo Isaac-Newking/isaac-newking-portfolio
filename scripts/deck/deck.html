@@ -75,6 +75,7 @@ h1, h2 { font-family: 'FD', sans-serif; font-weight: 800; letter-spacing: -.05em
 .toc a { display: flex; align-items: baseline; gap: 14px; color: var(--ink); text-decoration: none; font: 600 30px/1 'FD'; letter-spacing: -.02em; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.12) }
 .toc a i { flex: 1; border-bottom: 2px dotted rgba(255,255,255,.22); transform: translateY(-6px) }
 .toc a span { font: 400 16px/1 'PX'; color: var(--signal) }
+.play { position: absolute; z-index: 4; font: 400 12px/1 'PX'; background: var(--signal); color: #0a0a0a; padding: 6px 9px; letter-spacing: .06em }
 .dev { position: absolute }
 .dev > * { position: absolute; display: block }
 .dev img { position: absolute; display: block; width: 100%; height: 100%; object-fit: cover }
@@ -183,7 +184,28 @@ setSvc(ACTIVE);
 
 // Every piece from the site (data.js, made by build_data.py). Each section opens with its title and up to four
 // pieces, then continues across full-width slides of up to six, so viewers can see all of the work.
-const SEC = window.SECTIONS;
+const Q = new URLSearchParams(location.search), VERSION = Q.get('v') || 'long', FR = Q.get('frames') || '';
+const ALL = window.SECTIONS;
+const byName = (n) => ALL.find((x) => x.name === n);
+const find = (sec, base) => sec.pieces.find((p) => p[0].split('/').pop().replace(/\.\w+$/, '') === base);
+const pick = (sec, names) => names.map((b) => find(sec, b)).filter(Boolean);
+let SEC = ALL;
+// short version: the three main brands get an opening slide and two more, the rest one slide each;
+// Esorae Foundation, eurban, O5 Dynamix and OJKonsult are left out
+if (VERSION === 'short') {
+  const EH = byName('Esorae Home'), ST = byName("The Stewards' Table"), LP = byName('LonePay');
+  const ax = byName('Axislink'), pa = byName('Profit AI');
+  SEC = [
+    { ...EH, chunks: [pick(EH, ['eh-billboard', 'eh-site-poster', 'eh-pillow', 'eh-post7']), pick(EH, ['esorae-diffuser', 'eh-personality', 'eh-rollup', 'eh-post4', 'eh-post2']), pick(EH, ['esorae-pillows', 'eh-vision', 'eh-post5', 'eh-post8', 'eh-post1'])] },
+    { ...ST, chunks: [pick(ST, ['st-hero', 'st-type', 'st-palette', 'st-colourways']), pick(ST, ['st-mark-gold', 'st-faithful', 'st-mission', 'st-patterns', 'st-belief']), pick(ST, ['st-group', 'st-tee-green', 'st-shelter', 'st-laptop', 'st-billboard2'])] },
+    { ...LP, chunks: [pick(LP, ['lp-cards', 'lp-p-logo', 'lp-mark', 'lp-p-colour']), pick(LP, ['lp-p-type', 'lp-p-pattern', 'lp-p-devices', 'lp-card-violet', 'lp-social']), pick(LP, ['lp-tee-violet', 'lp-hoodie-back', 'lp-tote', 'lp-badge', 'lp-p-billboard'])] },
+    { ...byName('Fission'), chunks: [pick(byName('Fission'), ['design-2', 'fission-tokenomics', 'fission-jt-redo-2', 'decentralized'])] },
+    { ...byName('Product interfaces'), chunks: [pick(byName('Product interfaces'), ['new-pairs', 'nft', 'home', 'sniper-mobile'])] },
+    { ...ax, name: 'Web3 projects', id: 'sec-web3', blurb: 'Launch systems for crypto projects: the Axislink platform and launch, and the Profit AI identity, reel and score card.', chunks: [[find(ax, 'axislink-live'), find(ax, 'axislink-landing'), find(pa, 'profit-reel'), find(pa, 'profit-ai-score')]] },
+    { ...byName('Flyers & Banners'), chunks: [pick(byName('Flyers & Banners'), ['joji-goe-to-japan-3', 'scentify-logo', 'new-hip-and-happy', 'launch-rango'])] },
+  ];
+  SEC.forEach((x) => { x.pieces = x.chunks.flat(); });
+}
 
 // no-crop layouts: the site's feature-plus-stack plan, and justified rows split every possible way;
 // the slide uses whichever fills its box best
@@ -238,6 +260,7 @@ const FIRST = { w: 1328, h: 890 }, CONT = { w: 1776, h: 892 };
 const shapeOf = (it) => { const f = frameOf(it); return f ? [it[0], f.r * 1000, 1000, it[3], it[4]] : it; };
 const fill = (items, box) => { const pl = bestPlan(items.map(shapeOf), box.w, box.h, 14); return pl.rects.reduce((a, r) => a + r.w * r.h, 0) * pl.sc * pl.sc / (box.w * box.h); };
 SEC.forEach((sec) => {
+  if (sec.chunks) { sec.chunks.forEach((items, ci) => slides.push({ sec, items, ci, of: sec.chunks.length })); return; }
   const chunks = []; let at = 0;
   while (at < sec.pieces.length) {
     const box = at === 0 ? FIRST : CONT, max = at === 0 ? 4 : 6, left = sec.pieces.length - at;
@@ -261,11 +284,14 @@ function frameOf(it) {
   if (m === 'browser') { const sh = 1000 / r, H = sh + 42; return { r: 1000 / H, H, sh, kind: 'browser' }; }
   return null;
 }
+function media(it) { const im = new Image(); im.src = IMG + it[0]; im.alt = it[3]; if (it[5]) im.dataset.vid = it[5]; return im; }
+// motion frames for the Behance export: point every clip at frame k of its sequence
+window.setFrame = (k) => document.querySelectorAll('img[data-vid]').forEach((im) => { im.src = `${FR}/${im.dataset.vid}/${String(k + 1).padStart(3, '0')}.jpg`; });
 function placeDevice(m, it, f, box) {
   const d = document.createElement('div'); d.className = 'dev ' + f.kind; Object.assign(d.style, box);
   const pct = (v, of) => (v / of) * 100 + '%', H = f.H, src = IMG + it[0];
   const put = (cls, l, t, w, h, inner) => { const e = document.createElement('div'); e.className = cls; Object.assign(e.style, { left: pct(l, 1000), top: pct(t, H), width: pct(w, 1000), height: pct(h, H) }); if (inner) e.appendChild(inner); d.appendChild(e); return e; };
-  const img = () => { const im = new Image(); im.src = src; im.alt = it[3]; return im; };
+  const img = () => media(it);
   if (f.kind === 'laptop') { put('lid', 60, 0, 880, f.sh + 46); put('scr', 80, 26, 840, f.sh, img()); put('base', 0, f.sh + 46, 1000, 34); }
   if (f.kind === 'phone') { put('scr', 50, 50, 900, f.sh, img()); put('isl', 380, 74, 240, 46); }
   if (f.kind === 'browser') { put('barb', 0, 0, 1000, 42); put('scr', 0, 42, 1000, f.sh, img()); }
@@ -290,10 +316,12 @@ slides.forEach(({ sec, items, ci, of }) => {
   pl.rects.forEach((r, i) => {
     const pos = { left: r.x * sc + 'px', top: r.y * sc + 'px', width: r.w * sc + 'px', height: r.h * sc + 'px' };
     if (frames[i]) { placeDevice(m, items[i], frames[i], pos); return; }
-    const im = new Image(); im.src = IMG + items[i][0]; im.alt = items[i][3];
+    const im = media(items[i]);
     Object.assign(im.style, pos);
     m.appendChild(im);
   });
+  // a small tag on pieces that move in the Behance version
+  pl.rects.forEach((r, i) => { if (!items[i][5]) return; const t = document.createElement('div'); t.className = 'play'; t.textContent = '▶ MOTION'; Object.assign(t.style, { left: r.x * sc + 12 + 'px', top: r.y * sc + 12 + 'px' }); m.appendChild(t); });
   box.appendChild(m);
 });
 // page numbers across the whole deck

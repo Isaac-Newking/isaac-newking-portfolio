@@ -1,10 +1,21 @@
 # Behance / Dribbble showcase
 
-- `Isaac-Newking-Portfolio-2026-upload.pdf`: **use this one to upload** (Behance PDF import, email, LinkedIn). Every page is a flattened 3840×2160 image, so it looks the same everywhere and needs no fonts; 41 pages, 17 MB. The Selected works page (page 4) links to each project.
-- `Isaac-Newking-Portfolio-2026.pdf`: the same deck with live text (selectable), for printing or editing.
-- `slides/01.png` … `41.png`: each slide at 1920×1080, ready to upload as Behance project modules or Dribbble shots.
-- `what-i-do.gif` (1200 wide, loops) and `what-i-do.mp4` (1920×1080): the animated services slide.
+Two versions, each in two formats, all in the original deck style:
 
-Source: `scripts/deck/deck.html`. Pieces and copy are in the `P` list near the bottom. To re-export, render each `.slide` with Playwright at 1920×1080 and print the page to PDF (see the commands in the session notes in `CLAUDE.md`).
+| | Behance module set (motion plays) | PDF (still frames) |
+| --- | --- | --- |
+| **Short**, 18 pages | `short/behance/` or `short/behance-modules-short.zip` | `short/Isaac-Newking-Portfolio-short.pdf` |
+| **Long**, 41 pages, every piece | `long/behance/` or `long/behance-modules-long.zip` | `long/Isaac-Newking-Portfolio-long.pdf` |
 
-The deck includes every piece on the site (142). To refresh it after adding work: `python3 scripts/deck/build_data.py`, then re-render `scripts/deck/deck.html`. Sections split across slides automatically so each slide stays well filled and no piece is cropped.
+Short: Esorae Home, The Stewards' Table and LonePay get three slides each; Fission, UI/UX, Web3 (Axislink + Profit AI) and Flyers one each. Esorae Foundation, eurban, O5 Dynamix and OJKonsult are long-only.
+
+Animated modules (`.gif`): cover (pixel reveal), about (photo depixelates), What I do (services lens), and every slide with a website recording or reel (marked ▶ MOTION).
+
+## Upload to Behance
+1. Unzip the module set and select all files at once; they upload in number order.
+2. Set module spacing to 0.
+3. Use `01.gif` as the thumbnail.
+
+The PDFs are flattened 4K pages with a clickable Selected works page. `what-i-do.gif` / `.mp4` are the standalone services animation.
+
+Rebuild: `python3 scripts/deck/build_data.py`, extract motion frames (see CLAUDE.md), then `node scripts/deck/export.js <framesDir> [short|long]`.

@@ -56,6 +56,10 @@ h1, h2 { font-family: 'FD', sans-serif; font-weight: 800; letter-spacing: -.05em
 .proj .box { position: absolute; left: 520px; right: 72px; top: 110px; bottom: 80px }
 .proj .mosaic { position: absolute }
 .proj .mosaic img { position: absolute; display: block; object-fit: cover; background: #111 }
+.cont .chead { position: absolute; left: 72px; right: 72px; top: 96px; display: flex; align-items: baseline; gap: 22px }
+.cont h3 { font: 800 44px/1 'FD'; letter-spacing: -.035em }
+.cont .part { font: 400 16px/1 'PX'; color: var(--dim); letter-spacing: .06em; margin-left: 12px; vertical-align: middle }
+.cont .box { left: 72px; right: 72px; top: 170px; bottom: 84px }
 .proj .cap { position: absolute; font: 400 12px/1 'PX'; color: var(--dim); white-space: nowrap }
 
 /* section opener for the smaller worlds */
@@ -113,6 +117,7 @@ h1, h2 { font-family: 'FD', sans-serif; font-weight: 800; letter-spacing: -.05em
   <div class="foot" style="z-index:2"><span>© 2026 ISAAC NEWKING</span><span>11 / 11</span></div>
 </section>
 
+<script src="data.js"></script>
 <script>
 const IMG = '../../public/img/work/';
 // the site's 8-bit avatar, drawn at 1px per cell
@@ -133,28 +138,20 @@ window.setSvc = (A) => document.getElementById('widlist').innerHTML = SERVICES.m
 }).join('');
 setSvc(ACTIVE);
 
-const P = [
-  { kind: 'Branding · 01', name: 'Esorae Home', blurb: 'Identity and website for a home textile and fragrance brand: brand personality, an online store, billboard and roll-up campaigns, product shoots and a social system in charcoal and gold.', meta: [['Discipline', 'Identity, campaign, motion'], ['Year', '2025']],
-    imgs: [['branding/eh-billboard.jpg', 1920, 1080], ['branding/eh-pillow.jpg', 1493, 2000], ['branding/eh-site-poster.jpg', 1280, 800], ['branding/eh-post7.jpg', 1200, 1500], ['branding/eh-personality.jpg', 1920, 1080]] },
-  { kind: 'Branding · 02', name: "The Stewards' Table", blurb: 'Identity for a church stewardship community: a heart-and-cross mark, Forest, Moss and Ivory with gold and maroon, Bricolage Grotesque, apparel, out-of-home and a member app.', meta: [['Discipline', 'Identity, UI/UX'], ['Year', '2026']],
-    imgs: [['branding/st-hero.jpg', 1920, 1084], ['branding/st-tee-green.jpg', 1060, 978], ['branding/st-group.jpg', 1064, 562], ['branding/st-shelter.jpg', 1920, 1080], ['branding/st-laptop.jpg', 1920, 1080]] },
-  { kind: 'Branding · 03', name: 'LonePay', blurb: 'Identity and brand guidelines for a payments app: a folded L mark, Electric and Midnight Indigo with Inter Bold, a flowing pattern, then the system at work across cards, app, apparel and billboards.', meta: [['Discipline', 'Identity, guidelines'], ['Year', '2025']],
-    imgs: [['branding/lp-cards.jpg', 1280, 875], ['branding/lp-mark.jpg', 625, 717], ['branding/lp-p-devices.jpg', 2000, 1125], ['branding/lp-card-violet.jpg', 1080, 810], ['branding/lp-tee-violet.jpg', 1080, 810]] },
-  { duo: true, kind: 'Brand · Social', name: 'Fission', blurb: 'Brand world for a DeFi protocol: a green crystal key visual, tokenomics and a run of launch and partnership graphics.', imgs: [['fission/design-2.jpg', 2000, 2000, 'Key visual, the crystal'], ['fission/fission-tokenomics.jpg', 1920, 1080, 'Tokenomics']] },
-  { duo: true, kind: 'UI / UX', name: 'Product interfaces', blurb: 'Trading and NFT products designed for speed: dense data made calm, on desktop and mobile.', imgs: [['uiux/new-pairs.jpg', 2400, 1707, 'Sniper: New Pairs'], ['uiux/nft.jpg', 2100, 1500, 'NFT marketplace']] },
-  { duo: true, kind: 'Web3', name: 'Web3 projects', blurb: 'Launch systems for crypto projects, from Axislink announcements to the Profit AI score card.', imgs: [['web3/axislink-live.jpg', 1280, 640, 'Axislink: We Are Live'], ['web3/profit-ai-score.jpg', 1270, 829, 'Profit AI: score card']] },
-  { duo: true, kind: 'Print · Social', name: 'Flyers & Banners', blurb: 'Event and product flyers with a strong headline first: anime culture, beauty and lifestyle.', imgs: [['flyers/joji-goe-to-japan-3.jpg', 2000, 2000, 'Joji Sama goes to Japan'], ['flyers/scentify-logo.jpg', 2000, 2000, 'Scentify']] },
-];
+// Every piece from the site (data.js, made by build_data.py). Each section opens with its title and up to four
+// pieces, then continues across full-width slides of up to six, so viewers can see all of the work.
+const SEC = window.SECTIONS;
 
-// the site's no-crop mosaic: a feature piece beside a stack of two, then justified rows; scaled to fit the box
-function plan(items, W, g) {
+// no-crop layouts: the site's feature-plus-stack plan, and justified rows split every possible way;
+// the slide uses whichever fills its box best
+function stackPlan(items, W, g) {
   const R = items.map((i) => i[1] / i[2]), rects = [];
   let y = 0, at = 0, flip = true;
   const row = (idx) => { const h = (W - g * (idx.length - 1)) / idx.reduce((a, i) => a + R[i], 0); let x = 0; idx.forEach((i) => { rects[i] = { x, y, w: R[i] * h, h }; x += R[i] * h + g; }); y += h + g; };
   while (at < items.length) {
-    const left = items.length - at;
+    const left = items.length - at; let done = false;
     if (left >= 3) {
-      const tri = [at, at + 1, at + 2]; let done = false;
+      const tri = [at, at + 1, at + 2];
       for (const f of [...tri].sort((p, q) => Math.abs(Math.log(R[p])) - Math.abs(Math.log(R[q])))) {
         const [a, b] = tri.filter((t) => t !== f), s = 1 / R[a] + 1 / R[b], c = ((W - g) / R[f] - g) / (s + 1 / R[f]), bw = W - g - c, h = bw / R[f];
         if (c > W * 0.22 && bw > W * 0.4) {
@@ -162,38 +159,78 @@ function plan(items, W, g) {
           rects[f] = { x: fx, y, w: bw, h }; rects[a] = { x: sx, y, w: c, h: ha }; rects[b] = { x: sx, y: y + ha + g, w: c, h: h - ha - g }; y += h + g; at += 3; flip = !flip; done = true; break;
         }
       }
-      if (done) continue;
     }
+    if (done) continue;
     const k = Math.min(left, 2); row(Array.from({ length: k }, (_, j) => at + j)); at += k;
   }
-  return { rects, H: y - g };
+  return { rects, H: y - g, W };
+}
+function rowPlans(items, W, g) {
+  const R = items.map((i) => i[1] / i[2]), n = items.length, out = [];
+  const splits = (start, rows) => rows === 1 ? [[n - start]] : Array.from({ length: n - start - rows + 1 }, (_, k) => k + 1).flatMap((k) => splits(start + k, rows - 1).map((r) => [k, ...r]));
+  for (let rows = 1; rows <= Math.min(3, n); rows++) for (const sp of splits(0, rows)) {
+    const rects = []; let y = 0, at = 0;
+    for (const k of sp) { const idx = Array.from({ length: k }, (_, j) => at + j), h = (W - g * (k - 1)) / idx.reduce((a, i) => a + R[i], 0); let x = 0; idx.forEach((i) => { rects[i] = { x, y, w: R[i] * h, h }; x += R[i] * h + g; }); y += h + g; at += k; }
+    out.push({ rects, H: y - g, W });
+  }
+  return out;
+}
+function bestPlan(items, BW, BH, g) {
+  let best = null, bestScore = -1;
+  // also try narrower widths, so a tall set can sit centred instead of shrinking
+  for (const f of [1, 0.85, 0.7, 0.55]) for (const pl of [stackPlan(items, BW * f, g), ...rowPlans(items, BW * f, g)]) {
+    const sc = Math.min(1, BH / pl.H, BW / pl.W);
+    const small = Math.min(...pl.rects.map((r) => r.w * r.h)) * sc * sc;
+    const score = pl.rects.reduce((a, r) => a + r.w * r.h, 0) * sc * sc + small * 0.6;
+    if (score > bestScore) { bestScore = score; best = { ...pl, sc }; }
+  }
+  return best;
 }
 
 const host = document.getElementById('projects');
-P.forEach((p, n) => {
+const slides = [];
+// split each section into slides: take as many pieces as still fill the slide well (at least 58% of it),
+// never leaving a single piece alone on the last slide
+const FIRST = { w: 1328, h: 870 }, CONT = { w: 1776, h: 826 };
+const fill = (items, box) => { const pl = bestPlan(items, box.w, box.h, 14); return pl.rects.reduce((a, r) => a + r.w * r.h, 0) * pl.sc * pl.sc / (box.w * box.h); };
+SEC.forEach((sec) => {
+  const chunks = []; let at = 0;
+  while (at < sec.pieces.length) {
+    const box = at === 0 ? FIRST : CONT, max = at === 0 ? 4 : 6, left = sec.pieces.length - at;
+    let pick = 0, bestF = -1;
+    for (let k = Math.min(max, left); k >= 1; k--) {
+      if (left - k === 1 && k > 1) continue;
+      const f = fill(sec.pieces.slice(at, at + k), box);
+      if (f >= 0.58) { pick = k; break; }
+      if (f > bestF) { bestF = f; pick = k; }
+    }
+    if (left - pick === 1 && pick < max) pick++;
+    chunks.push(sec.pieces.slice(at, at + pick)); at += pick;
+  }
+  chunks.forEach((items, ci) => slides.push({ sec, items, ci, of: chunks.length }));
+});
+slides.forEach(({ sec, items, ci, of }) => {
   const s = document.createElement('section');
-  s.className = 'slide proj' + (p.duo ? ' duo' : '');
-  const page = String(n + 4).padStart(2, '0');
-  s.innerHTML = p.duo
-    ? `<div class="bar"><b>ISAAC NEWKING</b><span>${p.kind.toUpperCase()}</span></div><div class="head"><div><div class="label">${p.kind}</div><h2>${p.name}</h2></div><p class="blurb">${p.blurb}</p></div><div class="box"></div><div class="foot"><span>SELECTED WORK</span><span>${page} / 11</span></div>`
-    : `<div class="bar"><b>ISAAC NEWKING</b><span>${p.kind.toUpperCase()}</span></div><div class="side"><div class="label">${p.kind}</div><h2>${p.name}</h2><p class="blurb">${p.blurb}</p><div class="meta">${p.meta.map(([a, b]) => `${a.toUpperCase()} <b>${b}</b>`).join('<br>')}</div></div><div class="box"></div><div class="foot"><span>CASE STUDY</span><span>${page} / 11</span></div>`;
+  s.className = 'slide proj' + (ci ? ' cont' : '');
+  const part = of > 1 ? ` <span class="part">${ci + 1} / ${of}</span>` : '';
+  s.innerHTML = ci === 0
+    ? `<div class="bar"><b>ISAAC NEWKING</b><span>${sec.kind.toUpperCase()}</span></div><div class="side"><div class="label">${sec.kind}</div><h2>${sec.name}</h2><p class="blurb">${sec.blurb}</p><div class="meta">PIECES <b>${sec.pieces.length}</b><br>YEAR <b>${sec.year}</b>${of > 1 ? `<br>CONTINUES <b>${of - 1} more slide${of > 2 ? 's' : ''}</b>` : ''}</div></div><div class="box"></div><div class="foot"><span>CASE STUDY</span><span class="pg"></span></div>`
+    : `<div class="bar"><b>ISAAC NEWKING</b><span>${sec.kind.toUpperCase()}</span></div><div class="chead"><span class="label">${sec.kind}</span><h3>${sec.name}${part}</h3></div><div class="box"></div><div class="foot"><span>${sec.name.toUpperCase()}</span><span class="pg"></span></div>`;
   host.appendChild(s);
   const box = s.querySelector('.box');
-  requestAnimationFrame(() => {
-    const BW = box.clientWidth, BH = box.clientHeight, g = 16;
-    const items = p.imgs.map(([f, w, h]) => [f, w, h]);
-    const pl = p.duo ? (() => { const h = (BW - g) / (items[0][1] / items[0][2] + items[1][1] / items[1][2]); return { rects: [{ x: 0, y: 0, w: items[0][1] / items[0][2] * h, h }, { x: items[0][1] / items[0][2] * h + g, y: 0, w: items[1][1] / items[1][2] * h, h }], H: h }; })() : plan(items, BW, g);
-    const sc = Math.min(1, BH / pl.H), mw = BW * sc, mh = pl.H * sc;
-    const m = document.createElement('div'); m.className = 'mosaic';
-    Object.assign(m.style, { width: mw + 'px', height: mh + 'px', left: (BW - mw) / 2 + 'px', top: (p.duo ? 0 : (BH - mh) / 2) + 'px' });
-    pl.rects.forEach((r, i) => {
-      const im = new Image(); im.src = IMG + items[i][0];
-      Object.assign(im.style, { left: r.x * sc + 'px', top: r.y * sc + 'px', width: r.w * sc + 'px', height: r.h * sc + 'px' });
-      m.appendChild(im);
-      if (p.duo) { const c = document.createElement('div'); c.className = 'cap'; c.textContent = p.imgs[i][3].toUpperCase(); Object.assign(c.style, { left: r.x * sc + 'px', top: r.h * sc + 16 + 'px' }); m.appendChild(c); }
-    });
-    box.appendChild(m);
+  const BW = box.clientWidth, BH = box.clientHeight, g = 14;
+  const pl = bestPlan(items, BW, BH, g), sc = pl.sc, mw = pl.W * sc, mh = pl.H * sc;
+  const m = document.createElement('div'); m.className = 'mosaic';
+  Object.assign(m.style, { width: mw + 'px', height: mh + 'px', left: (BW - mw) / 2 + 'px', top: (BH - mh) / 2 + 'px' });
+  pl.rects.forEach((r, i) => {
+    const im = new Image(); im.src = IMG + items[i][0]; im.alt = items[i][3];
+    Object.assign(im.style, { left: r.x * sc + 'px', top: r.y * sc + 'px', width: r.w * sc + 'px', height: r.h * sc + 'px' });
+    m.appendChild(im);
   });
+  box.appendChild(m);
 });
+// page numbers across the whole deck
+const all = [...document.querySelectorAll('.slide')], total = String(all.length).padStart(2, '0');
+all.forEach((sl, i) => { const pg = sl.querySelector('.foot span:last-child'); if (pg) pg.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`; });
 </script>
 </body></html>

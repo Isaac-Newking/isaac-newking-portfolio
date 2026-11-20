@@ -25,7 +25,9 @@ export default function Home() {
         <section className="hello paper wrap" id="about">
           <div className="grid">
             <div className="frame">
-              <Avatar />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img className="me" src="/img/ui/isaac.webp" alt="Isaac Newking, brand designer" width={800} height={1000} loading="lazy" decoding="async" />
+              <span className="me-badge" aria-hidden="true"><Avatar /></span>
               {HANDLES.map(([k, s]) => <i key={k} className="h" style={s} />)}
               <span className="edge" />
             </div>

@@ -75,6 +75,9 @@ h1, h2 { font-family: 'FD', sans-serif; font-weight: 800; letter-spacing: -.05em
 .toc a { display: flex; align-items: baseline; gap: 14px; color: var(--ink); text-decoration: none; font: 600 30px/1 'FD'; letter-spacing: -.02em; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.12) }
 .toc a i { flex: 1; border-bottom: 2px dotted rgba(255,255,255,.22); transform: translateY(-6px) }
 .toc a span { font: 400 16px/1 'PX'; color: var(--signal) }
+.cover-art { position: absolute; inset: 0; width: 1920px; height: 1080px; display: block }
+/* the pixel layer that ties the pages together: icons, a gutter trail and dissolves, drawn per slide */
+.px-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; image-rendering: pixelated }
 .play { position: absolute; z-index: 4; font: 400 12px/1 'PX'; background: var(--signal); color: #0a0a0a; padding: 6px 9px; letter-spacing: .06em }
 .dev { position: absolute }
 .dev > * { position: absolute; display: block }
@@ -113,11 +116,8 @@ h1, h2 { font-family: 'FD', sans-serif; font-weight: 800; letter-spacing: -.05em
 <body>
 
 <section class="slide cover">
-  <div class="room"></div>
-  <div class="bar"><b>ISAAC NEWKING</b><span>BRAND DESIGNER <span class="mk"></span> PORTFOLIO 2026</span></div>
-  <div class="title"><div class="by">ISAAC NEWKING</div><h1>Design<br>Portfolio</h1><div class="sticker">2026</div></div>
-  <div class="roles">Brand Designer <span class="mk"></span> Visual Identity <span class="mk"></span> Motion <span class="mk"></span> UI/UX <span class="mk"></span> Logo</div>
-  <div class="foot"><span>NEWKINGISAAC@OUTLOOK.COM</span><span>01 / 11</span></div>
+  <img class="cover-art" src="cover.png" alt="Isaac Newking, Design Portfolio 2026">
+  <div class="foot" style="display:none"><span></span><span></span></div>
 </section>
 
 <section class="slide about">
@@ -190,6 +190,10 @@ const byName = (n) => ALL.find((x) => x.name === n);
 const find = (sec, base) => sec.pieces.find((p) => p[0].split('/').pop().replace(/\.\w+$/, '') === base);
 const pick = (sec, names) => names.map((b) => find(sec, b)).filter(Boolean);
 let SEC = ALL;
+// each project's own background, deepened toward black so it stays a quiet backdrop for the work
+const TINT = { 'Esorae Home': '#1F1B16', "The Stewards' Table": '#1C2E1A', LonePay: '#120C2E', 'Esorae Foundation': '#0E2418', eurban: '#0b1620', 'O5 Dynamix': '#2a1206', OJKonsult: '#0E241A', Fission: '#0d1406', 'Product interfaces': '#06140f', Axislink: '#1a0d22', 'Web3 projects': '#1a0d22', 'Profit AI': '#1f1206', Hashcake: '#170d22', 'Token launches': '#0b0f22', 'Flyers & Banners': '#0b1a10' };
+const mixHex = (a, b, t) => { const pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16); const c = [16, 8, 0].map((sh) => Math.round(((pa >> sh) & 255) * (1 - t) + ((pb >> sh) & 255) * t)); return '#' + c.map((v) => v.toString(16).padStart(2, '0')).join(''); };
+const tintOf = (sec) => mixHex('#050505', TINT[sec.name] || '#050505', 0.75);
 // short version: the three main brands get an opening slide and two more, the rest one slide each;
 // Esorae Foundation, eurban, O5 Dynamix and OJKonsult are left out
 if (VERSION === 'short') {
@@ -259,6 +263,7 @@ const slides = [];
 const FIRST = { w: 1328, h: 890 }, CONT = { w: 1776, h: 892 };
 const shapeOf = (it) => { const f = frameOf(it); return f ? [it[0], f.r * 1000, 1000, it[3], it[4]] : it; };
 const fill = (items, box) => { const pl = bestPlan(items.map(shapeOf), box.w, box.h, 14); return pl.rects.reduce((a, r) => a + r.w * r.h, 0) * pl.sc * pl.sc / (box.w * box.h); };
+SEC.forEach((sec) => { sec.bgTint = tintOf(sec); });
 SEC.forEach((sec) => {
   if (sec.chunks) { sec.chunks.forEach((items, ci) => slides.push({ sec, items, ci, of: sec.chunks.length })); return; }
   const chunks = []; let at = 0;
@@ -286,7 +291,7 @@ function frameOf(it) {
 }
 function media(it) { const im = new Image(); im.src = IMG + it[0]; im.alt = it[3]; if (it[5]) im.dataset.vid = it[5]; return im; }
 // motion frames for the Behance export: point every clip at frame k of its sequence
-window.setFrame = (k) => document.querySelectorAll('img[data-vid]').forEach((im) => { im.src = `${FR}/${im.dataset.vid}/${String(k + 1).padStart(3, '0')}.jpg`; });
+window.setFrame = (k) => { document.querySelectorAll('img[data-vid]').forEach((im) => { im.src = `${FR}/${im.dataset.vid}/${String(k + 1).padStart(3, '0')}.jpg`; }); if (window.setTick) window.setTick(k); };
 function placeDevice(m, it, f, box) {
   const d = document.createElement('div'); d.className = 'dev ' + f.kind; Object.assign(d.style, box);
   const pct = (v, of) => (v / of) * 100 + '%', H = f.H, src = IMG + it[0];
@@ -302,6 +307,7 @@ slides.forEach(({ sec, items, ci, of }) => {
   const s = document.createElement('section');
   s.className = 'slide proj' + (ci ? ' cont' : '');
   if (ci === 0) s.id = sec.id;
+  s.dataset.tint = sec.bgTint || '';
   s.innerHTML = ci === 0
     ? `<div class="bar"><b>ISAAC NEWKING</b><span>${sec.kind.toUpperCase()}</span></div><div class="side"><div class="label">${sec.kind}</div><h2>${sec.name}</h2><p class="blurb">${sec.blurb}</p><div class="meta">PIECES <b>${sec.pieces.length}</b><br>YEAR <b>${sec.year}</b></div></div><div class="box"></div><div class="foot"><span>CASE STUDY</span><span class="pg"></span></div>`
     : `<div class="bar"><b>ISAAC NEWKING</b><span></span></div><div class="box"></div><div class="foot"><span></span><span class="pg"></span></div>`;
@@ -327,6 +333,61 @@ slides.forEach(({ sec, items, ci, of }) => {
 // page numbers across the whole deck
 const all = [...document.querySelectorAll('.slide')], total = String(all.length).padStart(2, '0');
 all.forEach((sl, i) => { const pg = sl.querySelector('.foot > span:last-child'); if (pg) pg.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`; });
+// ---- pixel layer ----
+const ICON = {
+  hand: ['....##......', '...#..#.....', '...#..#.....', '...#..###...', '...#..#..##.', '.###..#..#.#', '#..#.....#.#', '#........#.#', '.#.........#', '..#........#', '...#......#.', '....######..'],
+  arrow: ['#.......', '##......', '#.#.....', '#..#....', '#...#...', '#....#..', '#..###..', '#.#.....', '##......'],
+  heart: ['.##.##.', '#######', '#######', '.#####.', '..###..', '...#...'],
+  spark: ['...#...', '...#...', '..###..', '#######', '..###..', '...#...', '...#...'],
+  cup: ['..#.#...', '.#.#....', '........', '#######.', '#.....##', '#.....#.#', '#.....##', '.#####..', '########'],
+  pen: ['...#...', '..###..', '..#.#..', '.##.##.', '.#####.', '..###..', '...#...'],
+  plus: ['.#.', '###', '.#.'],
+  star: ['...#...', '..#.#..', '##...##', '.#...#.', '.#.#.#.', '##...##'],
+};
+const ORDER = ['arrow', 'spark', 'heart', 'cup', 'pen', 'star', 'plus', 'hand'];
+let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+const isOpener = (sl) => sl && sl.classList.contains('proj') && !sl.classList.contains('cont');
+const tintAt = (sl) => (sl && sl.dataset.tint) || '#050505';
+function drawIcon(ctx, name, x, y, cell, color, accent) {
+  ICON[name].forEach((row, j) => [...row].forEach((c, i) => { if (c !== '#') return; ctx.fillStyle = (accent && j === 0) ? accent : color; ctx.fillRect(x + i * cell, y + j * cell, cell, cell); }));
+}
+all.forEach((sl, i) => {
+  // background: the project's tint, fading into the neighbour's tint at the top and bottom edges so pages flow
+  const me = tintAt(sl), prev = tintAt(all[i - 1]), next = tintAt(all[i + 1]);
+  const top = i > 0 && prev !== me ? mixHex(prev, me, 0.5) : me, bot = i < all.length - 1 && next !== me ? mixHex(me, next, 0.5) : me;
+  if (!sl.classList.contains('cover')) {
+    sl.style.backgroundColor = me;
+    sl.style.backgroundImage = `linear-gradient(rgba(255,255,255,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.09) 1px, transparent 1px), linear-gradient(${top}, ${me} 22%, ${me} 78%, ${bot})`;
+    sl.style.backgroundSize = '132px 132px, 132px 132px, 100% 100%';
+  }
+  if (sl.classList.contains('cover')) return;
+  const c = document.createElement('canvas'); c.className = 'px-layer'; c.width = 1920; c.height = 1080; sl.appendChild(c);
+  const x = c.getContext('2d');
+  // 1. trail: a pixel line wandering down the left gutter, continuous from page to page
+  for (let y = 0; y < 1080; y += 12) {
+    const gy = i * 1080 + y, col = Math.round(1.6 + Math.sin(gy / 310) * 1.3 + Math.sin(gy / 113) * 0.7);
+    x.fillStyle = (gy / 12) % 9 === 0 ? 'rgba(255,255,255,.32)' : 'rgba(255,150,0,.30)';
+    x.fillRect(12 + col * 10, y, 8, 8);
+  }
+  // 2. icons: one quiet pixel icon in the top bar and a small one in the footer, a different pair on every page
+  seed = 11 + i * 31;
+  drawIcon(x, ORDER[i % ORDER.length], 760 + Math.round(rnd() * 380), 34, 3, 'rgba(242,242,242,.42)', 'rgba(255,150,0,.6)');
+  drawIcon(x, ORDER[(i + 3) % ORDER.length], 900 + Math.round(rnd() * 200), 1032, 2, 'rgba(255,150,0,.40)');
+  // 3. dissolve: pixels break off into the next project's colour at the bottom of the page before an opener,
+  //    and in the previous colour at the top of the opener, so the change of project reads as one move
+  const cell = 24;
+  const band = (yEdge, dir, color) => {
+    for (let r = 0; r < 4; r++) for (let cx = 0; cx < 1920; cx += cell) {
+      const inGutter = cx < 72 || cx > 1848, pr = [0.78, 0.4, 0.18, 0.08][r];
+      if (r > 0 && !inGutter) continue;
+      if (rnd() < pr) { x.fillStyle = color; x.fillRect(cx, dir > 0 ? yEdge + r * cell : yEdge - (r + 1) * cell, cell, cell); }
+    }
+  };
+  if (isOpener(all[i + 1]) && next !== me) band(1080, -1, next);
+  if (isOpener(sl) && prev !== me) band(0, 1, prev);
+});
+// on motion pages, the icons twinkle with the frames
+window.setTick = (k) => document.querySelectorAll('.px-layer').forEach((c) => { c.style.opacity = k % 6 < 3 ? '1' : '.75'; });
 // contents: grouped by category, each line links to the project's opening slide
 const pageOf = (id) => String(all.indexOf(document.getElementById(id)) + 1).padStart(2, '0');
 const GROUPS = [['Branding', (x) => x.kind.startsWith('Branding')], ['Brand & campaign', (x) => x.kind === 'Brand & campaign'], ['UI / UX', (x) => x.kind === 'UI / UX'], ['Web3', (x) => x.kind === 'Web3'], ['Social & print', (x) => x.kind === 'Social & print']];

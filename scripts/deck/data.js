@@ -10,87 +10,102 @@ window.SECTIONS = [
     "branding/eh-site-poster.jpg",
     1280,
     800,
-    "Website, home page in motion"
+    "Website, home page in motion",
+    "laptop"
    ],
    [
     "branding/eh-billboard.jpg",
     1920,
     1080,
-    "Billboard, The Luxury Promise"
+    "Billboard, The Luxury Promise",
+    "plain"
    ],
    [
     "branding/eh-personality.jpg",
     1920,
     1080,
-    "Brand personality"
+    "Brand personality",
+    "plain"
    ],
    [
     "branding/eh-vision.jpg",
     1920,
     1080,
-    "Vision and mission"
+    "Vision and mission",
+    "plain"
    ],
    [
     "branding/eh-rollup.jpg",
     1556,
     2000,
-    "Roll-up banner"
+    "Roll-up banner",
+    "plain"
    ],
    [
     "branding/eh-pillow.jpg",
     1493,
     2000,
-    "Product campaign"
+    "Product campaign",
+    "plain"
    ],
    [
     "branding/eh-post1.jpg",
     1200,
     1500,
-    "Social, World Skin Health Day"
+    "Social, World Skin Health Day",
+    "plain"
    ],
    [
     "branding/eh-post2.jpg",
     1200,
     1500,
-    "Social, Breakfast Is Served"
+    "Social, Breakfast Is Served",
+    "plain"
    ],
    [
     "branding/eh-post3.jpg",
     466,
     580,
-    "Social, room spray"
+    "Social, room spray",
+    "plain"
    ],
    [
     "branding/eh-post4.jpg",
     1200,
     1500,
-    "Social, Intentional Comfort"
+    "Social, Intentional Comfort",
+    "plain"
    ],
    [
     "branding/eh-post5.jpg",
     1200,
     1500,
-    "Social, Democracy Day"
+    "Social, Democracy Day",
+    "plain"
    ],
    [
     "branding/eh-post6.jpg",
     1200,
     1500,
-    "Social, Ricamo Collection"
+    "Social, Ricamo Collection",
+    "plain"
    ],
    [
     "branding/eh-post7.jpg",
     1200,
     1500,
-    "Social, Choose by Mood"
+    "Social, Choose by Mood",
+    "plain"
    ],
    [
     "branding/eh-post8.jpg",
     1200,
     1500,
-    "Social, The People's Choice"
+    "Social, The People's Choice",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-esoraehome"
  },
  {
   "kind": "Branding · 02",
@@ -102,147 +117,172 @@ window.SECTIONS = [
     "branding/st-hero.jpg",
     1920,
     1084,
-    "Logo on forest"
+    "Logo on forest",
+    "plain"
    ],
    [
     "branding/st-mark-gold.jpg",
     962,
     550,
-    "Mark on gold"
+    "Mark on gold",
+    "plain"
    ],
    [
     "branding/st-type.jpg",
     1920,
     1080,
-    "Typography: Bricolage Grotesque"
+    "Typography: Bricolage Grotesque",
+    "plain"
    ],
    [
     "branding/st-palette.jpg",
     1920,
     540,
-    "Colour palette: Forest, Moss, Ivory"
+    "Colour palette: Forest, Moss, Ivory",
+    "plain"
    ],
    [
     "branding/st-colourways.jpg",
     1920,
     522,
-    "Mark colourways"
+    "Mark colourways",
+    "plain"
    ],
    [
     "branding/st-collective.jpg",
     956,
     550,
-    "Lock-up: Growth is Stewardship"
+    "Lock-up: Growth is Stewardship",
+    "plain"
    ],
    [
     "branding/st-mission.jpg",
     1920,
     1610,
-    "Mission, vision and scripture"
+    "Mission, vision and scripture",
+    "plain"
    ],
    [
     "branding/st-faithful.jpg",
     962,
     528,
-    "Tagline: Faithful in little, in much"
+    "Tagline: Faithful in little, in much",
+    "plain"
    ],
    [
     "branding/st-mark-maroon.jpg",
     956,
     528,
-    "Mark on maroon"
+    "Mark on maroon",
+    "plain"
    ],
    [
     "branding/st-belief.jpg",
     1920,
     1040,
-    "Core belief"
+    "Core belief",
+    "plain"
    ],
    [
     "branding/st-patterns.jpg",
     1616,
     796,
-    "Background patterns"
+    "Background patterns",
+    "plain"
    ],
    [
     "branding/st-group.jpg",
     1064,
     562,
-    "Community in branded tees"
+    "Community in branded tees",
+    "plain"
    ],
    [
     "branding/st-tee-maroon.jpg",
     658,
     636,
-    "Tee, maroon"
+    "Tee, maroon",
+    "plain"
    ],
    [
     "branding/st-tee-green.jpg",
     1060,
     978,
-    "Tee, forest"
+    "Tee, forest",
+    "plain"
    ],
    [
     "branding/st-tote.jpg",
     716,
     888,
-    "Tote bag"
+    "Tote bag",
+    "plain"
    ],
    [
     "branding/st-stickers.jpg",
     914,
     570,
-    "Stickers"
+    "Stickers",
+    "plain"
    ],
    [
     "branding/st-laptop-sticker.jpg",
     814,
     482,
-    "Laptop sticker"
+    "Laptop sticker",
+    "plain"
    ],
    [
     "branding/st-tee-white.jpg",
     642,
     644,
-    "Tee, seal on the back"
+    "Tee, seal on the back",
+    "plain"
    ],
    [
     "branding/st-billboard.jpg",
     1920,
     716,
-    "Billboard"
+    "Billboard",
+    "plain"
    ],
    [
     "branding/st-banner.jpg",
     1920,
     750,
-    "Banner, Join the Stewards Table"
+    "Banner, Join the Stewards Table",
+    "plain"
    ],
    [
     "branding/st-shelter.jpg",
     1920,
     1080,
-    "Bus shelter posters"
+    "Bus shelter posters",
+    "plain"
    ],
    [
     "branding/st-billboard2.jpg",
     1920,
     1060,
-    "Billboard, 30+ guilds"
+    "Billboard, 30+ guilds",
+    "plain"
    ],
    [
     "branding/st-laptop.jpg",
     1920,
     1080,
-    "UI/UX: member dashboard"
+    "UI/UX: member dashboard",
+    "plain"
    ],
    [
     "branding/st-devices.jpg",
     1920,
     1080,
-    "UI/UX: tablet and phone"
+    "UI/UX: tablet and phone",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-thestewardstable"
  },
  {
   "kind": "Branding · 03",
@@ -254,183 +294,214 @@ window.SECTIONS = [
     "branding/lp-p-logo.jpg",
     2000,
     1125,
-    "Guidelines: logo construction"
+    "Guidelines: logo construction",
+    "plain"
    ],
    [
     "branding/lp-mark.jpg",
     625,
     717,
-    "Mark on Electric Indigo"
+    "Mark on Electric Indigo",
+    "plain"
    ],
    [
     "branding/lp-p-colour.jpg",
     2000,
     1125,
-    "Guidelines: primary colours"
+    "Guidelines: primary colours",
+    "plain"
    ],
    [
     "branding/lp-p-type.jpg",
     2000,
     1125,
-    "Guidelines: Inter type"
+    "Guidelines: Inter type",
+    "plain"
    ],
    [
     "branding/lp-cards.jpg",
     1280,
     875,
-    "Business cards"
+    "Business cards",
+    "plain"
    ],
    [
     "branding/lp-p-pattern.jpg",
     2000,
     1125,
-    "Guidelines: brand pattern"
+    "Guidelines: brand pattern",
+    "plain"
    ],
    [
     "branding/lp-app-icon.jpg",
     1026,
     793,
-    "App icon on the home screen"
+    "App icon on the home screen",
+    "plain"
    ],
    [
     "branding/lp-store.jpg",
     1000,
     563,
-    "App store listing"
+    "App store listing",
+    "plain"
    ],
    [
     "branding/lp-social.jpg",
     1080,
     1080,
-    "Social post, No more headaches"
+    "Social post, No more headaches",
+    "plain"
    ],
    [
     "branding/lp-p-devices.jpg",
     2000,
     1125,
-    "App on phone and watch"
+    "App on phone and watch",
+    "plain"
    ],
    [
     "branding/lp-card-violet.jpg",
     1080,
     810,
-    "Debit card, violet"
+    "Debit card, violet",
+    "plain"
    ],
    [
     "branding/lp-card-white.jpg",
     1080,
     810,
-    "Debit card, white"
+    "Debit card, white",
+    "plain"
    ],
    [
     "branding/lp-card-dark.jpg",
     1080,
     810,
-    "Debit card, front and back"
+    "Debit card, front and back",
+    "plain"
    ],
    [
     "branding/lp-stationery.jpg",
     1080,
     810,
-    "Stationery: letterhead, envelope and flyer"
+    "Stationery: letterhead, envelope and flyer",
+    "plain"
    ],
    [
     "branding/lp-notebook.jpg",
     1280,
     875,
-    "Notebook, open"
+    "Notebook, open",
+    "plain"
    ],
    [
     "branding/lp-notebook-closed.jpg",
     1080,
     810,
-    "Notebook cover"
+    "Notebook cover",
+    "plain"
    ],
    [
     "branding/lp-binders.jpg",
     1080,
     810,
-    "Binders"
+    "Binders",
+    "plain"
    ],
    [
     "branding/lp-tee-violet.jpg",
     1080,
     810,
-    "Tee, pattern"
+    "Tee, pattern",
+    "plain"
    ],
    [
     "branding/lp-tee-white.jpg",
     1080,
     810,
-    "Tee, Secure Savings Send"
+    "Tee, Secure Savings Send",
+    "plain"
    ],
    [
     "branding/lp-hoodie.jpg",
     1080,
     720,
-    "Hoodie, front"
+    "Hoodie, front",
+    "plain"
    ],
    [
     "branding/lp-hoodie-back.jpg",
     875,
     565,
-    "Hoodie, pattern back"
+    "Hoodie, pattern back",
+    "plain"
    ],
    [
     "branding/lp-tote.jpg",
     1080,
     810,
-    "Tote bag"
+    "Tote bag",
+    "plain"
    ],
    [
     "branding/lp-drawstring.jpg",
     875,
     584,
-    "Drawstring bag"
+    "Drawstring bag",
+    "plain"
    ],
    [
     "branding/lp-badge.jpg",
     1000,
     750,
-    "Staff ID"
+    "Staff ID",
+    "plain"
    ],
    [
     "branding/lp-illustration.jpg",
     1000,
     563,
-    "Illustration style"
+    "Illustration style",
+    "plain"
    ],
    [
     "branding/lp-p-shapes.jpg",
     2000,
     1125,
-    "Guidelines: secondary graphics"
+    "Guidelines: secondary graphics",
+    "plain"
    ],
    [
     "branding/lp-p-colour2.jpg",
     2000,
     1125,
-    "Guidelines: secondary colours"
+    "Guidelines: secondary colours",
+    "plain"
    ],
    [
     "branding/lp-p-billboard.jpg",
     2000,
     1125,
-    "Billboard"
+    "Billboard",
+    "plain"
    ],
    [
     "branding/lp-p-ooh.jpg",
     2000,
     1125,
-    "Billboard and wayfinding sign"
+    "Billboard and wayfinding sign",
+    "plain"
    ],
    [
     "branding/lp-p-instagram.jpg",
     2000,
     1125,
-    "Instagram feed"
+    "Instagram feed",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-lonepay"
  },
  {
   "kind": "Branding · 04",
@@ -442,33 +513,39 @@ window.SECTIONS = [
     "branding/ef-logos.jpg",
     1920,
     1080,
-    "Logo, light and dark"
+    "Logo, light and dark",
+    "plain"
    ],
    [
     "branding/ef-pattern.jpg",
     1920,
     1080,
-    "Brand pattern and illustrative style"
+    "Brand pattern and illustrative style",
+    "plain"
    ],
    [
     "branding/ef-flyer1.jpg",
     1200,
     1500,
-    "Flyer, Independence Day"
+    "Flyer, Independence Day",
+    "plain"
    ],
    [
     "branding/ef-flyer2.jpg",
     1200,
     1500,
-    "Flyer, Empower the Next Generation"
+    "Flyer, Empower the Next Generation",
+    "plain"
    ],
    [
     "branding/ef-flyer3.jpg",
     1200,
     1500,
-    "Flyer, Education"
+    "Flyer, Education",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-esoraefoundation"
  },
  {
   "kind": "Branding · 05",
@@ -480,45 +557,53 @@ window.SECTIONS = [
     "branding/eu-site-poster.jpg",
     1280,
     800,
-    "Website, home page in motion"
+    "Website, home page in motion",
+    "laptop"
    ],
    [
     "branding/eu-web-home.jpg",
     2400,
     1800,
-    "Website, Spaces That Hold Their Value"
+    "Website, Spaces That Hold Their Value",
+    "plain"
    ],
    [
     "branding/eu-web-projects.jpg",
     2400,
     1800,
-    "Website, Our Projects"
+    "Website, Our Projects",
+    "plain"
    ],
    [
     "branding/eu-poster1.jpg",
     1200,
     1500,
-    "Poster, We Don't Just Construct Buildings"
+    "Poster, We Don't Just Construct Buildings",
+    "insta"
    ],
    [
     "branding/eu-poster2.jpg",
     1200,
     1500,
-    "Poster, Something Is Coming"
+    "Poster, Something Is Coming",
+    "insta"
    ],
    [
     "branding/eu-poster3.jpg",
     1200,
     1500,
-    "Poster, You Dream It, We Build It"
+    "Poster, You Dream It, We Build It",
+    "insta"
    ],
    [
     "branding/eu-poster4.jpg",
     1200,
     1500,
-    "Poster, Meet the Locations"
+    "Poster, Meet the Locations",
+    "insta"
    ]
-  ]
+  ],
+  "id": "sec-eurban"
  },
  {
   "kind": "Branding · 06",
@@ -530,33 +615,39 @@ window.SECTIONS = [
     "branding/o5-web-court.jpg",
     2400,
     1800,
-    "Website, Four Arenas"
+    "Website, Four Arenas",
+    "plain"
    ],
    [
     "branding/o5-web-tennis.jpg",
     2400,
     1800,
-    "Website, Ready to Play"
+    "Website, Ready to Play",
+    "plain"
    ],
    [
     "branding/o5-merch.jpg",
     2000,
     2000,
-    "Merch: tee, cap, bottle"
+    "Merch: tee, cap, bottle",
+    "plain"
    ],
    [
     "branding/o5-palette.jpg",
     2000,
     2000,
-    "Colour and type"
+    "Colour and type",
+    "plain"
    ],
    [
     "branding/o5-welcome.jpg",
     2000,
     2000,
-    "Social, Welcome to O5 Dynamix"
+    "Social, Welcome to O5 Dynamix",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-o5dynamix"
  },
  {
   "kind": "Branding · 07",
@@ -568,39 +659,46 @@ window.SECTIONS = [
     "branding/ojk-motion.jpg",
     1280,
     720,
-    "Logo animation"
+    "Logo animation",
+    "plain"
    ],
    [
     "branding/ojk-cards.jpg",
     1024,
     724,
-    "Business cards"
+    "Business cards",
+    "plain"
    ],
    [
     "branding/ojk-seal.jpg",
     1024,
     724,
-    "Logo seal"
+    "Logo seal",
+    "plain"
    ],
    [
     "branding/ojk-pattern.jpg",
     1024,
     724,
-    "Brand pattern"
+    "Brand pattern",
+    "plain"
    ],
    [
     "branding/ojk-mark.jpg",
     1024,
     724,
-    "Mark on brand gradient"
+    "Mark on brand gradient",
+    "plain"
    ],
    [
     "branding/ojk-tees.jpg",
     1024,
     724,
-    "Tees, white and green"
+    "Tees, white and green",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-ojkonsult"
  },
  {
   "kind": "Brand & campaign",
@@ -612,81 +710,95 @@ window.SECTIONS = [
     "fission/1-didtal-asset.jpg",
     1920,
     1080,
-    "1-didtal-asset"
+    "1-didtal-asset",
+    "plain"
    ],
    [
     "fission/1-reflective.jpg",
     1360,
     680,
-    "1-reflective"
+    "1-reflective",
+    "plain"
    ],
    [
     "fission/2-risk-control.jpg",
     1360,
     680,
-    "2-risk-control"
+    "2-risk-control",
+    "plain"
    ],
    [
     "fission/2-shared-governance.jpg",
     1920,
     1080,
-    "2-shared-governance"
+    "2-shared-governance",
+    "plain"
    ],
    [
     "fission/3-trading.jpg",
     1920,
     1080,
-    "3 trading"
+    "3 trading",
+    "plain"
    ],
    [
     "fission/decentralized.jpg",
     2000,
     2000,
-    "Decentralized."
+    "Decentralized.",
+    "plain"
    ],
    [
     "fission/fission-announcement.jpg",
     1360,
     680,
-    "Fission-Announcement"
+    "Fission-Announcement",
+    "plain"
    ],
    [
     "fission/fission-jt-redo-2.jpg",
     1360,
     680,
-    "Fission-JT-redo-2"
+    "Fission-JT-redo-2",
+    "plain"
    ],
    [
     "fission/fission-tokenomics.jpg",
     1920,
     1080,
-    "Fission-Tokenomics"
+    "Fission-Tokenomics",
+    "plain"
    ],
    [
     "fission/partnership-stratos.jpg",
     1360,
     680,
-    "Partnership-stratos"
+    "Partnership-stratos",
+    "plain"
    ],
    [
     "fission/zeal-community-white.jpg",
     1360,
     680,
-    "Zeal-Community-white"
+    "Zeal-Community-white",
+    "plain"
    ],
    [
     "fission/design-2.jpg",
     2000,
     2000,
-    "design-2"
+    "design-2",
+    "plain"
    ],
    [
     "fission/temp.jpg",
     1920,
     1080,
-    "temp"
+    "temp",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-fission"
  },
  {
   "kind": "UI / UX",
@@ -698,63 +810,74 @@ window.SECTIONS = [
     "uiux/new-pairs.jpg",
     2400,
     1707,
-    "New Pairs"
+    "New Pairs",
+    "laptop"
    ],
    [
     "uiux/sniper.jpg",
     2400,
     1707,
-    "Sniper"
+    "Sniper",
+    "laptop"
    ],
    [
     "uiux/wallet-manager.jpg",
     2400,
     1707,
-    "Wallet Manager"
+    "Wallet Manager",
+    "laptop"
    ],
    [
     "uiux/token-holdings.jpg",
     2400,
     1707,
-    "Token Holdings"
+    "Token Holdings",
+    "laptop"
    ],
    [
     "uiux/home.jpg",
     387,
     824,
-    "Home"
+    "Home",
+    "phone"
    ],
    [
     "uiux/sniper-mobile.jpg",
     387,
     824,
-    "Sniper Mobile"
+    "Sniper Mobile",
+    "phone"
    ],
    [
     "uiux/wallet-manager-mobile.jpg",
     387,
     824,
-    "Wallet Manager"
+    "Wallet Manager",
+    "phone"
    ],
    [
     "uiux/token-holdings-mobile.jpg",
     387,
     824,
-    "Token Holdings"
+    "Token Holdings",
+    "phone"
    ],
    [
     "uiux/dappbuilder-2.jpg",
     1920,
     1290,
-    "DAppbuilder (2)"
+    "DAppbuilder (2)",
+    "laptop"
    ],
    [
     "uiux/nft.jpg",
     2100,
     1500,
-    "NFT"
+    "NFT",
+    "laptop"
    ]
-  ]
+  ],
+  "id": "sec-productinterfaces"
  },
  {
   "kind": "Web3",
@@ -766,51 +889,60 @@ window.SECTIONS = [
     "flyers/ban-3jpg.jpg",
     2400,
     800,
-    "X header, Axislink mascot"
+    "X header, Axislink mascot",
+    "x"
    ],
    [
     "uiux/axislink-ui.jpg",
     2400,
     744,
-    "Dapp dashboard"
+    "Dapp dashboard",
+    "browser"
    ],
    [
     "uiux/axislink-landing.jpg",
     1280,
     728,
-    "Website, Introducing Axislink"
+    "Website, Introducing Axislink",
+    "laptop"
    ],
    [
     "web3/axislink-kyc.jpg",
     1360,
     680,
-    "KYC announcement with Assure DeFi"
+    "KYC announcement with Assure DeFi",
+    "plain"
    ],
    [
     "web3/axislink-aibot.jpg",
     1360,
     680,
-    "AI Bot launch"
+    "AI Bot launch",
+    "plain"
    ],
    [
     "web3/axislink-live.jpg",
     1280,
     640,
-    "Announcement, We Are Live"
+    "Announcement, We Are Live",
+    "plain"
    ],
    [
     "web3/axislink-24hrs.jpg",
     1280,
     640,
-    "Countdown, 24 Hrs to Live"
+    "Countdown, 24 Hrs to Live",
+    "plain"
    ],
    [
     "web3/axislink-liquidity.jpg",
     1280,
     640,
-    "Announcement, Liquidity Extension"
+    "Announcement, Liquidity Extension",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-axislink"
  },
  {
   "kind": "Web3",
@@ -822,33 +954,39 @@ window.SECTIONS = [
     "web3/profit-reel.jpg",
     720,
     1280,
-    "Reel, logo loop"
+    "Reel, logo loop",
+    "phone"
    ],
    [
     "web3/profit-header.jpg",
     1280,
     426,
-    "X header, Empowering data"
+    "X header, Empowering data",
+    "x"
    ],
    [
     "web3/profit-logo.jpg",
     1280,
     1280,
-    "Wordmark"
+    "Wordmark",
+    "plain"
    ],
    [
     "web3/profit-motion.jpg",
     848,
     478,
-    "Logo animation"
+    "Logo animation",
+    "plain"
    ],
    [
     "web3/profit-ai-score.jpg",
     1270,
     829,
-    "Score card"
+    "Score card",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-profitai"
  },
  {
   "kind": "Web3",
@@ -860,15 +998,18 @@ window.SECTIONS = [
     "web3/facebook-cover-banner.jpg",
     851,
     315,
-    "X header, pixel cake"
+    "X header, pixel cake",
+    "x"
    ],
    [
     "flyers/edited-cover-banner-2.jpg",
     851,
     315,
-    "X header, 3D cake"
+    "X header, 3D cake",
+    "x"
    ]
-  ]
+  ],
+  "id": "sec-hashcake"
  },
  {
   "kind": "Web3",
@@ -880,33 +1021,39 @@ window.SECTIONS = [
     "web3/launch-copy-ai.jpg",
     1360,
     680,
-    "Copy AI, 1 hour to launch"
+    "Copy AI, 1 hour to launch",
+    "plain"
    ],
    [
     "web3/main-launch-tax.jpg",
     1920,
     1080,
-    "Based Tax Inspector, launch date"
+    "Based Tax Inspector, launch date",
+    "plain"
    ],
    [
     "web3/now-live-devkit.jpg",
     800,
     1000,
-    "DevKit is live"
+    "DevKit is live",
+    "plain"
    ],
    [
     "web3/pacman-banner.jpg",
     1360,
     680,
-    "ANA, Pac-Man utility"
+    "ANA, Pac-Man utility",
+    "plain"
    ],
    [
     "web3/oxhsadow.jpg",
     1500,
     500,
-    "0xShadow, X header"
+    "0xShadow, X header",
+    "x"
    ]
-  ]
+  ],
+  "id": "sec-tokenlaunches"
  },
  {
   "kind": "Social & print",
@@ -918,50 +1065,59 @@ window.SECTIONS = [
     "flyers/sendor-twitter.jpg",
     1500,
     500,
-    "$SENDOR-twitter"
+    "$SENDOR-twitter",
+    "x"
    ],
    [
     "flyers/launch-rango.jpg",
     2000,
     1124,
-    "launch rango"
+    "launch rango",
+    "plain"
    ],
    [
     "flyers/launch-sf.jpg",
     1360,
     680,
-    "launch-sf"
+    "launch-sf",
+    "plain"
    ],
    [
     "flyers/twitter-banner.jpg",
     1500,
     500,
-    "twitter-banner"
+    "twitter-banner",
+    "x"
    ],
    [
     "flyers/twitter-terra-scan.jpg",
     1500,
     500,
-    "twitter-terra-scan"
+    "twitter-terra-scan",
+    "x"
    ],
    [
     "flyers/joji-goe-to-japan-3.jpg",
     2000,
     2000,
-    "Joji-goe-to-japan-3"
+    "Joji-goe-to-japan-3",
+    "plain"
    ],
    [
     "flyers/scentify-logo.jpg",
     2000,
     2000,
-    "Scentify-logo"
+    "Scentify-logo",
+    "plain"
    ],
    [
     "flyers/new-hip-and-happy.jpg",
     2000,
     2164,
-    "new-hip-and-happy"
+    "new-hip-and-happy",
+    "plain"
    ]
-  ]
+  ],
+  "id": "sec-flyersbanners"
  }
 ];

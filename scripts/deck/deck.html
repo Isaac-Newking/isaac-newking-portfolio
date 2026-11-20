@@ -56,10 +56,33 @@ h1, h2 { font-family: 'FD', sans-serif; font-weight: 800; letter-spacing: -.05em
 .proj .box { position: absolute; left: 520px; right: 72px; top: 110px; bottom: 80px }
 .proj .mosaic { position: absolute }
 .proj .mosaic img { position: absolute; display: block; object-fit: cover; background: #111 }
+.toc .toc-l { position: absolute; left: 72px; top: 150px; width: 520px }
+.toc h2 { font-size: 150px; margin: 22px 0 30px }
+.toc .toc-l p { font-size: 22px; color: var(--dim) }
+.toc .toc-r { position: absolute; left: 700px; right: 72px; top: 150px; bottom: 110px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 64px; align-content: start }
+.toc .grp { margin-bottom: 34px }
+.toc .grp h4 { font: 400 14px/1 'PX'; letter-spacing: .1em; color: var(--signal); margin-bottom: 14px; text-transform: uppercase }
+.toc a { display: flex; align-items: baseline; gap: 14px; color: var(--ink); text-decoration: none; font: 600 30px/1 'FD'; letter-spacing: -.02em; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.12) }
+.toc a i { flex: 1; border-bottom: 2px dotted rgba(255,255,255,.22); transform: translateY(-6px) }
+.toc a span { font: 400 16px/1 'PX'; color: var(--signal) }
+.dev { position: absolute }
+.dev > * { position: absolute; display: block }
+.dev img { position: absolute; display: block; width: 100%; height: 100%; object-fit: cover }
+.dev.laptop .lid { background: #0b0b0c; border: 1px solid #2c2c30; border-bottom: 0; border-radius: 1.6% 1.6% 0 0 / 2.4% 2.4% 0 0 }
+.dev.laptop .scr { overflow: hidden; background: #000 }
+.dev.laptop .base { background: linear-gradient(#e3e4e7, #a7a9ae 70%, #8a8c91); border-radius: 0 0 14% 14% / 0 0 60% 60% }
+.dev.laptop .base::after { content: ''; position: absolute; left: 42%; width: 16%; top: 0; height: 30%; background: rgba(0,0,0,.22); border-radius: 0 0 40% 40% }
+.dev.phone { background: #050506; border: 3px solid #2b2b30; border-radius: 9% / 4.5% }
+.dev.phone .scr { overflow: hidden; border-radius: 7% / 3.4%; background: #000 }
+.dev.phone .isl { background: #000; border-radius: 99px; z-index: 2 }
+.dev.browser { border: 1.5px solid rgba(255,255,255,.55); background: #0b0b0c }
+.dev.browser .barb { border-bottom: 1.5px solid rgba(255,255,255,.55) }
+.dev.browser .barb::before { content: ''; position: absolute; left: 1.4%; top: 32%; width: .9%; aspect-ratio: 1; border: 1.5px solid rgba(255,255,255,.55); box-shadow: 1.6vw 0 0 -1.5px transparent }
+.dev.browser .scr { overflow: hidden }
 .cont .chead { position: absolute; left: 72px; right: 72px; top: 96px; display: flex; align-items: baseline; gap: 22px }
 .cont h3 { font: 800 44px/1 'FD'; letter-spacing: -.035em }
 .cont .part { font: 400 16px/1 'PX'; color: var(--dim); letter-spacing: .06em; margin-left: 12px; vertical-align: middle }
-.cont .box { left: 72px; right: 72px; top: 170px; bottom: 84px }
+.cont .box { left: 72px; right: 72px; top: 104px; bottom: 84px }
 .proj .cap { position: absolute; font: 400 12px/1 'PX'; color: var(--dim); white-space: nowrap }
 
 /* section opener for the smaller worlds */
@@ -106,13 +129,20 @@ h1, h2 { font-family: 'FD', sans-serif; font-weight: 800; letter-spacing: -.05em
   <div class="foot"><span>SEE THE ANIMATED VERSION: WHAT-I-DO.GIF</span><span>03 / 11</span></div>
 </section>
 
+<section class="slide toc" id="toc">
+  <div class="bar"><b>ISAAC NEWKING</b><span>CONTENTS</span></div>
+  <div class="toc-l"><div class="label">Index</div><h2>Selected<br>works</h2><p>Tap a project to jump straight to it.</p></div>
+  <div class="toc-r" id="tocList"></div>
+  <div class="foot"><span>SELECTED WORKS</span><span></span></div>
+</section>
+
 <div id="projects"></div>
 
 <section class="slide contact">
   <div class="bar"><b>ISAAC NEWKING</b><span>CONTACT</span></div>
   <h2>Got a brand to build? Let's talk.</h2>
   <div class="mail">newkingisaac@outlook.com</div>
-  <div class="links">BEHANCE.NET/ISAACNEWKING <span class="mk"></span> ISAAC-ROSE.VERCEL.APP</div>
+  <div class="links">BEHANCE.NET/ISAACNEWKING</div>
   <div class="floor"><div>NEWKING ISAAC <span class="mk" style="width:28px;height:28px"></span> NEWKING ISAAC <span class="mk" style="width:28px;height:28px"></span> NEWKING ISAAC</div></div>
   <div class="foot" style="z-index:2"><span>© 2026 ISAAC NEWKING</span><span>11 / 11</span></div>
 </section>
@@ -191,8 +221,9 @@ const host = document.getElementById('projects');
 const slides = [];
 // split each section into slides: take as many pieces as still fill the slide well (at least 58% of it),
 // never leaving a single piece alone on the last slide
-const FIRST = { w: 1328, h: 870 }, CONT = { w: 1776, h: 826 };
-const fill = (items, box) => { const pl = bestPlan(items, box.w, box.h, 14); return pl.rects.reduce((a, r) => a + r.w * r.h, 0) * pl.sc * pl.sc / (box.w * box.h); };
+const FIRST = { w: 1328, h: 890 }, CONT = { w: 1776, h: 892 };
+const shapeOf = (it) => { const f = frameOf(it); return f ? [it[0], f.r * 1000, 1000, it[3], it[4]] : it; };
+const fill = (items, box) => { const pl = bestPlan(items.map(shapeOf), box.w, box.h, 14); return pl.rects.reduce((a, r) => a + r.w * r.h, 0) * pl.sc * pl.sc / (box.w * box.h); };
 SEC.forEach((sec) => {
   const chunks = []; let at = 0;
   while (at < sec.pieces.length) {
@@ -209,22 +240,45 @@ SEC.forEach((sec) => {
   }
   chunks.forEach((items, ci) => slides.push({ sec, items, ci, of: chunks.length }));
 });
+// device frames around UI pieces, sized in a 1000-wide unit so the planner can use the framed shape
+function frameOf(it) {
+  const r = it[1] / it[2], m = it[4];
+  if (m === 'laptop') { const sh = 840 / r, H = sh + 46 + 34; return { r: 1000 / H, H, sh, kind: 'laptop' }; }
+  if (m === 'phone') { const sh = 900 / r, H = sh + 100; return { r: 1000 / H, H, sh, kind: 'phone' }; }
+  if (m === 'browser') { const sh = 1000 / r, H = sh + 42; return { r: 1000 / H, H, sh, kind: 'browser' }; }
+  return null;
+}
+function placeDevice(m, it, f, box) {
+  const d = document.createElement('div'); d.className = 'dev ' + f.kind; Object.assign(d.style, box);
+  const pct = (v, of) => (v / of) * 100 + '%', H = f.H, src = IMG + it[0];
+  const put = (cls, l, t, w, h, inner) => { const e = document.createElement('div'); e.className = cls; Object.assign(e.style, { left: pct(l, 1000), top: pct(t, H), width: pct(w, 1000), height: pct(h, H) }); if (inner) e.appendChild(inner); d.appendChild(e); return e; };
+  const img = () => { const im = new Image(); im.src = src; im.alt = it[3]; return im; };
+  if (f.kind === 'laptop') { put('lid', 60, 0, 880, f.sh + 46); put('scr', 80, 26, 840, f.sh, img()); put('base', 0, f.sh + 46, 1000, 34); }
+  if (f.kind === 'phone') { put('scr', 50, 50, 900, f.sh, img()); put('isl', 380, 74, 240, 46); }
+  if (f.kind === 'browser') { put('barb', 0, 0, 1000, 42); put('scr', 0, 42, 1000, f.sh, img()); }
+  m.appendChild(d);
+}
+
 slides.forEach(({ sec, items, ci, of }) => {
   const s = document.createElement('section');
   s.className = 'slide proj' + (ci ? ' cont' : '');
-  const part = of > 1 ? ` <span class="part">${ci + 1} / ${of}</span>` : '';
+  if (ci === 0) s.id = sec.id;
   s.innerHTML = ci === 0
-    ? `<div class="bar"><b>ISAAC NEWKING</b><span>${sec.kind.toUpperCase()}</span></div><div class="side"><div class="label">${sec.kind}</div><h2>${sec.name}</h2><p class="blurb">${sec.blurb}</p><div class="meta">PIECES <b>${sec.pieces.length}</b><br>YEAR <b>${sec.year}</b>${of > 1 ? `<br>CONTINUES <b>${of - 1} more slide${of > 2 ? 's' : ''}</b>` : ''}</div></div><div class="box"></div><div class="foot"><span>CASE STUDY</span><span class="pg"></span></div>`
-    : `<div class="bar"><b>ISAAC NEWKING</b><span>${sec.kind.toUpperCase()}</span></div><div class="chead"><span class="label">${sec.kind}</span><h3>${sec.name}${part}</h3></div><div class="box"></div><div class="foot"><span>${sec.name.toUpperCase()}</span><span class="pg"></span></div>`;
+    ? `<div class="bar"><b>ISAAC NEWKING</b><span>${sec.kind.toUpperCase()}</span></div><div class="side"><div class="label">${sec.kind}</div><h2>${sec.name}</h2><p class="blurb">${sec.blurb}</p><div class="meta">PIECES <b>${sec.pieces.length}</b><br>YEAR <b>${sec.year}</b></div></div><div class="box"></div><div class="foot"><span>CASE STUDY</span><span class="pg"></span></div>`
+    : `<div class="bar"><b>ISAAC NEWKING</b><span></span></div><div class="box"></div><div class="foot"><span></span><span class="pg"></span></div>`;
   host.appendChild(s);
   const box = s.querySelector('.box');
   const BW = box.clientWidth, BH = box.clientHeight, g = 14;
-  const pl = bestPlan(items, BW, BH, g), sc = pl.sc, mw = pl.W * sc, mh = pl.H * sc;
+  const frames = items.map(frameOf);
+  const shaped = items.map((it, i) => frames[i] ? [it[0], frames[i].r * 1000, 1000, it[3], it[4]] : it);
+  const pl = bestPlan(shaped, BW, BH, g), sc = pl.sc, mw = pl.W * sc, mh = pl.H * sc;
   const m = document.createElement('div'); m.className = 'mosaic';
   Object.assign(m.style, { width: mw + 'px', height: mh + 'px', left: (BW - mw) / 2 + 'px', top: (BH - mh) / 2 + 'px' });
   pl.rects.forEach((r, i) => {
+    const pos = { left: r.x * sc + 'px', top: r.y * sc + 'px', width: r.w * sc + 'px', height: r.h * sc + 'px' };
+    if (frames[i]) { placeDevice(m, items[i], frames[i], pos); return; }
     const im = new Image(); im.src = IMG + items[i][0]; im.alt = items[i][3];
-    Object.assign(im.style, { left: r.x * sc + 'px', top: r.y * sc + 'px', width: r.w * sc + 'px', height: r.h * sc + 'px' });
+    Object.assign(im.style, pos);
     m.appendChild(im);
   });
   box.appendChild(m);
@@ -232,5 +286,10 @@ slides.forEach(({ sec, items, ci, of }) => {
 // page numbers across the whole deck
 const all = [...document.querySelectorAll('.slide')], total = String(all.length).padStart(2, '0');
 all.forEach((sl, i) => { const pg = sl.querySelector('.foot span:last-child'); if (pg) pg.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`; });
+// contents: grouped by category, each line links to the project's opening slide
+const pageOf = (id) => String(all.indexOf(document.getElementById(id)) + 1).padStart(2, '0');
+const GROUPS = [['Branding', (x) => x.kind.startsWith('Branding')], ['Brand & campaign', (x) => x.kind === 'Brand & campaign'], ['UI / UX', (x) => x.kind === 'UI / UX'], ['Web3', (x) => x.kind === 'Web3'], ['Social & print', (x) => x.kind === 'Social & print']];
+const col = (gs) => gs.map(([t, f]) => `<div class="grp"><h4>${t}</h4>${SEC.filter(f).map((x) => `<a href="#${x.id}">${x.name}<i></i><span>${pageOf(x.id)}</span></a>`).join('')}</div>`).join('');
+document.getElementById('tocList').innerHTML = `<div>${col(GROUPS.slice(0, 1))}</div><div>${col(GROUPS.slice(1))}</div>`;
 </script>
 </body></html>

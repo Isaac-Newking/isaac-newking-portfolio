@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Isaac Newking, Portfolio 2026</title>
+<style>
+@font-face { font-family: 'FD'; src: url(../../app/fonts/funnel-display.woff2) format('woff2'); font-weight: 300 800 }
+@font-face { font-family: 'IS'; src: url(../../app/fonts/instrument-sans.woff2) format('woff2'); font-weight: 400 700 }
+@font-face { font-family: 'PX'; src: url(../../app/fonts/silkscreen.woff2) format('woff2') }
+:root { --void: #050505; --signal: #FF9600; --blue: #2F6BFF }
+* { box-sizing: border-box; margin: 0 }
+html, body { background: #222 }
+/* every page is 1920×1080; --bg / --fg / --ac follow the project's own palette */
+.pg { --bg: #050505; --fg: #F2F2F2; --ac: #FF9600; --dim: color-mix(in srgb, var(--fg) 60%, transparent); --line: color-mix(in srgb, var(--fg) 9%, transparent);
+  position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--fg); font-family: 'IS', sans-serif;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 132px 132px; background-position: -1px -1px }
+.top { position: absolute; left: 72px; right: 72px; top: 44px; display: flex; justify-content: space-between; font: 400 14px/1 'PX'; letter-spacing: .08em; color: var(--dim); z-index: 3 }
+.top b { color: var(--fg); font-weight: 400 }
+.bot { position: absolute; left: 72px; right: 72px; bottom: 40px; display: flex; justify-content: space-between; font: 400 13px/1 'PX'; color: var(--dim); z-index: 3 }
+.mk { display: inline-block; width: 10px; height: 10px; background: var(--ac); margin: 0 14px; vertical-align: middle }
+.lab { font: 400 15px/1 'PX'; letter-spacing: .1em; color: var(--ac); text-transform: uppercase }
+h1, h2 { font-family: 'FD', sans-serif; font-weight: 800; letter-spacing: -.05em; line-height: .86 }
+.frame-img { position: absolute; display: block; object-fit: cover; background: color-mix(in srgb, var(--fg) 6%, transparent) }
+
+/* cover */
+.cover { --bg: #050505 }
+.cover .big { position: absolute; left: 72px; right: 72px; top: 170px; font: 800 300px/.82 'FD'; letter-spacing: -.06em }
+.cover .big span { display: block }
+.cover .big .o { color: var(--signal) }
+.cover .tag { position: absolute; right: 72px; top: 196px; font: 800 70px/1 'FD'; color: #111; background: #fff; padding: 16px 24px 20px; box-shadow: 10px 10px 0 var(--signal); transform: rotate(-4deg) }
+.cover .who { position: absolute; left: 72px; bottom: 140px; display: flex; gap: 70px; align-items: flex-end }
+.cover .who b { display: block; font: 600 34px/1 'FD'; letter-spacing: -.02em; margin-top: 10px }
+.cover .roles { position: absolute; right: 72px; bottom: 140px; text-align: right; font: 500 22px/1.7 'IS'; letter-spacing: .14em; text-transform: uppercase; color: var(--dim) }
+.cover .stripe { position: absolute; left: 0; right: 0; bottom: 92px; height: 16px; background: repeating-linear-gradient(90deg, var(--signal) 0 16px, transparent 16px 32px) }
+
+/* about */
+.about .ph { position: absolute; left: 120px; top: 150px; width: 600px; height: 750px; border: 2px solid var(--blue) }
+.about .ph img { position: absolute; inset: 24px; width: calc(100% - 48px); height: calc(100% - 48px); object-fit: cover }
+.about .ph i { position: absolute; width: 14px; height: 14px; background: var(--void); border: 2px solid var(--blue) }
+.about .txt { position: absolute; left: 820px; right: 120px; top: 150px }
+.about h2 { font-size: 132px }
+.about h2 small { display: block; font-size: 70px; letter-spacing: -.04em; margin-top: 10px }
+.about h2 em { font-style: normal; color: var(--signal) }
+.about p { font-size: 22px; line-height: 1.5; color: var(--dim); margin-top: 28px; max-width: 900px }
+.about .q { margin-top: 26px; padding-left: 18px; border-left: 4px solid var(--signal); font: 600 27px/1.35 'FD'; color: var(--fg) }
+.about .stats { display: flex; gap: 70px; margin-top: 40px }
+.about .stats b { display: block; font: 800 78px/1 'FD'; letter-spacing: -.04em }
+.about .stats span { font: 400 13px/1.6 'PX'; color: var(--dim) }
+.about .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px }
+.about .tags span { border: 1.5px solid var(--fg); padding: 7px 14px; font-size: 17px }
+
+/* what I do */
+.wid .band { position: absolute; left: 0; right: 0; top: 50%; height: 190px; transform: translateY(-50%); background: var(--signal); clip-path: path('M0 0 Q960 38 1920 0 L1920 190 Q960 152 0 190 Z') }
+.wid .list { position: absolute; left: 0; right: 0; top: 50%; text-align: center; font: 600 120px/1 'FD'; letter-spacing: -.04em }
+.wid .list div { position: absolute; left: 0; right: 0; transform: translateY(-50%) }
+.wid .h { position: absolute; left: 72px; top: 120px; font: 800 64px/1 'FD'; letter-spacing: -.04em }
+
+/* contents */
+.toc h2 { position: absolute; left: 72px; top: 150px; font-size: 170px }
+.toc .note { position: absolute; left: 72px; top: 520px; font-size: 22px; color: var(--dim); max-width: 460px }
+.toc .list { position: absolute; left: 720px; right: 72px; top: 150px; columns: 2; column-gap: 64px }
+.toc a { display: flex; align-items: baseline; gap: 16px; color: var(--fg); text-decoration: none; font: 600 32px/1 'FD'; letter-spacing: -.02em; padding: 15px 0; border-bottom: 1px solid var(--line); break-inside: avoid }
+.toc a s { text-decoration: none; font: 400 14px/1 'PX'; color: var(--signal); width: 34px }
+.toc a i { flex: 1 }
+.toc a span { font: 400 16px/1 'PX'; color: var(--dim) }
+
+/* project divider: huge number, name, blurb, and the hero piece set against the brand colour */
+.div .num { position: absolute; left: 50px; bottom: 60px; font: 800 520px/.75 'FD'; letter-spacing: -.07em; color: transparent; -webkit-text-stroke: 3px var(--ac); opacity: .9 }
+.div .info { position: absolute; left: 72px; top: 140px; width: 640px }
+.div h2 { font-size: 128px; margin: 22px 0 30px; text-wrap: balance }
+.div .bl { font-size: 23px; line-height: 1.5; color: var(--dim) }
+.div .facts { display: flex; gap: 46px; margin-top: 34px; font: 400 13px/1.8 'PX'; color: var(--dim) }
+.div .facts b { display: block; color: var(--fg); font: 600 26px/1 'FD'; letter-spacing: -.02em }
+.div .hero { position: absolute; left: 790px; right: 0; top: 0; bottom: 0; background: color-mix(in srgb, var(--ac) 18%, var(--bg)) }
+
+/* spreads: the mosaic plus an editorial index column */
+.box { position: absolute }
+.mosaic { position: absolute }
+.mosaic > img { position: absolute; display: block; object-fit: cover }
+.idx { position: absolute; top: 140px; bottom: 100px; width: 250px; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; font: 400 13px/1.5 'PX'; color: var(--dim) }
+.idx b { font: 800 120px/.8 'FD'; letter-spacing: -.06em; color: var(--ac); margin-bottom: 18px }
+.idx li { list-style: none; display: flex; gap: 10px }
+.idx li s { text-decoration: none; color: var(--ac) }
+.idx ul { padding: 0; display: flex; flex-direction: column; gap: 8px }
+.sec h2 { font-size: 84px; margin: 18px 0 20px; text-wrap: balance }
+.sec .bl { font-size: 19px; line-height: 1.5; color: var(--dim) }
+.sec .info { position: absolute; left: 72px; top: 130px; width: 400px }
+
+/* device frames */
+.dev { position: absolute }
+.dev > * { position: absolute; display: block }
+.dev img { position: absolute; display: block; width: 100%; height: 100%; object-fit: cover }
+.dev.laptop .lid { background: #0b0b0c; border: 1px solid #2c2c30; border-bottom: 0; border-radius: 1.6% 1.6% 0 0 / 2.4% 2.4% 0 0 }
+.dev.laptop .scr { overflow: hidden; background: #000 }
+.dev.laptop .base { background: linear-gradient(#e3e4e7, #a7a9ae 70%, #8a8c91); border-radius: 0 0 14% 14% / 0 0 60% 60% }
+.dev.phone { background: #050506; border: 3px solid #2b2b30; border-radius: 9% / 4.5% }
+.dev.phone .scr { overflow: hidden; border-radius: 7% / 3.4%; background: #000 }
+.dev.phone .isl { background: #000; border-radius: 99px; z-index: 2 }
+.dev.browser { border: 1.5px solid color-mix(in srgb, var(--fg) 55%, transparent); background: #0b0b0c }
+.dev.browser .barb { border-bottom: 1.5px solid color-mix(in srgb, var(--fg) 55%, transparent) }
+.dev.browser .scr { overflow: hidden }
+.play { position: absolute; z-index: 4; font: 400 12px/1 'PX'; background: var(--ac); color: #0a0a0a; padding: 6px 9px; letter-spacing: .06em }
+
+/* contact */
+.contact h2 { position: absolute; left: 72px; top: 150px; font-size: 230px; max-width: 1700px }
+.contact .mail { position: absolute; left: 72px; top: 720px; font: 600 60px/1 'FD'; border-bottom: 4px solid var(--signal); padding-bottom: 12px }
+.contact .links { position: absolute; left: 72px; top: 860px; font: 400 18px/1.8 'PX'; color: var(--dim) }
+.contact .av { position: absolute; right: 120px; bottom: 120px; width: 230px; height: 276px; image-rendering: pixelated }
+</style></head>
+<body><div id="deck"></div>
+<script src="data.js"></script>
+<script>
+const Q = new URLSearchParams(location.search), VERSION = Q.get('v') || 'long';
+const IMG = '../../public/img/work/', FR = Q.get('frames') || '';
+const SERVICES = ['Brand Identity', 'Logo Design', 'Motion Design', 'UI/UX Design', 'Visual Identity', 'Social & Launch Graphics', 'Illustration'];
+const PAL = { 'Esorae Home': ['#1F1B16', '#C9973F'], eurban: ['#0b1216', '#5ea7d1'], Fission: ['#07090a', '#B7F34A'], 'Product interfaces': ['#07120e', '#34D399'] };
+const AV = ['......########......', '....############....', '...##############...', '..################..', '..####........####..', '..###..........###..', '..##............##..', '..##..##....##..##..', '..##..##....##..##..', '..##............##..', '..##.....##.....##..', '...##..........##...', '...##...####...##...', '....##........##....', '.....##########.....', '.......######.......', '.......##..##.......', '....############....', '..################..', '.##################.', '.##################.', '####################', '####################', '####################'];
+
+const S = window.SECTIONS;
+S.forEach((x) => { if (PAL[x.name]) [x.bg, x.ac] = PAL[x.name]; if (!x.ac) x.ac = '#FF9600'; });
+const byName = (n) => S.find((x) => x.name === n);
+const find = (sec, base) => sec.pieces.find((p) => p[0].split('/').pop().replace(/\.\w+$/, '') === base);
+const light = (hex) => { const n = parseInt(hex.slice(1), 16); return ((n >> 16) * 299 + ((n >> 8) & 255) * 587 + (n & 255) * 114) / 1000 > 150; };
+
+// ---- layout engine (no-crop mosaic, shared with the first deck) ----
+function stackPlan(items, W, g) {
+  const R = items.map((i) => i[1] / i[2]), rects = []; let y = 0, at = 0, flip = true;
+  const row = (idx) => { const h = (W - g * (idx.length - 1)) / idx.reduce((a, i) => a + R[i], 0); let x = 0; idx.forEach((i) => { rects[i] = { x, y, w: R[i] * h, h }; x += R[i] * h + g; }); y += h + g; };
+  while (at < items.length) {
+    const left = items.length - at; let done = false;
+    if (left >= 3) { const tri = [at, at + 1, at + 2];
+      for (const f of [...tri].sort((p, q) => Math.abs(Math.log(R[p])) - Math.abs(Math.log(R[q])))) {
+        const [a, b] = tri.filter((t) => t !== f), s = 1 / R[a] + 1 / R[b], c = ((W - g) / R[f] - g) / (s + 1 / R[f]), bw = W - g - c, h = bw / R[f];
+        if (c > W * 0.22 && bw > W * 0.4) { const fx = flip ? 0 : c + g, sx = flip ? bw + g : 0, ha = c / R[a]; rects[f] = { x: fx, y, w: bw, h }; rects[a] = { x: sx, y, w: c, h: ha }; rects[b] = { x: sx, y: y + ha + g, w: c, h: h - ha - g }; y += h + g; at += 3; flip = !flip; done = true; break; }
+      } }
+    if (done) continue;
+    const k = Math.min(left, 2); row(Array.from({ length: k }, (_, j) => at + j)); at += k;
+  }
+  return { rects, H: y - g, W };
+}
+function rowPlans(items, W, g) {
+  const R = items.map((i) => i[1] / i[2]), n = items.length, out = [];
+  const splits = (st, rows) => rows === 1 ? [[n - st]] : Array.from({ length: n - st - rows + 1 }, (_, k) => k + 1).flatMap((k) => splits(st + k, rows - 1).map((r) => [k, ...r]));
+  for (let rows = 1; rows <= Math.min(3, n); rows++) for (const sp of splits(0, rows)) {
+    const rects = []; let y = 0, at = 0;
+    for (const k of sp) { const idx = Array.from({ length: k }, (_, j) => at + j), h = (W - g * (k - 1)) / idx.reduce((a, i) => a + R[i], 0); let x = 0; idx.forEach((i) => { rects[i] = { x, y, w: R[i] * h, h }; x += R[i] * h + g; }); y += h + g; at += k; }
+    out.push({ rects, H: y - g, W });
+  }
+  return out;
+}
+function bestPlan(items, BW, BH, g) {
+  let best = null, bs = -1;
+  for (const f of [1, 0.85, 0.7, 0.55]) for (const pl of [stackPlan(items, BW * f, g), ...rowPlans(items, BW * f, g)]) {
+    const sc = Math.min(1, BH / pl.H, BW / pl.W), small = Math.min(...pl.rects.map((r) => r.w * r.h)) * sc * sc;
+    const score = pl.rects.reduce((a, r) => a + r.w * r.h, 0) * sc * sc + small * 0.6;
+    if (score > bs) { bs = score; best = { ...pl, sc }; }
+  }
+  return best;
+}
+function frameOf(it) {
+  const r = it[1] / it[2], m = it[4];
+  if (m === 'laptop') { const sh = 840 / r, H = sh + 80; return { r: 1000 / H, H, sh, kind: 'laptop' }; }
+  if (m === 'phone') { const sh = 900 / r, H = sh + 100; return { r: 1000 / H, H, sh, kind: 'phone' }; }
+  if (m === 'browser') { const sh = 1000 / r, H = sh + 42; return { r: 1000 / H, H, sh, kind: 'browser' }; }
+  return null;
+}
+const srcOf = (it) => it[0].startsWith('../') ? '../../public/' + it[0].slice(6) : IMG + it[0];
+function media(it) { const im = new Image(); im.src = srcOf(it); im.alt = it[3]; if (it[5]) { im.dataset.vid = it[5]; } return im; }
+function placeDevice(m, it, f, pos) {
+  const d = document.createElement('div'); d.className = 'dev ' + f.kind; Object.assign(d.style, pos);
+  const pct = (v, of) => (v / of) * 100 + '%', H = f.H;
+  const put = (cls, l, t, w, h, inner) => { const e = document.createElement('div'); e.className = cls; Object.assign(e.style, { left: pct(l, 1000), top: pct(t, H), width: pct(w, 1000), height: pct(h, H) }); if (inner) e.appendChild(inner); d.appendChild(e); };
+  if (f.kind === 'laptop') { put('lid', 60, 0, 880, f.sh + 46); put('scr', 80, 26, 840, f.sh, media(it)); put('base', 0, f.sh + 46, 1000, 34); }
+  if (f.kind === 'phone') { put('scr', 50, 50, 900, f.sh, media(it)); put('isl', 380, 74, 240, 46); }
+  if (f.kind === 'browser') { put('barb', 0, 0, 1000, 42); put('scr', 0, 42, 1000, f.sh, media(it)); }
+  m.appendChild(d);
+}
+function fill(boxEl, items, g = 16) {
+  const BW = boxEl.clientWidth, BH = boxEl.clientHeight, fr = items.map(frameOf);
+  const shaped = items.map((it, i) => fr[i] ? [it[0], fr[i].r * 1000, 1000] : it);
+  const pl = bestPlan(shaped, BW, BH, g), sc = pl.sc, mw = pl.W * sc, mh = pl.H * sc;
+  const m = document.createElement('div'); m.className = 'mosaic'; Object.assign(m.style, { width: mw + 'px', height: mh + 'px', left: (BW - mw) / 2 + 'px', top: (BH - mh) / 2 + 'px' });
+  pl.rects.forEach((r, i) => {
+    const pos = { left: r.x * sc + 'px', top: r.y * sc + 'px', width: r.w * sc + 'px', height: r.h * sc + 'px' };
+    if (fr[i]) placeDevice(m, items[i], fr[i], pos); else { const im = media(items[i]); Object.assign(im.style, pos); m.appendChild(im); }
+    if (items[i][5]) { const t = document.createElement('div'); t.className = 'play'; t.textContent = '▶ MOTION'; Object.assign(t.style, { left: r.x * sc + 10 + 'px', top: r.y * sc + 10 + 'px' }); m.appendChild(t); }
+  });
+  boxEl.appendChild(m);
+}
+
+// ---- page builders ----
+const deck = document.getElementById('deck'), pages = [];
+function page(cls, html, opts = {}) {
+  const el = document.createElement('section'); el.className = 'pg ' + cls; el.innerHTML = html;
+  if (opts.sec) { el.style.setProperty('--bg', opts.sec.bg); el.style.setProperty('--ac', opts.sec.ac); el.style.setProperty('--fg', light(opts.sec.bg) ? '#111111' : '#F2F2F2'); }
+  if (opts.id) el.id = opts.id;
+  el.dataset.motion = opts.motion || '';
+  deck.appendChild(el); pages.push(el); return el;
+}
+const chrome = (right, foot = '') => `<div class="top"><b>ISAAC NEWKING</b><span>${right}</span></div><div class="bot"><span>${foot}</span><span class="pn"></span></div>`;
+
+function cover() {
+  page('cover', `${chrome('PORTFOLIO <span class="mk"></span> 2026')}
+    <div class="big"><span>Design</span><span>Portfolio<span class="o">.</span></span></div><div class="tag">2026</div>
+    <div class="who"><div><span class="lab">Designer</span><b>Isaac Newking</b></div><div><span class="lab">Experience</span><b>6 years</b></div><div><span class="lab">Brands</span><b>50+</b></div></div>
+    <div class="roles">Brand identity<br>Motion <span class="mk"></span> UI/UX<br>Visual identity</div><div class="stripe"></div>`, { motion: 'pixel' });
+}
+function about() {
+  const h = ['left:-8px;top:-8px', 'right:-8px;top:-8px', 'left:-8px;bottom:-8px', 'right:-8px;bottom:-8px', 'left:calc(50% - 8px);top:-8px', 'left:calc(50% - 8px);bottom:-8px'].map((s) => `<i style="${s}"></i>`).join('');
+  page('about', `${chrome('ABOUT')}<div class="ph"><img src="../../public/img/ui/isaac.webp" alt="">${h}</div>
+    <div class="txt"><div class="lab">Hello</div><h2>Hello<small>I'm Isaac N<em>ew</em>king</small></h2>
+    <p>I'm a brand designer. For six years I've built identities that hold up everywhere they land: a token launch on X, a trading app, a billboard, a box on a shelf. I work across branding, motion and interface design for crypto founders, agencies and local businesses.</p>
+    <p class="q">"Design lets me bring creative ideas to life, and I use it as a tool to solve real problems for real people."</p>
+    <p>Trained as a mechatronics engineer, so I design like one: understand the system, then build something that works.</p>
+    <div class="tags"><span>Basketball</span><span>Flag football</span><span>Puzzles</span><span>Nature</span><span>Learning new things</span></div>
+    <div class="stats"><div><b>6 yrs</b><span>DESIGNING BRANDS</span></div><div><b>50+</b><span>BRANDS WORKED WITH</span></div><div><b>140+</b><span>PIECES SHIPPED</span></div></div></div>`, { motion: 'photo' });
+}
+window.setSvc = (A) => { const el = document.getElementById('widlist'); if (!el) return; el.innerHTML = SERVICES.map((s, i) => { const d = i - A, ad = Math.abs(d); if (ad > 2) return ''; const y = Math.sign(d) * (Math.min(ad, 1) * 150 + Math.max(0, ad - 1) * 115); return `<div style="transform:translateY(calc(-50% + ${y}px)) scale(${1 - ad * 0.17});opacity:${1 - ad * 0.36};color:${ad < 0.5 ? '#0a0a0a' : '#f2f2f2'}">${s}</div>`; }).join(''); };
+function wid() { page('wid', `${chrome('SERVICES')}<div class="h">What I do</div><div class="band"></div><div class="list" id="widlist"></div>`, { motion: 'svc' }); setSvc(2); }
+function contents(list) {
+  const el = page('toc', `${chrome('CONTENTS')}<h2>Selected<br>works</h2><p class="note">Tap a project to jump to it. Pieces marked ▶ move in the Behance version.</p><div class="list" id="tocl"></div>`);
+  return () => { el.querySelector('#tocl').innerHTML = list.map((x, i) => `<a href="#${x.id}"><s>${String(i + 1).padStart(2, '0')}</s>${x.name}<i></i><span>${String(pages.indexOf(document.getElementById(x.id)) + 1).padStart(2, '0')}</span></a>`).join(''); };
+}
+function divider(sec, n, hero) {
+  const el = page('div', `${chrome(sec.kind.toUpperCase())}<div class="num">${String(n).padStart(2, '0')}</div><div class="hero"></div>
+    <div class="info"><div class="lab">${sec.kind}</div><h2>${sec.name}</h2><p class="bl">${sec.blurb}</p>
+    <div class="facts"><div>PIECES<b>${sec.pieces.length}</b></div><div>YEAR<b>${sec.year}</b></div></div></div>`, { sec, id: sec.id, motion: hero.some((h) => h[5]) ? 'video' : '' });
+  const box = el.querySelector('.hero'), inner = document.createElement('div'); inner.className = 'box'; Object.assign(inner.style, { left: '60px', right: '60px', top: '110px', bottom: '90px' }); box.appendChild(inner); fill(inner, hero);
+}
+// a project's single page: text column + mosaic (smaller projects in the short version, opening page in the long one)
+function secPage(sec, items, n) {
+  const el = page('sec', `${chrome(sec.kind.toUpperCase())}<div class="info"><div class="lab">${String(n).padStart(2, '0')} <span class="mk"></span> ${sec.kind}</div><h2>${sec.name}</h2><p class="bl">${sec.blurb}</p></div><div class="box"></div>`, { sec, id: sec.id, motion: items.some((h) => h[5]) ? 'video' : '' });
+  const b = el.querySelector('.box'); Object.assign(b.style, { left: '520px', right: '72px', top: '110px', bottom: '90px' }); fill(b, items);
+}
+// continuation spread: mosaic with an index column that lists what's on the page, alternating sides
+let flip = false;
+function spread(sec, items, n, k) {
+  flip = !flip;
+  const el = page('spr', `${chrome('')}<div class="idx" style="${flip ? 'right:72px;text-align:right;align-items:flex-end' : 'left:72px'}"><b>${String(n).padStart(2, '0')}.${k}</b><ul>${items.map((it, i) => `<li style="${flip ? 'flex-direction:row-reverse' : ''}"><s>${String(i + 1).padStart(2, '0')}</s>${it[3]}${it[5] ? ' ▶' : ''}</li>`).join('')}</ul></div><div class="box"></div>`, { sec, motion: items.some((h) => h[5]) ? 'video' : '' });
+  const b = el.querySelector('.box'); Object.assign(b.style, flip ? { left: '72px', right: '360px', top: '100px', bottom: '90px' } : { left: '360px', right: '72px', top: '100px', bottom: '90px' }); fill(b, items);
+}
+function contact() {
+  const el = page('contact', `${chrome('CONTACT')}<h2>Got a brand to build? Let's talk.</h2><div class="mail">newkingisaac@outlook.com</div><div class="links">BEHANCE.NET/ISAACNEWKING</div><canvas class="av" width="20" height="24"></canvas>`);
+  const x = el.querySelector('canvas').getContext('2d'); AV.forEach((r, y) => [...r].forEach((c, i) => { if (c === '#') { x.fillStyle = y >= 17 ? '#FF9600' : '#F2F2F2'; x.fillRect(i, y, 1, 1); } }));
+}
+
+// ---- the two versions ----
+const pick = (sec, names) => names.map((b) => find(sec, b)).filter(Boolean);
+cover(); about(); wid();
+if (VERSION === 'short') {
+  const EH = byName('Esorae Home'), ST = byName("The Stewards' Table"), LP = byName('LonePay'), FI = byName('Fission'), UI = byName('Product interfaces'), FL = byName('Flyers & Banners');
+  const W3 = { ...byName('Axislink'), name: 'Web3 projects', id: 'sec-web3', kind: 'Web3', blurb: 'Launch systems for crypto projects: the Axislink platform and launch, and the Profit AI identity and reel.', pieces: [] };
+  W3.pieces = [find(byName('Axislink'), 'axislink-live'), find(byName('Axislink'), 'axislink-landing'), find(byName('Profit AI'), 'profit-reel'), find(byName('Profit AI'), 'profit-ai-score')];
+  const list = [EH, ST, LP, FI, UI, W3, FL], toc = contents(list);
+  divider(EH, 1, pick(EH, ['eh-billboard'])); spread(EH, pick(EH, ['eh-site-poster', 'eh-pillow', 'eh-post7', 'eh-post4']), 1, 1); spread(EH, pick(EH, ['esorae-diffuser', 'eh-personality', 'eh-rollup', 'eh-post2', 'eh-post5']), 1, 2);
+  divider(ST, 2, pick(ST, ['st-hero'])); spread(ST, pick(ST, ['st-type', 'st-palette', 'st-colourways', 'st-mark-gold', 'st-faithful']), 2, 1); spread(ST, pick(ST, ['st-group', 'st-tee-green', 'st-shelter', 'st-laptop', 'st-billboard2']), 2, 2);
+  divider(LP, 3, pick(LP, ['lp-cards'])); spread(LP, pick(LP, ['lp-p-logo', 'lp-mark', 'lp-p-colour', 'lp-p-type', 'lp-p-pattern']), 3, 1); spread(LP, pick(LP, ['lp-p-devices', 'lp-card-violet', 'lp-tee-violet', 'lp-hoodie-back', 'lp-p-billboard']), 3, 2);
+  secPage(FI, pick(FI, ['design-2', 'fission-tokenomics', 'fission-jt-redo-2', 'decentralized']), 4);
+  secPage(UI, pick(UI, ['new-pairs', 'nft', 'home', 'sniper-mobile', 'dappbuilder-2']), 5);
+  secPage(W3, W3.pieces, 6);
+  secPage(FL, pick(FL, ['joji-goe-to-japan-3', 'scentify-logo', 'new-hip-and-happy', 'launch-rango']), 7);
+  contact(); toc();
+} else {
+  const toc = contents(S);
+  const BIG = ["Esorae Home", "The Stewards' Table", 'LonePay'];
+  S.forEach((sec, i) => {
+    const n = i + 1, ps = sec.pieces.slice();
+    let rest;
+    if (BIG.includes(sec.name)) { divider(sec, n, [ps[0]]); rest = ps.slice(1); }
+    else { const first = ps.slice(0, Math.min(4, ps.length)); secPage(sec, first, n); rest = ps.slice(first.length); }
+    const k = Math.ceil(rest.length / 5);
+    for (let c = 0; c < k; c++) spread(sec, rest.slice(Math.round((c * rest.length) / k), Math.round(((c + 1) * rest.length) / k)), n, c + 1);
+  });
+  contact(); toc();
+}
+const total = String(pages.length).padStart(2, '0');
+pages.forEach((p, i) => { const e = p.querySelector('.pn'); if (e) e.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`; });
+// motion frames: point every clip at frame k of its sequence (used by the exporter)
+window.setFrame = (k) => document.querySelectorAll('img[data-vid]').forEach((im) => { im.src = `${FR}/${im.dataset.vid}/${String(k + 1).padStart(3, '0')}.jpg`; });
+window.PAGES = pages.map((p) => p.dataset.motion);
+</script>
+</body></html>

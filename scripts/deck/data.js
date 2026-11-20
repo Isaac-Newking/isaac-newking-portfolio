@@ -11,100 +11,132 @@ window.SECTIONS = [
     1280,
     800,
     "Website, home page in motion",
-    "laptop"
+    "laptop",
+    "ehsite"
+   ],
+   [
+    "../../motion/esorae-diffuser.jpg",
+    1600,
+    770,
+    "Reel, fragrance collections",
+    "plain",
+    "diffuser"
+   ],
+   [
+    "../../motion/esorae-pillows.jpg",
+    1600,
+    770,
+    "Reel, pillow range",
+    "plain",
+    "pillows"
    ],
    [
     "branding/eh-billboard.jpg",
     1920,
     1080,
     "Billboard, The Luxury Promise",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-personality.jpg",
     1920,
     1080,
     "Brand personality",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-vision.jpg",
     1920,
     1080,
     "Vision and mission",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-rollup.jpg",
     1556,
     2000,
     "Roll-up banner",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-pillow.jpg",
     1493,
     2000,
     "Product campaign",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-post1.jpg",
     1200,
     1500,
     "Social, World Skin Health Day",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-post2.jpg",
     1200,
     1500,
     "Social, Breakfast Is Served",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-post3.jpg",
     466,
     580,
     "Social, room spray",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-post4.jpg",
     1200,
     1500,
     "Social, Intentional Comfort",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-post5.jpg",
     1200,
     1500,
     "Social, Democracy Day",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-post6.jpg",
     1200,
     1500,
     "Social, Ricamo Collection",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-post7.jpg",
     1200,
     1500,
     "Social, Choose by Mood",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eh-post8.jpg",
     1200,
     1500,
     "Social, The People's Choice",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#0B0B0B",
+  "ac": null,
   "id": "sec-esoraehome"
  },
  {
@@ -118,170 +150,196 @@ window.SECTIONS = [
     1920,
     1084,
     "Logo on forest",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-mark-gold.jpg",
     962,
     550,
     "Mark on gold",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-type.jpg",
     1920,
     1080,
     "Typography: Bricolage Grotesque",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-palette.jpg",
     1920,
     540,
     "Colour palette: Forest, Moss, Ivory",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-colourways.jpg",
     1920,
     522,
     "Mark colourways",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-collective.jpg",
     956,
     550,
     "Lock-up: Growth is Stewardship",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-mission.jpg",
     1920,
     1610,
     "Mission, vision and scripture",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-faithful.jpg",
     962,
     528,
     "Tagline: Faithful in little, in much",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-mark-maroon.jpg",
     956,
     528,
     "Mark on maroon",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-belief.jpg",
     1920,
     1040,
     "Core belief",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-patterns.jpg",
     1616,
     796,
     "Background patterns",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-group.jpg",
     1064,
     562,
     "Community in branded tees",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-tee-maroon.jpg",
     658,
     636,
     "Tee, maroon",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-tee-green.jpg",
     1060,
     978,
     "Tee, forest",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-tote.jpg",
     716,
     888,
     "Tote bag",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-stickers.jpg",
     914,
     570,
     "Stickers",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-laptop-sticker.jpg",
     814,
     482,
     "Laptop sticker",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-tee-white.jpg",
     642,
     644,
     "Tee, seal on the back",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-billboard.jpg",
     1920,
     716,
     "Billboard",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-banner.jpg",
     1920,
     750,
     "Banner, Join the Stewards Table",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-shelter.jpg",
     1920,
     1080,
     "Bus shelter posters",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-billboard2.jpg",
     1920,
     1060,
     "Billboard, 30+ guilds",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-laptop.jpg",
     1920,
     1080,
     "UI/UX: member dashboard",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/st-devices.jpg",
     1920,
     1080,
     "UI/UX: tablet and phone",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#1C2E1A",
+  "ac": "#C8A55A",
   "id": "sec-thestewardstable"
  },
  {
@@ -295,212 +353,244 @@ window.SECTIONS = [
     2000,
     1125,
     "Guidelines: logo construction",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-mark.jpg",
     625,
     717,
     "Mark on Electric Indigo",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-p-colour.jpg",
     2000,
     1125,
     "Guidelines: primary colours",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-p-type.jpg",
     2000,
     1125,
     "Guidelines: Inter type",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-cards.jpg",
     1280,
     875,
     "Business cards",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-p-pattern.jpg",
     2000,
     1125,
     "Guidelines: brand pattern",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-app-icon.jpg",
     1026,
     793,
     "App icon on the home screen",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-store.jpg",
     1000,
     563,
     "App store listing",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-social.jpg",
     1080,
     1080,
     "Social post, No more headaches",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-p-devices.jpg",
     2000,
     1125,
     "App on phone and watch",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-card-violet.jpg",
     1080,
     810,
     "Debit card, violet",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-card-white.jpg",
     1080,
     810,
     "Debit card, white",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-card-dark.jpg",
     1080,
     810,
     "Debit card, front and back",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-stationery.jpg",
     1080,
     810,
     "Stationery: letterhead, envelope and flyer",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-notebook.jpg",
     1280,
     875,
     "Notebook, open",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-notebook-closed.jpg",
     1080,
     810,
     "Notebook cover",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-binders.jpg",
     1080,
     810,
     "Binders",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-tee-violet.jpg",
     1080,
     810,
     "Tee, pattern",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-tee-white.jpg",
     1080,
     810,
     "Tee, Secure Savings Send",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-hoodie.jpg",
     1080,
     720,
     "Hoodie, front",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-hoodie-back.jpg",
     875,
     565,
     "Hoodie, pattern back",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-tote.jpg",
     1080,
     810,
     "Tote bag",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-drawstring.jpg",
     875,
     584,
     "Drawstring bag",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-badge.jpg",
     1000,
     750,
     "Staff ID",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-illustration.jpg",
     1000,
     563,
     "Illustration style",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-p-shapes.jpg",
     2000,
     1125,
     "Guidelines: secondary graphics",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-p-colour2.jpg",
     2000,
     1125,
     "Guidelines: secondary colours",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-p-billboard.jpg",
     2000,
     1125,
     "Billboard",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-p-ooh.jpg",
     2000,
     1125,
     "Billboard and wayfinding sign",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/lp-p-instagram.jpg",
     2000,
     1125,
     "Instagram feed",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#0B0820",
+  "ac": "#7B4DFF",
   "id": "sec-lonepay"
  },
  {
@@ -514,37 +604,44 @@ window.SECTIONS = [
     1920,
     1080,
     "Logo, light and dark",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/ef-pattern.jpg",
     1920,
     1080,
     "Brand pattern and illustrative style",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/ef-flyer1.jpg",
     1200,
     1500,
     "Flyer, Independence Day",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/ef-flyer2.jpg",
     1200,
     1500,
     "Flyer, Empower the Next Generation",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/ef-flyer3.jpg",
     1200,
     1500,
     "Flyer, Education",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#e1f2e9",
+  "ac": "#009345",
   "id": "sec-esoraefoundation"
  },
  {
@@ -558,51 +655,60 @@ window.SECTIONS = [
     1280,
     800,
     "Website, home page in motion",
-    "laptop"
+    "laptop",
+    "eusite"
    ],
    [
     "branding/eu-web-home.jpg",
     2400,
     1800,
     "Website, Spaces That Hold Their Value",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eu-web-projects.jpg",
     2400,
     1800,
     "Website, Our Projects",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/eu-poster1.jpg",
     1200,
     1500,
     "Poster, We Don't Just Construct Buildings",
-    "insta"
+    "insta",
+    ""
    ],
    [
     "branding/eu-poster2.jpg",
     1200,
     1500,
     "Poster, Something Is Coming",
-    "insta"
+    "insta",
+    ""
    ],
    [
     "branding/eu-poster3.jpg",
     1200,
     1500,
     "Poster, You Dream It, We Build It",
-    "insta"
+    "insta",
+    ""
    ],
    [
     "branding/eu-poster4.jpg",
     1200,
     1500,
     "Poster, Meet the Locations",
-    "insta"
+    "insta",
+    ""
    ]
   ],
+  "bg": "#0B0B0B",
+  "ac": null,
   "id": "sec-eurban"
  },
  {
@@ -616,37 +722,44 @@ window.SECTIONS = [
     2400,
     1800,
     "Website, Four Arenas",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/o5-web-tennis.jpg",
     2400,
     1800,
     "Website, Ready to Play",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/o5-merch.jpg",
     2000,
     2000,
     "Merch: tee, cap, bottle",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/o5-palette.jpg",
     2000,
     2000,
     "Colour and type",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/o5-welcome.jpg",
     2000,
     2000,
     "Social, Welcome to O5 Dynamix",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#111111",
+  "ac": "#FF4D00",
   "id": "sec-o5dynamix"
  },
  {
@@ -660,44 +773,52 @@ window.SECTIONS = [
     1280,
     720,
     "Logo animation",
-    "plain"
+    "plain",
+    "ojkmotion"
    ],
    [
     "branding/ojk-cards.jpg",
     1024,
     724,
     "Business cards",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/ojk-seal.jpg",
     1024,
     724,
     "Logo seal",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/ojk-pattern.jpg",
     1024,
     724,
     "Brand pattern",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/ojk-mark.jpg",
     1024,
     724,
     "Mark on brand gradient",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "branding/ojk-tees.jpg",
     1024,
     724,
     "Tees, white and green",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#0E241A",
+  "ac": "#FF5A1F",
   "id": "sec-ojkonsult"
  },
  {
@@ -711,93 +832,108 @@ window.SECTIONS = [
     1920,
     1080,
     "1-didtal-asset",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/1-reflective.jpg",
     1360,
     680,
     "1-reflective",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/2-risk-control.jpg",
     1360,
     680,
     "2-risk-control",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/2-shared-governance.jpg",
     1920,
     1080,
     "2-shared-governance",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/3-trading.jpg",
     1920,
     1080,
     "3 trading",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/decentralized.jpg",
     2000,
     2000,
     "Decentralized.",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/fission-announcement.jpg",
     1360,
     680,
     "Fission-Announcement",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/fission-jt-redo-2.jpg",
     1360,
     680,
     "Fission-JT-redo-2",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/fission-tokenomics.jpg",
     1920,
     1080,
     "Fission-Tokenomics",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/partnership-stratos.jpg",
     1360,
     680,
     "Partnership-stratos",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/zeal-community-white.jpg",
     1360,
     680,
     "Zeal-Community-white",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/design-2.jpg",
     2000,
     2000,
     "design-2",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "fission/temp.jpg",
     1920,
     1080,
     "temp",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#0B0B0B",
+  "ac": null,
   "id": "sec-fission"
  },
  {
@@ -811,72 +947,84 @@ window.SECTIONS = [
     2400,
     1707,
     "New Pairs",
-    "laptop"
+    "laptop",
+    ""
    ],
    [
     "uiux/sniper.jpg",
     2400,
     1707,
     "Sniper",
-    "laptop"
+    "laptop",
+    ""
    ],
    [
     "uiux/wallet-manager.jpg",
     2400,
     1707,
     "Wallet Manager",
-    "laptop"
+    "laptop",
+    ""
    ],
    [
     "uiux/token-holdings.jpg",
     2400,
     1707,
     "Token Holdings",
-    "laptop"
+    "laptop",
+    ""
    ],
    [
     "uiux/home.jpg",
     387,
     824,
     "Home",
-    "phone"
+    "phone",
+    ""
    ],
    [
     "uiux/sniper-mobile.jpg",
     387,
     824,
     "Sniper Mobile",
-    "phone"
+    "phone",
+    ""
    ],
    [
     "uiux/wallet-manager-mobile.jpg",
     387,
     824,
     "Wallet Manager",
-    "phone"
+    "phone",
+    ""
    ],
    [
     "uiux/token-holdings-mobile.jpg",
     387,
     824,
     "Token Holdings",
-    "phone"
+    "phone",
+    ""
    ],
    [
     "uiux/dappbuilder-2.jpg",
     1920,
     1290,
     "DAppbuilder (2)",
-    "laptop"
+    "laptop",
+    ""
    ],
    [
     "uiux/nft.jpg",
     2100,
     1500,
     "NFT",
-    "laptop"
+    "laptop",
+    ""
    ]
   ],
+  "bg": "#0B0B0B",
+  "ac": null,
   "id": "sec-productinterfaces"
  },
  {
@@ -890,58 +1038,68 @@ window.SECTIONS = [
     2400,
     800,
     "X header, Axislink mascot",
-    "x"
+    "x",
+    ""
    ],
    [
     "uiux/axislink-ui.jpg",
     2400,
     744,
     "Dapp dashboard",
-    "browser"
+    "browser",
+    ""
    ],
    [
     "uiux/axislink-landing.jpg",
     1280,
     728,
     "Website, Introducing Axislink",
-    "laptop"
+    "laptop",
+    ""
    ],
    [
     "web3/axislink-kyc.jpg",
     1360,
     680,
     "KYC announcement with Assure DeFi",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "web3/axislink-aibot.jpg",
     1360,
     680,
     "AI Bot launch",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "web3/axislink-live.jpg",
     1280,
     640,
     "Announcement, We Are Live",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "web3/axislink-24hrs.jpg",
     1280,
     640,
     "Countdown, 24 Hrs to Live",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "web3/axislink-liquidity.jpg",
     1280,
     640,
     "Announcement, Liquidity Extension",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#130b16",
+  "ac": "#cb42f8",
   "id": "sec-axislink"
  },
  {
@@ -955,37 +1113,44 @@ window.SECTIONS = [
     720,
     1280,
     "Reel, logo loop",
-    "phone"
+    "phone",
+    "profitreel"
    ],
    [
     "web3/profit-header.jpg",
     1280,
     426,
     "X header, Empowering data",
-    "x"
+    "x",
+    ""
    ],
    [
     "web3/profit-logo.jpg",
     1280,
     1280,
     "Wordmark",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "web3/profit-motion.jpg",
     848,
     478,
     "Logo animation",
-    "plain"
+    "plain",
+    "profitmotion"
    ],
    [
     "web3/profit-ai-score.jpg",
     1270,
     829,
     "Score card",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#120C06",
+  "ac": "#FF8F3A",
   "id": "sec-profitai"
  },
  {
@@ -999,16 +1164,20 @@ window.SECTIONS = [
     851,
     315,
     "X header, pixel cake",
-    "x"
+    "x",
+    ""
    ],
    [
     "flyers/edited-cover-banner-2.jpg",
     851,
     315,
     "X header, 3D cake",
-    "x"
+    "x",
+    ""
    ]
   ],
+  "bg": "#100b16",
+  "ac": "#812cd1",
   "id": "sec-hashcake"
  },
  {
@@ -1022,37 +1191,44 @@ window.SECTIONS = [
     1360,
     680,
     "Copy AI, 1 hour to launch",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "web3/main-launch-tax.jpg",
     1920,
     1080,
     "Based Tax Inspector, launch date",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "web3/now-live-devkit.jpg",
     800,
     1000,
     "DevKit is live",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "web3/pacman-banner.jpg",
     1360,
     680,
     "ANA, Pac-Man utility",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "web3/oxhsadow.jpg",
     1500,
     500,
     "0xShadow, X header",
-    "x"
+    "x",
+    ""
    ]
   ],
+  "bg": "#0b0d16",
+  "ac": "#042bd1",
   "id": "sec-tokenlaunches"
  },
  {
@@ -1066,58 +1242,68 @@ window.SECTIONS = [
     1500,
     500,
     "$SENDOR-twitter",
-    "x"
+    "x",
+    ""
    ],
    [
     "flyers/launch-rango.jpg",
     2000,
     1124,
     "launch rango",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "flyers/launch-sf.jpg",
     1360,
     680,
     "launch-sf",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "flyers/twitter-banner.jpg",
     1500,
     500,
     "twitter-banner",
-    "x"
+    "x",
+    ""
    ],
    [
     "flyers/twitter-terra-scan.jpg",
     1500,
     500,
     "twitter-terra-scan",
-    "x"
+    "x",
+    ""
    ],
    [
     "flyers/joji-goe-to-japan-3.jpg",
     2000,
     2000,
     "Joji-goe-to-japan-3",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "flyers/scentify-logo.jpg",
     2000,
     2000,
     "Scentify-logo",
-    "plain"
+    "plain",
+    ""
    ],
    [
     "flyers/new-hip-and-happy.jpg",
     2000,
     2164,
     "new-hip-and-happy",
-    "plain"
+    "plain",
+    ""
    ]
   ],
+  "bg": "#0b160e",
+  "ac": "#0ed147",
   "id": "sec-flyersbanners"
  }
 ];

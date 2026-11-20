@@ -51,6 +51,7 @@ Read this first. It is the full handoff for continuing this project in a new ses
 - `collage.py OUT.jpg LAYOUT BG imgs…`: 2–4 image collages (`big-left`, `2x2`, `pair`, `big-top`). Append `:contain` to a path to fit it whole. Isaac now prefers single pieces in the mosaic over collages.
 - `pixelart.py OUTDIR`: draws the hero wall pixel panels at 1 px per cell.
 - `deck/deck.html`: the Behance/Dribbble slide deck (exports live in `showcase/`). It shows every piece: run `python3 scripts/deck/build_data.py` first to regenerate `deck/data.js` from `content/`, and slides paginate themselves. Render each `.slide` at 1920×1080 with Playwright for PNGs; `page.pdf` at 1920×1080 for the PDF; call `setSvc(n)` to animate the What I do slide for the GIF.
+- `deck/v2.html?v=short|long` + `deck/export_v2.js <framesDir>`: the creative Behance deck (brand-colour dividers with huge numbers, index columns, motion pages). Exports to `showcase/v2/<version>/` as a Behance module set (JPG + GIF) and a flattened PDF. Motion frames: `ffmpeg -ss <s> -t 4 -i clip.mp4 -vf fps=9,scale=900:-2 <framesDir>/<name>/%03d.jpg` for ehsite, eusite, diffuser, pillows, profitreel, profitmotion, ojkmotion.
 - `mockup-scene.html?scene=court|tennis|stone|linen&shot=file.png`: CSS 3D laptop scenes. Screenshot it at 2400×1800 with Playwright.
 - Website recordings: Playwright `recordVideo` while wheel-scrolling, then trim and encode with ffmpeg. Close any pop-ups first.
 

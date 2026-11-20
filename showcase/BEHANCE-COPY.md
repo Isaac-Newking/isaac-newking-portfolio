@@ -58,3 +58,62 @@ Isaac Newking, Brand Designer
 - Upload the module set (GIFs) so the cover thumbnail moves; animated covers get more clicks in the feed.
 - Publish each big brand (Esorae Home, The Stewards' Table, LonePay) as its own project too, with the same tags plus a project-specific one (e.g. "fintech branding" for LonePay). More projects means more chances to appear in search.
 - Post on weekday mornings, US time, when Behance traffic is highest.
+
+---
+
+# Behance profile info (copy and paste)
+
+## Name
+Isaac Newking
+
+## Occupation / headline
+Brand Designer: Identity, Motion & UI/UX
+
+## Company
+Independent (freelance)
+
+## Location
+Leave as your city if you want local clients, or "Remote, worldwide".
+
+## About me (profile "About" section)
+I'm Isaac Newking, a brand designer with six years of experience building identities that hold up everywhere they land: a token launch on X, a trading app, a billboard, a box on a shelf.
+
+I've worked with 50+ brands across home and lifestyle, fintech, Web3, education and community, from Esorae Home and LonePay to The Stewards' Table, Axislink and Profit AI. My work covers the full system: strategy, logo, brand guidelines, campaigns, motion and product interfaces, so the logo, the launch film and the app screen all read as one brand.
+
+I trained as a mechatronics engineer, so I design like one: understand the system, then build something that works and looks good doing it. Design lets me bring creative ideas to life and use them to solve real problems for real people.
+
+Off the clock: basketball, flag football, puzzles, nature and learning new things.
+
+Open to brand identity, logo, motion and UI/UX projects.
+newkingisaac@outlook.com
+
+## Short bio (for places with a character limit, ~160)
+Brand designer. 6 years, 50+ brands. Identity, guidelines, motion and UI/UX for founders and growing brands. Open for projects: newkingisaac@outlook.com
+
+## Hire me / Availability
+- Status: Available for freelance projects
+- Services to list (each with a one-line description):
+  - Brand Identity: logo, colour, type and a full system your team can use
+  - Brand Guidelines: a clear rulebook so the brand stays consistent everywhere
+  - Logo Design: a distinctive mark built to work from favicon to billboard
+  - Motion Design: logo animations, reels and launch videos
+  - UI/UX Design: web and app interfaces that look like the brand
+  - Social & Launch Graphics: campaign, announcement and launch visuals
+- Typical timeline note: "A full brand identity usually takes 3 to 6 weeks." (Change if yours differs.)
+
+## Tools
+Adobe Illustrator, Adobe Photoshop, Adobe After Effects, Adobe InDesign, Figma, CorelDRAW, DaVinci Resolve
+
+## Skills / creative fields (pick the ones Behance offers)
+Branding, Logo Design, Graphic Design, Motion Graphics, UI/UX, Visual Identity, Illustration, Typography
+
+## Links (profile "Web references")
+- Website: https://isaac-rose.vercel.app
+- Email: newkingisaac@outlook.com
+- Add your X, Instagram, LinkedIn and Dribbble if you use them.
+
+## Profile banner
+Use the cover image (`scripts/deck/cover.png`); it already matches the portfolio. Behance crops banners to a wide strip, so keep "Design Portfolio" centred.
+
+## Avatar
+Use the photo crop from the site (face to watch, `public/img/ui/isaac.webp`) or a tighter head-and-shoulders crop; real faces get more hire clicks than logos.

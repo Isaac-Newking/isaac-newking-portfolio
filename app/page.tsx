@@ -34,7 +34,21 @@ export default function Home() {
             <div>
               <h2>Hello<small>I&apos;m Isaac N<em>ew</em>king</small></h2>
               <p className="bio">{SITE.bio}</p>
+              <p className="why">&ldquo;{SITE.why}&rdquo;</p>
+              <dl className="me-list">
+                <div><dt>Background</dt><dd>{SITE.background}</dd></div>
+                <div><dt>Off the clock</dt><dd className="tags">{SITE.offClock.map((t) => <span key={t}>{t}</span>)}</dd></div>
+              </dl>
+              <div className="me-stats">
+                <div><b>{SITE.years} yrs</b><span>Designing brands</span></div>
+                <div><b>{SITE.brands.length}</b><span>Brands shaped</span></div>
+                <div><b>140+</b><span>Pieces shipped</span></div>
+              </div>
             </div>
+          </div>
+          <div className="trusted" aria-label="Brands I've built">
+            <span className="trusted-k">Brands I&apos;ve built</span>
+            <div className="trusted-row">{SITE.brands.map((b) => <span key={b}>{b}<i aria-hidden="true" /></span>)}</div>
           </div>
           <div className="facts">
             <div><h3 className="bubble">Experience</h3><div className="big">{SITE.years} yrs</div><p>{SITE.experience}</p></div>

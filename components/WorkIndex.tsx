@@ -14,13 +14,15 @@ export default function WorkIndex() {
 
   useEffect(() => {
     let raf = 0; const s = state.current;
+    // the preview eases after the pointer; it runs only while catching up, then sleeps
     const follow = () => {
       const vx = s.px - s.ppx; s.ppx += vx * 0.14; s.ppy += (s.py - s.ppy) * 0.14;
       if (peek.current) peek.current.style.transform = `translate(${s.ppx + 28}px, ${s.ppy - 120}px) rotate(${clamp(vx * 0.05, -8, 8)}deg)`;
-      raf = requestAnimationFrame(follow);
+      raf = Math.abs(s.px - s.ppx) + Math.abs(s.py - s.ppy) > 0.3 ? requestAnimationFrame(follow) : 0;
     };
-    raf = requestAnimationFrame(follow);
-    return () => { cancelAnimationFrame(raf); clearInterval(s.timer); };
+    const wake = () => { if (!raf) raf = requestAnimationFrame(follow); };
+    addEventListener('pointermove', wake, { passive: true });
+    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', wake); clearInterval(s.timer); };
   }, []);
 
   const start = (i: number) => {

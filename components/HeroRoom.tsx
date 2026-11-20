@@ -99,7 +99,7 @@ export default function HeroRoom() {
     const frame = () => {
       smx += (mx - smx) * 0.06; smy += (my - smy) * 0.06;
       const t = title.current, r = room.current, h = hero.current;
-      if (!h || !r || !t) return;
+      if (!h || !r || !t) { raf = 0; return; }
       const hr = h.getBoundingClientRect();
       if (next && !rm && mt < 0) {
         const L = -mt, top = hr.top + hr.height + mt; // where the real section sits now
@@ -135,10 +135,17 @@ export default function HeroRoom() {
         t.style.opacity = String(clamp(1 - (p - 0.34) / 0.16, 0, 1));
         r.classList.toggle('lit', -hr.top > 4);
       }
-      raf = requestAnimationFrame(frame);
+      // keep going only while something is still easing; otherwise sleep until the next scroll or pointer move
+      const settling = Math.abs(mx - smx) > 0.0008 || Math.abs(my - smy) > 0.0008 || (kS > 0 && kS < 1 && next && Math.abs(clamp(1 - (hr.top + hr.height + mt) / -mt, 0, 1) - kS) > 0.001);
+      raf = settling || --idleFrames > 0 ? requestAnimationFrame(frame) : 0;
     };
-    raf = requestAnimationFrame(frame);
-    return () => { cancelAnimationFrame(raf); removeEventListener('pointermove', move); removeEventListener('resize', onResize); removeEventListener('resize', measure); removeEventListener('scroll', buildOnce); clearTimeout(rt); dropGhost(); showReal(true); };
+    let idleFrames = 0;
+    const wake = () => { idleFrames = 3; if (!raf) raf = requestAnimationFrame(frame); };
+    addEventListener('scroll', wake, { passive: true });
+    addEventListener('pointermove', wake, { passive: true });
+    addEventListener('resize', wake);
+    wake();
+    return () => { cancelAnimationFrame(raf); removeEventListener('scroll', wake); removeEventListener('pointermove', wake); removeEventListener('resize', wake); removeEventListener('pointermove', move); removeEventListener('resize', onResize); removeEventListener('resize', measure); removeEventListener('scroll', buildOnce); clearTimeout(rt); dropGhost(); showReal(true); };
   }, []);
 
   const roles = [...SITE.roles, ...SITE.roles, ...SITE.roles, ...SITE.roles];

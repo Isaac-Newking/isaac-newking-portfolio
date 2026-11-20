@@ -69,4 +69,5 @@ Skip the loader in tests with `sessionStorage.setItem('in-intro','1')` in an ini
 - If Isaac likes the branding mosaic, roll the same case-study layout out to the other world pages.
 - Testimonials section is hidden until quotes exist. "Book a call" needs a link.
 - LonePay strategy pages (mission, vision, values) were left out; offer them as one piece if he wants the story.
-- Fonts could move to self-hosting subsets; images could move to a CMS (Sanity was the earlier plan).
+- Fonts are bundled in `app/fonts` (next/font/local), so builds never call Google. Animation loops (hero, services, work preview) sleep until scroll or pointer movement; keep new effects event-driven too.
+- Images could move to a CMS (Sanity was the earlier plan).

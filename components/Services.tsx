@@ -19,6 +19,7 @@ export default function Services() {
   useEffect(() => {
     let raf = 0, clipKey = '';
     const frame = () => {
+      raf = 0;
       if (!sec.current || !idx.current || !stick.current || !lens.current || !inner.current) return;
       const r = sec.current.getBoundingClientRect(), vh = innerHeight;
       if (r.top < vh && r.bottom > 0) {
@@ -49,10 +50,15 @@ export default function Services() {
         });
         idx.current.textContent = `${String(Math.round(a) + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
       }
-      raf = requestAnimationFrame(frame);
     };
+    let near = false;
+    const onScroll = () => { if (near && !raf) raf = requestAnimationFrame(frame); };
+    const io = new IntersectionObserver(([e]) => { near = e.isIntersecting; onScroll(); }, { rootMargin: '100px 0px' });
+    if (sec.current) io.observe(sec.current);
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
     raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
+    return () => { cancelAnimationFrame(raf); io.disconnect(); removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); };
   }, []);
 
   return (

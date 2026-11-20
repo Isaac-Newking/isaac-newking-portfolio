@@ -1,13 +1,15 @@
 import type { Metadata, Viewport } from 'next';
-import { Funnel_Display, Instrument_Sans, Silkscreen } from 'next/font/google';
+import localFont from 'next/font/local';
 import { Analytics } from '@vercel/analytics/next';
 import SiteShell from '@/components/SiteShell';
 import 'lenis/dist/lenis.css';
 import './globals.css';
 
-const display = Funnel_Display({ subsets: ['latin'], weight: ['400', '600', '800'], variable: '--font-display', display: 'swap' });
-const body = Instrument_Sans({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-body', display: 'swap' });
-const pixel = Silkscreen({ subsets: ['latin'], weight: ['400'], variable: '--font-pixel', display: 'swap' });
+// Fonts are bundled with the site (latin subsets of the variable fonts), so builds never depend on Google
+// and pages don't wait on a third-party font server.
+const display = localFont({ src: './fonts/funnel-display.woff2', weight: '300 800', variable: '--font-display', display: 'swap' });
+const body = localFont({ src: './fonts/instrument-sans.woff2', weight: '400 700', variable: '--font-body', display: 'swap' });
+const pixel = localFont({ src: './fonts/silkscreen.woff2', weight: '400', variable: '--font-pixel', display: 'swap' });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 

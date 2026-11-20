@@ -309,7 +309,7 @@ function BrandCase({ w, open }: { w: World; open: Open }) {
 
   const others = groups.map((x, k) => ({ x, k })).filter((o) => o.k !== i);
   // a strong single image per brand for the cards, else its first still
-  const COVER: Record<string, string> = { 'Esorae Home': 'eh-billboard', LonePay: 'lp-cards', eurban: 'eu-poster2', 'O5 Dynamix': 'o5-web-court', OJKonsult: 'ojk-cards' };
+  const COVER: Record<string, string> = { 'Esorae Home': 'eh-billboard', LonePay: 'lp-cards', eurban: 'eu-poster2', 'O5 Dynamix': 'o5-web-court', OJKonsult: 'ojk-cards', "The Stewards' Table": 'st-group' };
   const coverOf = (name: string) => w.pieces.find((p) => p.group === name && COVER[name] && p.src.includes('/' + COVER[name] + '.')) ?? w.pieces.find((p) => p.group === name && !p.video);
   let n = 0;
 

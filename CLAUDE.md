@@ -41,7 +41,7 @@ Read this first. It is the full handoff for continuing this project in a new ses
 
 ## Content
 
-- **Worlds and brand groups (order, blurbs):** `content/worlds.ts`. Branding order: Esorae Home, LonePay, Esorae Foundation, eurban, O5 Dynamix, OJKonsult.
+- **Worlds and brand groups (order, blurbs):** `content/worlds.ts`. Branding order: Esorae Home, The Stewards' Table, LonePay, Esorae Foundation, eurban, O5 Dynamix, OJKonsult.
 - **Pieces:** `content/work.json`. Each piece has `src`, `name`, `w`, `h`, `group`, palette, `mock` (`plain`, `browser`, `laptop`, `phone`, `x`, `insta`) and an optional `video` (a looping clip that plays in the frame; the still is its poster).
 - **Images:** `public/img/work/<world>/`. Every JPG/PNG needs a `.webp` copy beside it, plus a `.w1200.webp` copy if it is wider than 1300px. The site loads these through `webp()`, `webpSmall()` and `srcSetFor()` in `lib/pixel.ts`. Make them with Pillow at quality 80, or 78 for the 1200px copy.
 - **Motion reels:** `MOTION` in `content/site.ts` and `public/motion/`. Website recordings are `*-site.mp4` (1280×800 H.264, CRF about 25, faststart).

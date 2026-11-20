@@ -39,11 +39,12 @@ type WorldDef = Omit<World, 'pieces'>;
 const DEFS: WorldDef[] = [
   {
     slug: 'branding', name: 'Branding', kind: 'Major branding projects', year: '2026',
-    discipline: 'Identity, campaign, motion', projects: '6 brands', cover: 'eh-billboard',
+    discipline: 'Identity, campaign, motion', projects: '7 brands', cover: 'eh-billboard',
     blurb: 'Four identities built end to end, led by Esorae Home: strategy, logo, campaigns, packaging moments, merch, social and motion.',
     pal: { bg: '#1F1B16', fg: '#F3EEE4', accent: '#C9973F', line: 'rgba(201,151,63,.22)' },
     groups: [
       { name: 'Esorae Home', lead: true, motion: true, blurb: 'Identity and website for a home textile and fragrance brand. Brand personality, an online store, billboard and roll-up campaigns, product shoots, a social system in charcoal and gold, and motion.' },
+      { name: "The Stewards' Table", blurb: 'Identity for a church stewardship community. A heart-and-cross mark, Forest, Moss, Ivory, gold and maroon with Bricolage Grotesque, a mission built on 1 Corinthians 4:2, patterns, apparel, stickers, out-of-home and a member app.' },
       { name: 'LonePay', blurb: 'Identity and brand guidelines for a payments app. A folded L mark built on a slanted initial, Electric Indigo and Midnight Indigo with Inter Bold, a flowing pattern and secondary shapes, then the system at work: app, cards, stationery, apparel, merch, billboards and social.' },
       { name: 'Esorae Foundation', blurb: 'Identity for an education-focused foundation: logo, brand pattern, illustrative style and campaign flyers in green and orange.' },
       { name: 'eurban', blurb: 'Website and launch campaign for a residential developer: a calm, image-led site for its homes in Lagos and Benin, and teaser posters for a new way of living.' },

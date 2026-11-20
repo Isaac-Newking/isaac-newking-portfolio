@@ -88,7 +88,11 @@ export default function HeroRoom() {
       copy.setAttribute('aria-hidden', 'true');
       // canvases (the avatar) don't copy their pixels with the DOM
       const src = next.querySelectorAll('canvas'), dst = copy.querySelectorAll('canvas');
-      dst.forEach((cv, i) => { const o = src[i]; if (o && o.width) cv.getContext('2d')?.drawImage(o, 0, 0); });
+      dst.forEach((cv, i) => {
+        // the photo sharpens from pixels on its own; the fly-in copy just shows it sharp
+        if (cv.classList.contains('me')) { const im = document.createElement('img'); im.src = '/img/ui/isaac.webp'; im.alt = ''; im.className = 'me'; im.style.objectFit = 'cover'; cv.replaceWith(im); return; }
+        const o = src[i]; if (o && o.width) cv.getContext('2d')?.drawImage(o, 0, 0);
+      });
       g.appendChild(copy);
       stage.appendChild(g);
       return g;

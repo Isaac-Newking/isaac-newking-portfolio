@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import Avatar from '@/components/Avatar';
 import Buddy from '@/components/Buddy';
+import MePhoto from '@/components/MePhoto';
 import FloorAvatar from '@/components/FloorAvatar';
 import Intro from '@/components/Intro';
 import Nav from '@/components/Nav';
@@ -25,8 +26,7 @@ export default function Home() {
         <section className="hello paper wrap" id="about">
           <div className="grid">
             <div className="frame">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="me" src="/img/ui/isaac.webp" alt="Isaac Newking, brand designer" width={800} height={1000} loading="lazy" decoding="async" />
+              <MePhoto />
               <span className="me-badge" aria-hidden="true"><Avatar /></span>
               {HANDLES.map(([k, s]) => <i key={k} className="h" style={s} />)}
               <span className="edge" />
@@ -46,13 +46,12 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="trusted" aria-label="Notable clients">
-            <span className="trusted-k">Notable clients</span>
-            <div className="trusted-row">{SITE.clients.map((b) => <span key={b}>{b}<i aria-hidden="true" /></span>)}<span className="more">and more</span></div>
-          </div>
-          <div className="trusted t2" aria-label="Brands I've built">
-            <span className="trusted-k">Brands I&apos;ve built</span>
-            <div className="trusted-row">{SITE.brands.map((b) => <span key={b}>{b}<i aria-hidden="true" /></span>)}</div>
+          <div className="brandwall" aria-label="Brands I've built">
+            <div className="bw-head"><span className="bw-k">Brands I&apos;ve built</span><span className="bw-n">{SITE.brandCount} brands worked with, including</span></div>
+            <ul className="bw-grid">
+              {SITE.brands.map((b, i) => <li key={b}><span className="bw-i">{String(i + 1).padStart(2, '0')}</span>{b}</li>)}
+              <li className="bw-more"><span className="bw-i">+</span>and many more</li>
+            </ul>
           </div>
           <div className="facts">
             <div><h3 className="bubble">Experience</h3><div className="big">{SITE.years} yrs</div><p>{SITE.experience}</p></div>

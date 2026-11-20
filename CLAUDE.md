@@ -20,7 +20,7 @@ Read this first. It is the full handoff for continuing this project in a new ses
 - **Colours:** accent orange `#FF9600` (`--signal`), black void, white. Selection blue `#2F6BFF` for the avatar frame and handles.
 - **Grid:** a 132px grid on surfaces. Square corners everywhere (no rounded edges) except phone and laptop mockups.
 - **Pixel marker:** a single orange square between words in marquees.
-- **Names:** project names on work pieces. Isaac approved naming notable clients in About only (Ewaen Sorae, Gonachi, Otaku TV, Toon Central, "65+ brands").
+- **Names:** project names only (Isaac removed the notable-clients row). About says "50+ brands worked with" and shows a brand wall of project names.
 - **Worlds:** each project is a "world" with per-piece colour shifts.
 - **Accessibility:** respect `prefers-reduced-motion` in every animation.
 
@@ -30,7 +30,7 @@ Read this first. It is the full handoff for continuing this project in a new ses
 | --- | --- | --- |
 | Loader | `components/Loader.tsx` | SVG/CSS tea cup, "LOADING…", fades into the hero. First visit per session only (head script in `app/layout.tsx` adds `no-loader`). |
 | Hero tunnel | `components/HeroRoom.tsx` | 3D grid corridor. Pixel-art wall panels (`public/img/pixel/*.png`) appear on first scroll. The title breaks into pixels as you zoom and rebuilds on the way back. About grows out of the tunnel end via a copy inside the sticky stage (no shake). |
-| About / facts | `app/page.tsx`, `components/Avatar.tsx`, `components/PixelLogo.tsx` | 8-bit avatar in a blue selection frame, pixel software logos. |
+| About / facts | `app/page.tsx`, `components/MePhoto.tsx`, `components/Avatar.tsx`, `components/PixelLogo.tsx` | Isaac's photo (`public/img/ui/isaac.webp`, pixel-dissolve edges) depixelates once About is visible; 8-bit avatar badge; why/background/hobbies; brand wall; pixel software logos. |
 | Services | `components/Services.tsx` | Orange warped "lens" band; words inside show black and magnified. |
 | Mascot "Tea" | `components/Buddy.tsx` | Walking cup, bottom-left, home page only. |
 | Contact floor | `app/page.tsx`, `components/FloorAvatar.tsx` | Perspective floor, endless "NEWKING ISAAC" loop. The full-body avatar builds pixel by pixel behind the name row and waves at the bottom. |

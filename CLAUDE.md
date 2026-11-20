@@ -20,7 +20,7 @@ Read this first. It is the full handoff for continuing this project in a new ses
 - **Colours:** accent orange `#FF9600` (`--signal`), black void, white. Selection blue `#2F6BFF` for the avatar frame and handles.
 - **Grid:** a 132px grid on surfaces. Square corners everywhere (no rounded edges) except phone and laptop mockups.
 - **Pixel marker:** a single orange square between words in marquees.
-- **Names:** show project names only, never client names.
+- **Names:** project names on work pieces. Isaac approved naming notable clients in About only (Ewaen Sorae, Gonachi, Otaku TV, Toon Central, "65+ brands").
 - **Worlds:** each project is a "world" with per-piece colour shifts.
 - **Accessibility:** respect `prefers-reduced-motion` in every animation.
 

@@ -41,12 +41,16 @@ export default function Home() {
               </dl>
               <div className="me-stats">
                 <div><b>{SITE.years} yrs</b><span>Designing brands</span></div>
-                <div><b>{SITE.brands.length}</b><span>Brands shaped</span></div>
+                <div><b>{SITE.brandCount}</b><span>Brands worked with</span></div>
                 <div><b>140+</b><span>Pieces shipped</span></div>
               </div>
             </div>
           </div>
-          <div className="trusted" aria-label="Brands I've built">
+          <div className="trusted" aria-label="Notable clients">
+            <span className="trusted-k">Notable clients</span>
+            <div className="trusted-row">{SITE.clients.map((b) => <span key={b}>{b}<i aria-hidden="true" /></span>)}<span className="more">and more</span></div>
+          </div>
+          <div className="trusted t2" aria-label="Brands I've built">
             <span className="trusted-k">Brands I&apos;ve built</span>
             <div className="trusted-row">{SITE.brands.map((b) => <span key={b}>{b}<i aria-hidden="true" /></span>)}</div>
           </div>

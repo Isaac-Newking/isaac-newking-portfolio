@@ -363,12 +363,6 @@ all.forEach((sl, i) => {
   if (sl.classList.contains('cover')) return;
   const c = document.createElement('canvas'); c.className = 'px-layer'; c.width = 1920; c.height = 1080; sl.appendChild(c);
   const x = c.getContext('2d');
-  // 1. trail: a pixel line wandering down the left gutter, continuous from page to page
-  for (let y = 0; y < 1080; y += 12) {
-    const gy = i * 1080 + y, col = Math.round(1.6 + Math.sin(gy / 310) * 1.3 + Math.sin(gy / 113) * 0.7);
-    x.fillStyle = (gy / 12) % 9 === 0 ? 'rgba(255,255,255,.32)' : 'rgba(255,150,0,.30)';
-    x.fillRect(12 + col * 10, y, 8, 8);
-  }
   // 2. icons: one quiet pixel icon in the top bar and a small one in the footer, a different pair on every page
   seed = 11 + i * 31;
   drawIcon(x, ORDER[i % ORDER.length], 760 + Math.round(rnd() * 380), 34, 3, 'rgba(242,242,242,.42)', 'rgba(255,150,0,.6)');
